@@ -4,7 +4,6 @@
 !/.projen/deps.json
 !/.projen/files.json
 !/.github/workflows/pull-request-lint.yml
-!/.github/workflows/stale.yml
 !/package.json
 !/LICENSE
 !/.npmignore
@@ -31,6 +30,7 @@ jspm_packages/
 *.tgz
 .yarn-integrity
 .cache
+example/cdk.out
 !/.projenrc.js
 /test-reports/
 junit.xml
@@ -40,6 +40,7 @@ junit.xml
 /dist/version.txt
 !/.github/workflows/release.yml
 !/.mergify.yml
+!/.github/workflows/upgrade-main.yml
 !/.github/pull_request_template.md
 !/test/
 !/tsconfig.dev.json
@@ -50,4 +51,3 @@ junit.xml
 .jsii
 tsconfig.json
 !/API.md
-!/.github/workflows/upgrade-main.yml
