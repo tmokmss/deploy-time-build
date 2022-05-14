@@ -69,8 +69,8 @@ class TestStack extends Stack {
       },
     });
 
-    new CfnOutput(this, 'DomainName', {
-      value: distribution.distributionDomainName,
+    new CfnOutput(this, 'DistributionUrl', {
+      value: `https://${distribution.distributionDomainName}`,
     });
   }
 }
