@@ -9,11 +9,7 @@ import { BucketDeployment, Source } from 'aws-cdk-lib/aws-s3-deployment';
 import { Construct } from 'constructs';
 import { ResourceProperties } from './types';
 
-export interface AssetConfig {
-  /**
-   * AssetProps for the asset.
-   */
-  readonly assetProps: AssetProps;
+export interface AssetConfig extends AssetProps {
   /**
    * Shell commands executed right after the asset zip is extracted to the build environment.
    * @default No command is executed.
@@ -79,9 +75,9 @@ export class NodejsBuild extends Construct {
     });
 
     let assetHash = 'nodejsBuild';
-    const assets = props.assets.map((a) => {
-      const asset = new Asset(this, `Source-${a.assetProps.path.replace('/', '')}`, {
-        ...a.assetProps,
+    const assets = props.assets.map((assetProps) => {
+      const asset = new Asset(this, `Source-${assetProps.path.replace('/', '')}`, {
+        ...assetProps,
       });
       assetHash += asset.assetHash;
       asset.grantRead(handler);
@@ -102,13 +98,13 @@ export class NodejsBuild extends Construct {
     const bucket = assets[0].bucket;
     bucket.grantWrite(handler);
 
-    const workingDirectory = props.workingDirectory ?? props.assets[0].assetProps.path;
+    const workingDirectory = props.workingDirectory ?? props.assets[0].path;
 
     const properties: ResourceProperties = {
       sources: props.assets.map((s, i) => ({
         sourceBucketName: assets[i].s3BucketName,
         sourceObjectKey: assets[i].s3ObjectKey,
-        directoryName: s.assetProps.path,
+        directoryName: s.path,
         commands: s.commands,
       })),
       destinationBucketName: bucket.bucketName,

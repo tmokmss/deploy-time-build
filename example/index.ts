@@ -53,17 +53,15 @@ class TestStack extends Stack {
     new NodejsBuild(this, 'ExampleBuild', {
       assets: [
         {
-          assetProps: {
-            path: 'example-app',
-            exclude: ['dist', 'node_modules'],
-          },
-          commands: ['npm install'],
+          path: 'example-app',
+          exclude: ['dist', 'node_modules'],
         },
       ],
       destinationBucket: dstBucket,
       destinationKeyPrefix: dstPath,
       outputSourceDirectory: 'dist',
       distribution,
+      buildCommands: ['npm ci', 'npm run build'],
       buildEnvironment: {
         VITE_API_ENDPOINT: api.url,
       },
