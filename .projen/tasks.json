@@ -87,7 +87,7 @@
       "description": "Only compile",
       "steps": [
         {
-          "exec": "npm install && npm run build",
+          "exec": "npm ci && npm run build",
           "cwd": "lambda/nodejs-build"
         },
         {

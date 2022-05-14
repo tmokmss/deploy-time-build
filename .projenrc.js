@@ -18,5 +18,5 @@ const project = new awscdk.AwsCdkConstructLibrary({
   // packageName: undefined,  /* The "name" in package.json. */
 });
 // Bundle custom resource handler Lambda code
-project.projectBuild.compileTask.prependExec('npm install && npm run build', {cwd: 'lambda/nodejs-build'});
+project.projectBuild.compileTask.prependExec('npm ci && npm run build', {cwd: 'lambda/nodejs-build'});
 project.synth();

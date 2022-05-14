@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "build": "npx esbuild index.ts --bundle --outdir=./ --platform=node --external:aws-sdk"
+    "build": "esbuild index.ts --bundle --outdir=./ --platform=node --external:aws-sdk"
   },
   "keywords": [],
   "author": "",
