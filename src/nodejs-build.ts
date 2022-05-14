@@ -5,45 +5,50 @@ import { IDistribution } from 'aws-cdk-lib/aws-cloudfront';
 import { NodejsFunction } from 'aws-cdk-lib/aws-lambda-nodejs';
 import { Bucket, BucketEncryption, IBucket } from 'aws-cdk-lib/aws-s3';
 import { Asset, AssetProps } from 'aws-cdk-lib/aws-s3-assets';
-import { BucketDeployment, Source } from 'aws-cdk-lib/aws-s3-deployment';
+import { BucketDeployment, BucketDeploymentProps, Source } from 'aws-cdk-lib/aws-s3-deployment';
 import { Construct } from 'constructs';
 import { ResourceProperties } from './lambda/types';
 
-interface NodejsBuildProps {
+export interface NodejsBuildProps {
   /**
    * The AssetProps from which s3-assets are created and copied to the build environment.
    */
-  assetProps: AssetProps[];
+  readonly assets: { assetProps: AssetProps; commands?: string[] }[];
   /**
    * Environment variables injected to the build environment.
    * You can use CDK deploy-time values as well as literals.
    * @default {}
    */
-  buildEnvironment?: { [key: string]: string };
-  destinationBucket: IBucket;
+  readonly buildEnvironment?: { [key: string]: string };
   /**
+   * S3 Bucket to which your build artifacts are finally deployed.
+   */
+  readonly destinationBucket: IBucket;
+  /**
+   * Key prefix to deploy your build artifact.
    * @default '/'
    */
-  destinationKeyPrefix?: string;
+  readonly destinationKeyPrefix?: string;
   /**
    * The distribution you are using to publish you build artifact.
    * If any specified, the caches are invalidated on new artifact deployments.
    * @default No distribution
    */
-  distribution?: IDistribution;
+  readonly distribution?: IDistribution;
   /**
+   * Shell commands to build your project. They are executed on the working directory you specified.
    * @default ['npm run build']
    */
-  buildCommands?: string[];
+  readonly buildCommands?: string[];
   /**
    * The name of the working directory of build process in the build enironment.
    * @default assetProps[0].path
    */
-  workingDirectory?: string;
+  readonly workingDirectory?: string;
   /**
-   * The path to the directory that contains your build artifact (relative to the working directory)
+   * The path to the directory that contains your build artifacts (relative to the working directory.)
    */
-  outputSourceDirectory: string;
+  readonly outputSourceDirectory: string;
 }
 
 export class NodejsBuild extends Construct {
@@ -66,9 +71,9 @@ export class NodejsBuild extends Construct {
     });
 
     let assetHash = '';
-    const assets = props.assetProps.map((p) => {
-      const asset = new Asset(this, `Source-${p.path.replace('/', '')}`, {
-        ...p,
+    const assets = props.assets.map((a) => {
+      const asset = new Asset(this, `Source-${a.assetProps.path.replace('/', '')}`, {
+        ...a.assetProps,
       });
       assetHash += asset.assetHash;
       asset.grantRead(handler);
@@ -86,21 +91,19 @@ export class NodejsBuild extends Construct {
 
     bucket.grantWrite(handler);
 
-    const workingDirectory = props.workingDirectory ?? props.assetProps[0].path;
+    const workingDirectory = props.workingDirectory ?? props.assets[0].assetProps.path;
 
     const properties: ResourceProperties = {
-      sources: props.assetProps.map((s, i) => ({
+      sources: props.assets.map((s, i) => ({
         sourceBucketName: assets[i].s3BucketName,
         sourceObjectKey: assets[i].s3ObjectKey,
-        directoryName: s.path,
+        directoryName: s.assetProps.path,
+        commands: props.assets[i].commands,
       })),
       destinationBucketName: bucket.bucketName,
       destinationObjectKey: `${assetHash}.zip`,
       workingDirectory,
-      outputSourceDirectory: join(
-        workingDirectory,
-        props.outputSourceDirectory,
-      ),
+      outputSourceDirectory: join(workingDirectory, props.outputSourceDirectory),
       environment: props.buildEnvironment,
       buildCommands: props.buildCommands ?? ['npm run build'],
     };

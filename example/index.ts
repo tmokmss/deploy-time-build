@@ -1,23 +1,9 @@
-import {
-  Stack,
-  StackProps,
-  App,
-  Duration,
-  RemovalPolicy,
-  CfnOutput,
-} from 'aws-cdk-lib';
+import { Stack, StackProps, App, Duration, RemovalPolicy, CfnOutput } from 'aws-cdk-lib';
 import { Construct } from 'constructs';
 import { MockIntegration, RestApi } from 'aws-cdk-lib/aws-apigateway';
 import { NodejsBuild } from '../src/nodejs-build';
-import {
-  BlockPublicAccess,
-  Bucket,
-  BucketEncryption,
-} from 'aws-cdk-lib/aws-s3';
-import {
-  OriginAccessIdentity,
-  CloudFrontWebDistribution,
-} from 'aws-cdk-lib/aws-cloudfront';
+import { BlockPublicAccess, Bucket, BucketEncryption } from 'aws-cdk-lib/aws-s3';
+import { OriginAccessIdentity, CloudFrontWebDistribution } from 'aws-cdk-lib/aws-cloudfront';
 
 class TestStack extends Stack {
   constructor(scope: Construct, id: string, props: StackProps = {}) {
@@ -31,10 +17,10 @@ class TestStack extends Stack {
         requestTemplates: {
           'application/json': '{ "statusCode": 200 }',
         },
-      })
-      //   {
-      //     methodResponses: [{ statusCode: '200' }],
-      //   }
+      }),
+      {
+        methodResponses: [{ statusCode: '200' }],
+      }
     );
 
     const dstBucket = new Bucket(this, 'DstBucket', {
@@ -45,10 +31,7 @@ class TestStack extends Stack {
     });
     const dstPath = '/';
 
-    const originAccessIdentity = new OriginAccessIdentity(
-      this,
-      'OriginAccessIdentity'
-    );
+    const originAccessIdentity = new OriginAccessIdentity(this, 'OriginAccessIdentity');
 
     const distribution = new CloudFrontWebDistribution(this, 'Distribution', {
       originConfigs: [
@@ -68,15 +51,19 @@ class TestStack extends Stack {
     });
 
     const build = new NodejsBuild(this, 'ExampleBuild', {
-      assetProps: [
+      assets: [
         {
-          path: 'example-app',
-          exclude: ['dist', 'node_modules'],
+          assetProps: {
+            path: 'example-app',
+            exclude: ['dist', 'node_modules'],
+          },
+          commands: ['npm install'],
         },
       ],
       destinationBucket: dstBucket,
       destinationKeyPrefix: dstPath,
       outputSourceDirectory: 'dist',
+      distribution,
       buildEnvironment: {
         VITE_API_ENDPOINT: api.url,
       },

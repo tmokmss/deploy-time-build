@@ -16,7 +16,7 @@ function App() {
           </button>
         </p>
         <p>
-          Your resource name: <code>{import.meta.env.VITE_API_ENDPOINT ?? 'undefined'}</code>
+          Your API endpoint: <code>{import.meta.env.VITE_API_ENDPOINT ?? 'undefined'}</code>
         </p>
         <p>
           <a

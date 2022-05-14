@@ -31,18 +31,14 @@ export const handler = async (event: Event, context: any) => {
       execSync('npm config set cache /tmp/.npm');
 
       // inject environment variables from resource properties
-      Object.entries(props.environment ?? {}).forEach(
-        ([key, value]) => (process.env[key] = value),
-      );
+      Object.entries(props.environment ?? {}).forEach(([key, value]) => (process.env[key] = value));
 
+      // Download and extract each asset, and execute commands if any specified.
       const promises = props.sources.map(async (p) => {
-        const dir = await extractZip(
-          rootDir,
-          p.directoryName,
-          p.sourceObjectKey,
-          p.sourceBucketName,
-        );
-        execSync('npm ci', { cwd: dir, stdio: 'inherit' });
+        const dir = await extractZip(rootDir, p.directoryName, p.sourceObjectKey, p.sourceBucketName);
+        if (p.commands != null) {
+          execSync(p.commands.join(' && '), { cwd: dir, stdio: 'inherit' });
+        }
       });
 
       await Promise.all(promises);
@@ -60,11 +56,7 @@ export const handler = async (event: Event, context: any) => {
 
       // zip the artifact directory and upolad it to a S3 bucket.
       const srcPath = path.join(rootDir, props.outputSourceDirectory);
-      await uploadDistDirectory(
-        srcPath,
-        props.destinationBucketName,
-        props.destinationObjectKey,
-      );
+      await uploadDistDirectory(srcPath, props.destinationBucketName, props.destinationObjectKey);
 
       // remove the working directory to prevent storage leakage
       fs.rmSync(rootDir, { recursive: true, force: true });
@@ -74,19 +66,14 @@ export const handler = async (event: Event, context: any) => {
     await sendStatus('SUCCESS', event, context);
   } catch (e) {
     console.log(e);
-    await sendStatus('FAILED', event, context);
+    await sendStatus('FAILED', event, context, e.message);
   }
 };
 
-const sendStatus = async (
-  status: 'SUCCESS' | 'FAILED',
-  event: Event,
-  context: any,
-) => {
+const sendStatus = async (status: 'SUCCESS' | 'FAILED', event: Event, context: any, reason?: string) => {
   const responseBody = JSON.stringify({
     Status: status,
-    Reason:
-      'See the details in CloudWatch Log Stream: ' + context.logStreamName,
+    Reason: reason ?? 'See the details in CloudWatch Log Stream: ' + context.logStreamName,
     PhysicalResourceId: context.logStreamName,
     StackId: event.StackId,
     RequestId: event.RequestId,
@@ -95,7 +82,7 @@ const sendStatus = async (
     Data: {}, //responseData
   });
 
-  const res = await fetch(event.ResponseURL, {
+  await fetch(event.ResponseURL, {
     method: 'PUT',
     body: responseBody,
     headers: {
@@ -105,11 +92,7 @@ const sendStatus = async (
   });
 };
 
-const uploadDistDirectory = async (
-  srcPath: string,
-  dstBucket: string,
-  dstKey: string,
-) => {
+const uploadDistDirectory = async (srcPath: string, dstBucket: string, dstKey: string) => {
   const zip = new AdmZip();
   zip.addLocalFolder(srcPath);
   await s3
@@ -121,30 +104,20 @@ const uploadDistDirectory = async (
     .promise();
 };
 
-const extractZip = async (
-  rootDir: string,
-  dirName: string,
-  key: string,
-  bucket: string,
-) => {
+const extractZip = async (rootDir: string, dirName: string, key: string, bucket: string) => {
   const dir = path.join(rootDir, dirName);
   fs.mkdirSync(dir, { recursive: true });
   const zipPath = path.join(dir, 'temp.zip');
   await downloadS3File(key, bucket, zipPath);
   await extract(zipPath, { dir });
   console.log(`extracted to ${dir}`);
-
   return dir;
-  // need to delete the directory recursively
-  // fs.rmdirSync(dir, { recursive: true });
 };
 
 const downloadS3File = async (key: string, bucket: string, dst: string) => {
   // https://gist.github.com/milesrichardson/db724faf7615f0ea208590a52da2c0eb?permalink_comment_id=3539633#gistcomment-3539633
   const writeStream = fs.createWriteStream(dst);
-  const readStream = s3
-    .getObject({ Bucket: bucket, Key: key })
-    .createReadStream();
+  const readStream = s3.getObject({ Bucket: bucket, Key: key }).createReadStream();
   readStream.pipe(writeStream);
   return new Promise((resolve, reject) => {
     readStream.on('error', (error) => {
