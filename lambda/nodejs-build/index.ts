@@ -5,7 +5,7 @@ import AdmZip from 'adm-zip';
 import { S3 } from 'aws-sdk';
 import extract from 'extract-zip';
 import fetch from 'node-fetch';
-import { ResourceProperties } from './types';
+import { ResourceProperties } from '../../src/types';
 
 const s3 = new S3();
 
@@ -66,7 +66,8 @@ export const handler = async (event: Event, context: any) => {
     await sendStatus('SUCCESS', event, context);
   } catch (e) {
     console.log(e);
-    await sendStatus('FAILED', event, context, e.message);
+    const err= e as Error;
+    await sendStatus('FAILED', event, context, err.message);
   }
 };
 

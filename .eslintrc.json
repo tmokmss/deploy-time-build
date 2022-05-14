@@ -33,7 +33,8 @@
     }
   },
   "ignorePatterns": [
-    "example/**/*"
+    "example/**/*",
+    "lambda/**/*"
   ],
   "rules": {
     "indent": [

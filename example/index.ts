@@ -1,4 +1,4 @@
-import { Stack, StackProps, App, Duration, RemovalPolicy, CfnOutput } from 'aws-cdk-lib';
+import { Stack, StackProps, App, RemovalPolicy, CfnOutput } from 'aws-cdk-lib';
 import { Construct } from 'constructs';
 import { MockIntegration, RestApi } from 'aws-cdk-lib/aws-apigateway';
 import { NodejsBuild } from '../src/nodejs-build';
@@ -50,7 +50,7 @@ class TestStack extends Stack {
       ],
     });
 
-    const build = new NodejsBuild(this, 'ExampleBuild', {
+    new NodejsBuild(this, 'ExampleBuild', {
       assets: [
         {
           assetProps: {

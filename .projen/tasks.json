@@ -87,6 +87,10 @@
       "description": "Only compile",
       "steps": [
         {
+          "exec": "npm install & npm run build",
+          "cwd": "lambda/nodejs-build"
+        },
+        {
           "exec": "jsii --silence-warnings=reserved-word"
         }
       ]

@@ -2,18 +2,30 @@ import { createHash } from 'crypto';
 import { join } from 'path';
 import { CustomResource, Duration, RemovalPolicy, Size } from 'aws-cdk-lib';
 import { IDistribution } from 'aws-cdk-lib/aws-cloudfront';
-import { NodejsFunction } from 'aws-cdk-lib/aws-lambda-nodejs';
+import { Code, Runtime, SingletonFunction } from 'aws-cdk-lib/aws-lambda';
 import { Bucket, BucketEncryption, IBucket } from 'aws-cdk-lib/aws-s3';
 import { Asset, AssetProps } from 'aws-cdk-lib/aws-s3-assets';
-import { BucketDeployment, BucketDeploymentProps, Source } from 'aws-cdk-lib/aws-s3-deployment';
+import { BucketDeployment, Source } from 'aws-cdk-lib/aws-s3-deployment';
 import { Construct } from 'constructs';
-import { ResourceProperties } from './lambda/types';
+import { ResourceProperties } from './types';
+
+export interface AssetConfig {
+  /**
+   * AssetProps for the asset.
+   */
+  readonly assetProps: AssetProps;
+  /**
+   * Shell commands executed right after the asset zip is extracted to the build environment.
+   * @default No command is executed.
+   */
+  readonly commands?: string[];
+}
 
 export interface NodejsBuildProps {
   /**
    * The AssetProps from which s3-assets are created and copied to the build environment.
    */
-  readonly assets: { assetProps: AssetProps; commands?: string[] }[];
+  readonly assets: AssetConfig[];
   /**
    * Environment variables injected to the build environment.
    * You can use CDK deploy-time values as well as literals.
@@ -55,19 +67,15 @@ export class NodejsBuild extends Construct {
   constructor(scope: Construct, id: string, props: NodejsBuildProps) {
     super(scope, id);
 
-    const handler = new NodejsFunction(this, 'CustomResourceHandler', {
-      entry: join(__dirname, 'lambda/index.ts'),
+    const handler = new SingletonFunction(this, 'CustomResourceHandler', {
+      runtime: Runtime.NODEJS_14_X,
+      code: Code.fromAsset(join('', 'lambda/nodejs-build')),
+      handler: 'index.handler',
+      uuid: '25648b21-2c40-4f09-aa65-b6bbb0c44659', // generated for this construct
+      lambdaPurpose: 'NodejsBuildCustomResourceHandler',
       timeout: Duration.minutes(10),
       memorySize: 1792,
       ephemeralStorageSize: Size.gibibytes(5),
-      depsLockFilePath: join(__dirname, 'lambda/package-lock.json'),
-      bundling: {
-        commandHooks: {
-          beforeBundling: (i, o) => [`cd ${i} && npm install`],
-          afterBundling: (i, o) => [],
-          beforeInstall: (i, o) => [],
-        },
-      },
     });
 
     let assetHash = '';
@@ -110,7 +118,7 @@ export class NodejsBuild extends Construct {
 
     const custom = new CustomResource(this, 'CustomResource', {
       serviceToken: handler.functionArn,
-      resourceType: 'Custom::CDKNodejsBuildment',
+      resourceType: 'Custom::CDKNodejsBuild',
       properties,
     });
 

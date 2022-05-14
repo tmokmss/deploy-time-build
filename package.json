@@ -63,7 +63,9 @@
     "constructs": "^10.0.5"
   },
   "keywords": [
-    "cdk"
+    "aws",
+    "cdk",
+    "lambda"
   ],
   "main": "lib/index.js",
   "license": "Apache-2.0",
