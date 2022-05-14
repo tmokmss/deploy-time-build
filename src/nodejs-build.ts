@@ -1,9 +1,9 @@
 import { createHash } from 'crypto';
 import { join } from 'path';
-import { CustomResource, Duration, RemovalPolicy, Size } from 'aws-cdk-lib';
+import { CustomResource, Duration, Size } from 'aws-cdk-lib';
 import { IDistribution } from 'aws-cdk-lib/aws-cloudfront';
 import { Code, Runtime, SingletonFunction } from 'aws-cdk-lib/aws-lambda';
-import { Bucket, BucketEncryption, IBucket } from 'aws-cdk-lib/aws-s3';
+import { IBucket } from 'aws-cdk-lib/aws-s3';
 import { Asset, AssetProps } from 'aws-cdk-lib/aws-s3-assets';
 import { BucketDeployment, Source } from 'aws-cdk-lib/aws-s3-deployment';
 import { Construct } from 'constructs';
@@ -54,7 +54,7 @@ export interface NodejsBuildProps {
   readonly buildCommands?: string[];
   /**
    * The name of the working directory of build process in the build enironment.
-   * @default assetProps[0].path
+   * @default assetProps[0].assetProps.path
    */
   readonly workingDirectory?: string;
   /**
@@ -78,7 +78,7 @@ export class NodejsBuild extends Construct {
       ephemeralStorageSize: Size.gibibytes(5),
     });
 
-    let assetHash = '';
+    let assetHash = 'nodejsBuild';
     const assets = props.assets.map((a) => {
       const asset = new Asset(this, `Source-${a.assetProps.path.replace('/', '')}`, {
         ...a.assetProps,
@@ -88,15 +88,18 @@ export class NodejsBuild extends Construct {
       return asset;
     });
 
+    // generate a new asset hash that includes all the assets specified.
     const md5 = createHash('md5');
     assetHash = md5.update(assetHash).digest('hex');
 
-    const bucket = new Bucket(this, 'Bucket', {
-      encryption: BucketEncryption.S3_MANAGED,
-      autoDeleteObjects: true,
-      removalPolicy: RemovalPolicy.DESTROY,
-    });
+    // const bucket = new Bucket(this, 'Bucket', {
+    //   encryption: BucketEncryption.S3_MANAGED,
+    //   autoDeleteObjects: true,
+    //   removalPolicy: RemovalPolicy.DESTROY,
+    // });
 
+    // use the asset bucket that are created by CDK bootstrap to store intermediate artifacts
+    const bucket = assets[0].bucket;
     bucket.grantWrite(handler);
 
     const workingDirectory = props.workingDirectory ?? props.assets[0].assetProps.path;
@@ -106,7 +109,7 @@ export class NodejsBuild extends Construct {
         sourceBucketName: assets[i].s3BucketName,
         sourceObjectKey: assets[i].s3ObjectKey,
         directoryName: s.assetProps.path,
-        commands: props.assets[i].commands,
+        commands: s.commands,
       })),
       destinationBucketName: bucket.bucketName,
       destinationObjectKey: `${assetHash}.zip`,
