@@ -69,7 +69,7 @@ export class NodejsBuild extends Construct {
 
     const handler = new SingletonFunction(this, 'CustomResourceHandler', {
       runtime: Runtime.NODEJS_14_X,
-      code: Code.fromAsset(join('', 'lambda/nodejs-build')),
+      code: Code.fromAsset(join(__dirname, '../lambda/nodejs-build')),
       handler: 'index.handler',
       uuid: '25648b21-2c40-4f09-aa65-b6bbb0c44659', // generated for this construct
       lambdaPurpose: 'NodejsBuildCustomResourceHandler',
