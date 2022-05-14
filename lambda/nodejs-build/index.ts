@@ -5,7 +5,7 @@ import AdmZip from 'adm-zip';
 import { S3 } from 'aws-sdk';
 import extract from 'extract-zip';
 import fetch from 'node-fetch';
-import { ResourceProperties } from '../../src/types';
+import type { ResourceProperties } from '../../src/types';
 
 const s3 = new S3();
 
