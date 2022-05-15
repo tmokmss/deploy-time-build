@@ -12,10 +12,7 @@ const project = new awscdk.AwsCdkConstructLibrary({
   keywords: ['aws', 'cdk', 'lambda', 'aws-cdk'],
   tsconfig: {
   },
-  // deps: [],                /* Runtime dependencies of this module. */
-  // description: undefined,  /* The description is just a string that helps people understand the purpose of the package. */
-  // devDeps: [],             /* Build dependencies for this module. */
-  // packageName: undefined,  /* The "name" in package.json. */
+  description: 'Build your frontend apps during CDK deployment!',
 });
 // Bundle custom resource handler Lambda code
 project.projectBuild.compileTask.prependExec('npm ci && npm run build', {cwd: 'lambda/nodejs-build'});

@@ -1,5 +1,6 @@
 {
   "name": "deploy-time-build",
+  "description": "Build your frontend apps during CDK deployment!",
   "repository": {
     "type": "git",
     "url": "https://github.com/tmokmss/deploy-time-build.git"
