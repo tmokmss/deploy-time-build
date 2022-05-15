@@ -56,7 +56,7 @@ Then, the extracted directories will be located as the following:
 └── module1               # extracted module1 assets
 ```
 
-Please check https://github.com/tmokmss/deploy-time-build/tree/main/example for a complete example.
+Please check [example directory](./example/) for a complete example. 
 
 ## Why do we need this construct?
 Previously, there are a few different ways to deploy frontend applications from CDK (1 and 2 below). But none is perfect with different pros and cons. This construct adds another option to deploy frontend apps.
