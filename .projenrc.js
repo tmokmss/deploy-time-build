@@ -9,7 +9,7 @@ const project = new awscdk.AwsCdkConstructLibrary({
   eslintOptions: {
     ignorePatterns: ['example/**/*', "lambda/**/*"],
   },
-  keywords: ['aws', 'cdk', 'lambda'],
+  keywords: ['aws', 'cdk', 'lambda', 'aws-cdk'],
   tsconfig: {
   },
   // deps: [],                /* Runtime dependencies of this module. */

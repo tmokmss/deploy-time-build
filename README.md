@@ -4,6 +4,14 @@ AWS CDK L3 construct that enables you to build apps during deploy time, which ai
 ![architecture](./imgs/architecture.png)
 
 ## Usage
+Install from npm:
+
+```sh
+npm i deploy-time-build
+```
+
+Then write CDK code as below:
+
 ```ts
 import { NodejsBuild } from 'deploy-time-build';
 
