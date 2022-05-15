@@ -88,12 +88,6 @@ export class NodejsBuild extends Construct {
     const md5 = createHash('md5');
     assetHash = md5.update(assetHash).digest('hex');
 
-    // const bucket = new Bucket(this, 'Bucket', {
-    //   encryption: BucketEncryption.S3_MANAGED,
-    //   autoDeleteObjects: true,
-    //   removalPolicy: RemovalPolicy.DESTROY,
-    // });
-
     // use the asset bucket that are created by CDK bootstrap to store intermediate artifacts
     const bucket = assets[0].bucket;
     bucket.grantWrite(handler);
@@ -115,7 +109,7 @@ export class NodejsBuild extends Construct {
       buildCommands: props.buildCommands ?? ['npm run build'],
     };
 
-    const custom = new CustomResource(this, 'CustomResource', {
+    const custom = new CustomResource(this, 'Resource', {
       serviceToken: handler.functionArn,
       resourceType: 'Custom::CDKNodejsBuild',
       properties,
