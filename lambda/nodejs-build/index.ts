@@ -20,11 +20,13 @@ type Event = {
 };
 
 export const handler = async (event: Event, context: any) => {
+  let rootDir = '';
+  console.log(JSON.stringify(event));
+  
   try {
-    console.log(JSON.stringify(event));
     if (event.RequestType == 'Create' || event.RequestType == 'Update') {
       const props = event.ResourceProperties;
-      const rootDir = fs.mkdtempSync('/tmp/extract');
+      rootDir = fs.mkdtempSync('/tmp/extract');
 
       // set .npmrc and cache directory under /tmp since other directories are read-only in Lambda env
       process.env.NPM_CONFIG_USERCONFIG = '/tmp/.npmrc';
@@ -54,12 +56,9 @@ export const handler = async (event: Event, context: any) => {
         console.log(e);
       }
 
-      // zip the artifact directory and upolad it to a S3 bucket.
+      // zip the artifact directory and upload it to a S3 bucket.
       const srcPath = path.join(rootDir, props.outputSourceDirectory);
       await uploadDistDirectory(srcPath, props.destinationBucketName, props.destinationObjectKey);
-
-      // remove the working directory to prevent storage leakage
-      fs.rmSync(rootDir, { recursive: true, force: true });
     } else {
       // how do we process 'Delete' event?
     }
@@ -68,6 +67,11 @@ export const handler = async (event: Event, context: any) => {
     console.log(e);
     const err= e as Error;
     await sendStatus('FAILED', event, context, err.message);
+  } finally {
+    if (rootDir != '') {
+      // remove the working directory to prevent storage leakage
+      fs.rmSync(rootDir, { recursive: true, force: true });
+    }
   }
 };
 
