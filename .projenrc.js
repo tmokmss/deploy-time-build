@@ -16,7 +16,7 @@ const project = new awscdk.AwsCdkConstructLibrary({
   tsconfigDev: {
     exclude: ['example', 'test/*.integ.snapshot']
   },
-  devDeps: ['@aws-cdk/integ-runner@2.38.0', '@aws-cdk/integ-tests-alpha@2.38.0-alpha.0'],
+  devDeps: ['@aws-cdk/integ-runner@2.60.0', '@aws-cdk/integ-tests-alpha@2.60.0-alpha.0'],
   description: 'Build your frontend apps during CDK deployment!',
 });
 // Bundle custom resource handler Lambda code
