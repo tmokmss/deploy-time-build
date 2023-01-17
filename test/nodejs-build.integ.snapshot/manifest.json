@@ -1,0 +1,267 @@
+{
+  "version": "20.0.0",
+  "artifacts": {
+    "Tree": {
+      "type": "cdk:tree",
+      "properties": {
+        "file": "tree.json"
+      }
+    },
+    "NodejsBuildIntegTest": {
+      "type": "aws:cloudformation:stack",
+      "environment": "aws://unknown-account/unknown-region",
+      "properties": {
+        "templateFile": "NodejsBuildIntegTest.template.json",
+        "validateOnSynth": false
+      },
+      "metadata": {
+        "/NodejsBuildIntegTest": [
+          {
+            "type": "aws:cdk:asset",
+            "data": {
+              "path": "asset.e57c1acaa363d7d2b81736776007a7091bc73dff4aeb8135627c4511a51e7dca",
+              "id": "e57c1acaa363d7d2b81736776007a7091bc73dff4aeb8135627c4511a51e7dca",
+              "packaging": "zip",
+              "sourceHash": "e57c1acaa363d7d2b81736776007a7091bc73dff4aeb8135627c4511a51e7dca",
+              "s3BucketParameter": "AssetParameterse57c1acaa363d7d2b81736776007a7091bc73dff4aeb8135627c4511a51e7dcaS3Bucket4FBDA57E",
+              "s3KeyParameter": "AssetParameterse57c1acaa363d7d2b81736776007a7091bc73dff4aeb8135627c4511a51e7dcaS3VersionKeyF0409EA0",
+              "artifactHashParameter": "AssetParameterse57c1acaa363d7d2b81736776007a7091bc73dff4aeb8135627c4511a51e7dcaArtifactHashAC8BF1CD"
+            }
+          },
+          {
+            "type": "aws:cdk:asset",
+            "data": {
+              "path": "asset.13039ed50e1b40dd1a973f8d2992872d2d3c7b9869926910595df18ec8266bc5",
+              "id": "13039ed50e1b40dd1a973f8d2992872d2d3c7b9869926910595df18ec8266bc5",
+              "packaging": "zip",
+              "sourceHash": "13039ed50e1b40dd1a973f8d2992872d2d3c7b9869926910595df18ec8266bc5",
+              "s3BucketParameter": "AssetParameters13039ed50e1b40dd1a973f8d2992872d2d3c7b9869926910595df18ec8266bc5S3BucketBC3258A3",
+              "s3KeyParameter": "AssetParameters13039ed50e1b40dd1a973f8d2992872d2d3c7b9869926910595df18ec8266bc5S3VersionKey47BBE314",
+              "artifactHashParameter": "AssetParameters13039ed50e1b40dd1a973f8d2992872d2d3c7b9869926910595df18ec8266bc5ArtifactHashB0C24631"
+            }
+          },
+          {
+            "type": "aws:cdk:asset",
+            "data": {
+              "path": "asset.72f05c779a8bc73c6ec86f6eafc720508792e7526696d3ae45a7fddcfc473c9d",
+              "id": "72f05c779a8bc73c6ec86f6eafc720508792e7526696d3ae45a7fddcfc473c9d",
+              "packaging": "zip",
+              "sourceHash": "72f05c779a8bc73c6ec86f6eafc720508792e7526696d3ae45a7fddcfc473c9d",
+              "s3BucketParameter": "AssetParameters72f05c779a8bc73c6ec86f6eafc720508792e7526696d3ae45a7fddcfc473c9dS3Bucket7BF37945",
+              "s3KeyParameter": "AssetParameters72f05c779a8bc73c6ec86f6eafc720508792e7526696d3ae45a7fddcfc473c9dS3VersionKey360A250F",
+              "artifactHashParameter": "AssetParameters72f05c779a8bc73c6ec86f6eafc720508792e7526696d3ae45a7fddcfc473c9dArtifactHash61592905"
+            }
+          },
+          {
+            "type": "aws:cdk:asset",
+            "data": {
+              "path": "asset.1d3b5490cd99feddeb525a62c046988997469f2a765d0f12b43cff9d87a284fa.zip",
+              "id": "1d3b5490cd99feddeb525a62c046988997469f2a765d0f12b43cff9d87a284fa",
+              "packaging": "file",
+              "sourceHash": "1d3b5490cd99feddeb525a62c046988997469f2a765d0f12b43cff9d87a284fa",
+              "s3BucketParameter": "AssetParameters1d3b5490cd99feddeb525a62c046988997469f2a765d0f12b43cff9d87a284faS3Bucket4457F0E8",
+              "s3KeyParameter": "AssetParameters1d3b5490cd99feddeb525a62c046988997469f2a765d0f12b43cff9d87a284faS3VersionKeyD347D3A4",
+              "artifactHashParameter": "AssetParameters1d3b5490cd99feddeb525a62c046988997469f2a765d0f12b43cff9d87a284faArtifactHash79E5727E"
+            }
+          },
+          {
+            "type": "aws:cdk:asset",
+            "data": {
+              "path": "asset.f98b78092dcdd31f5e6d47489beb5f804d4835ef86a8085d0a2053cb9ae711da",
+              "id": "f98b78092dcdd31f5e6d47489beb5f804d4835ef86a8085d0a2053cb9ae711da",
+              "packaging": "zip",
+              "sourceHash": "f98b78092dcdd31f5e6d47489beb5f804d4835ef86a8085d0a2053cb9ae711da",
+              "s3BucketParameter": "AssetParametersf98b78092dcdd31f5e6d47489beb5f804d4835ef86a8085d0a2053cb9ae711daS3BucketF23C0DE7",
+              "s3KeyParameter": "AssetParametersf98b78092dcdd31f5e6d47489beb5f804d4835ef86a8085d0a2053cb9ae711daS3VersionKey5E97B17D",
+              "artifactHashParameter": "AssetParametersf98b78092dcdd31f5e6d47489beb5f804d4835ef86a8085d0a2053cb9ae711daArtifactHashD85D28D8"
+            }
+          }
+        ],
+        "/NodejsBuildIntegTest/Destination/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "Destination920A3C57"
+          }
+        ],
+        "/NodejsBuildIntegTest/Destination/Policy/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "DestinationPolicy7982387E"
+          }
+        ],
+        "/NodejsBuildIntegTest/Destination/AutoDeleteObjectsCustomResource/Default": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "DestinationAutoDeleteObjectsCustomResource15E926BA"
+          }
+        ],
+        "/NodejsBuildIntegTest/Custom::S3AutoDeleteObjectsCustomResourceProvider/Role": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "CustomS3AutoDeleteObjectsCustomResourceProviderRole3B1BD092"
+          }
+        ],
+        "/NodejsBuildIntegTest/Custom::S3AutoDeleteObjectsCustomResourceProvider/Handler": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "CustomS3AutoDeleteObjectsCustomResourceProviderHandler9D90184F"
+          }
+        ],
+        "/NodejsBuildIntegTest/AssetParameters/e57c1acaa363d7d2b81736776007a7091bc73dff4aeb8135627c4511a51e7dca/S3Bucket": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "AssetParameterse57c1acaa363d7d2b81736776007a7091bc73dff4aeb8135627c4511a51e7dcaS3Bucket4FBDA57E"
+          }
+        ],
+        "/NodejsBuildIntegTest/AssetParameters/e57c1acaa363d7d2b81736776007a7091bc73dff4aeb8135627c4511a51e7dca/S3VersionKey": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "AssetParameterse57c1acaa363d7d2b81736776007a7091bc73dff4aeb8135627c4511a51e7dcaS3VersionKeyF0409EA0"
+          }
+        ],
+        "/NodejsBuildIntegTest/AssetParameters/e57c1acaa363d7d2b81736776007a7091bc73dff4aeb8135627c4511a51e7dca/ArtifactHash": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "AssetParameterse57c1acaa363d7d2b81736776007a7091bc73dff4aeb8135627c4511a51e7dcaArtifactHashAC8BF1CD"
+          }
+        ],
+        "/NodejsBuildIntegTest/AssetParameters/13039ed50e1b40dd1a973f8d2992872d2d3c7b9869926910595df18ec8266bc5/S3Bucket": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "AssetParameters13039ed50e1b40dd1a973f8d2992872d2d3c7b9869926910595df18ec8266bc5S3BucketBC3258A3"
+          }
+        ],
+        "/NodejsBuildIntegTest/AssetParameters/13039ed50e1b40dd1a973f8d2992872d2d3c7b9869926910595df18ec8266bc5/S3VersionKey": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "AssetParameters13039ed50e1b40dd1a973f8d2992872d2d3c7b9869926910595df18ec8266bc5S3VersionKey47BBE314"
+          }
+        ],
+        "/NodejsBuildIntegTest/AssetParameters/13039ed50e1b40dd1a973f8d2992872d2d3c7b9869926910595df18ec8266bc5/ArtifactHash": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "AssetParameters13039ed50e1b40dd1a973f8d2992872d2d3c7b9869926910595df18ec8266bc5ArtifactHashB0C24631"
+          }
+        ],
+        "/NodejsBuildIntegTest/AssetParameters/72f05c779a8bc73c6ec86f6eafc720508792e7526696d3ae45a7fddcfc473c9d/S3Bucket": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "AssetParameters72f05c779a8bc73c6ec86f6eafc720508792e7526696d3ae45a7fddcfc473c9dS3Bucket7BF37945"
+          }
+        ],
+        "/NodejsBuildIntegTest/AssetParameters/72f05c779a8bc73c6ec86f6eafc720508792e7526696d3ae45a7fddcfc473c9d/S3VersionKey": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "AssetParameters72f05c779a8bc73c6ec86f6eafc720508792e7526696d3ae45a7fddcfc473c9dS3VersionKey360A250F"
+          }
+        ],
+        "/NodejsBuildIntegTest/AssetParameters/72f05c779a8bc73c6ec86f6eafc720508792e7526696d3ae45a7fddcfc473c9d/ArtifactHash": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "AssetParameters72f05c779a8bc73c6ec86f6eafc720508792e7526696d3ae45a7fddcfc473c9dArtifactHash61592905"
+          }
+        ],
+        "/NodejsBuildIntegTest/AssetParameters/1d3b5490cd99feddeb525a62c046988997469f2a765d0f12b43cff9d87a284fa/S3Bucket": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "AssetParameters1d3b5490cd99feddeb525a62c046988997469f2a765d0f12b43cff9d87a284faS3Bucket4457F0E8"
+          }
+        ],
+        "/NodejsBuildIntegTest/AssetParameters/1d3b5490cd99feddeb525a62c046988997469f2a765d0f12b43cff9d87a284fa/S3VersionKey": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "AssetParameters1d3b5490cd99feddeb525a62c046988997469f2a765d0f12b43cff9d87a284faS3VersionKeyD347D3A4"
+          }
+        ],
+        "/NodejsBuildIntegTest/AssetParameters/1d3b5490cd99feddeb525a62c046988997469f2a765d0f12b43cff9d87a284fa/ArtifactHash": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "AssetParameters1d3b5490cd99feddeb525a62c046988997469f2a765d0f12b43cff9d87a284faArtifactHash79E5727E"
+          }
+        ],
+        "/NodejsBuildIntegTest/AssetParameters/f98b78092dcdd31f5e6d47489beb5f804d4835ef86a8085d0a2053cb9ae711da/S3Bucket": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "AssetParametersf98b78092dcdd31f5e6d47489beb5f804d4835ef86a8085d0a2053cb9ae711daS3BucketF23C0DE7"
+          }
+        ],
+        "/NodejsBuildIntegTest/AssetParameters/f98b78092dcdd31f5e6d47489beb5f804d4835ef86a8085d0a2053cb9ae711da/S3VersionKey": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "AssetParametersf98b78092dcdd31f5e6d47489beb5f804d4835ef86a8085d0a2053cb9ae711daS3VersionKey5E97B17D"
+          }
+        ],
+        "/NodejsBuildIntegTest/AssetParameters/f98b78092dcdd31f5e6d47489beb5f804d4835ef86a8085d0a2053cb9ae711da/ArtifactHash": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "AssetParametersf98b78092dcdd31f5e6d47489beb5f804d4835ef86a8085d0a2053cb9ae711daArtifactHashD85D28D8"
+          }
+        ],
+        "/NodejsBuildIntegTest/ExampleBuild/Resource/Default": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "ExampleBuild61F1D79B"
+          }
+        ],
+        "/NodejsBuildIntegTest/ExampleBuild/Deploy/AwsCliLayer/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "ExampleBuildDeployAwsCliLayerF15CA413"
+          }
+        ],
+        "/NodejsBuildIntegTest/ExampleBuild/Deploy/CustomResource/Default": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "ExampleBuildDeployCustomResourceF69A1525"
+          }
+        ],
+        "/NodejsBuildIntegTest/NodejsBuildCustomResourceHandler25648b212c404f09aa65b6bbb0c44659/ServiceRole/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "NodejsBuildCustomResourceHandler25648b212c404f09aa65b6bbb0c44659ServiceRoleCB01FBE6"
+          }
+        ],
+        "/NodejsBuildIntegTest/NodejsBuildCustomResourceHandler25648b212c404f09aa65b6bbb0c44659/ServiceRole/DefaultPolicy/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "NodejsBuildCustomResourceHandler25648b212c404f09aa65b6bbb0c44659ServiceRoleDefaultPolicyCF8879D3"
+          }
+        ],
+        "/NodejsBuildIntegTest/NodejsBuildCustomResourceHandler25648b212c404f09aa65b6bbb0c44659/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "NodejsBuildCustomResourceHandler25648b212c404f09aa65b6bbb0c446591C4101F8"
+          }
+        ],
+        "/NodejsBuildIntegTest/Custom::CDKBucketDeployment8693BB64968944B69AAFB0CC9EB8756C/ServiceRole/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "CustomCDKBucketDeployment8693BB64968944B69AAFB0CC9EB8756CServiceRole89A01265"
+          }
+        ],
+        "/NodejsBuildIntegTest/Custom::CDKBucketDeployment8693BB64968944B69AAFB0CC9EB8756C/ServiceRole/DefaultPolicy/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "CustomCDKBucketDeployment8693BB64968944B69AAFB0CC9EB8756CServiceRoleDefaultPolicy88902FDF"
+          }
+        ],
+        "/NodejsBuildIntegTest/Custom::CDKBucketDeployment8693BB64968944B69AAFB0CC9EB8756C/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "CustomCDKBucketDeployment8693BB64968944B69AAFB0CC9EB8756C81C01536"
+          }
+        ]
+      },
+      "displayName": "NodejsBuildIntegTest"
+    },
+    "TestDefaultTestDeployAssert12909640": {
+      "type": "aws:cloudformation:stack",
+      "environment": "aws://unknown-account/unknown-region",
+      "properties": {
+        "templateFile": "TestDefaultTestDeployAssert12909640.template.json",
+        "validateOnSynth": false
+      },
+      "displayName": "Test/DefaultTest/DeployAssert"
+    }
+  }
+}
