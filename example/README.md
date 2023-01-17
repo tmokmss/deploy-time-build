@@ -9,7 +9,7 @@ npx cdk deploy
 ```
 
 ## Description
-After a successfull deployment, you will get a CloudFront URL from the stack output.
+After a successful deployment, you will get a CloudFront URL from the stack output.
 
 ![demo](../imgs/demo.png)
 

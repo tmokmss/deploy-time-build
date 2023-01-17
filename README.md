@@ -101,3 +101,13 @@ There are, however, a few considerations to be discussed when you use this const
 
 ## Considerations
 Since this construct builds your frontend apps every time you deploy the stack and there is any change in input assets (and currently without any "smart" build cache!), the time deployment takes tends to be longer (e.g. a few minutes even for the simple app in `example` directory.) This might results in worse developer experience if you define this construct and other resources (e.g. backend API) in a single stack and you change both frontend and backend code frequently (imagine `cdk watch` deployment always re-build your frontend app). Considering that, it is recommended that you create a separate stack for your frontend app especially in development environment.
+
+## Development
+Commands for maintainers:
+
+```sh
+# run test locally
+yarn tsc -p tsconfig.dev.json
+yarn integ-runner
+yarn integ-runner --update-on-failed
+```

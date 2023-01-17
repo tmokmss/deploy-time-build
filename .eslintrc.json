@@ -34,7 +34,10 @@
   },
   "ignorePatterns": [
     "example/**/*",
-    "lambda/**/*"
+    "lambda/**/*",
+    "test/assets/**/*",
+    "test/*.snapshot/**/*",
+    "*.d.ts"
   ],
   "rules": {
     "indent": [

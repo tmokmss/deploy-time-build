@@ -120,9 +120,9 @@ const assetConfig: AssetConfig = { ... }
 | <code><a href="#deploy-time-build.AssetConfig.property.assetHash">assetHash</a></code> | <code>string</code> | Specify a custom hash for this asset. |
 | <code><a href="#deploy-time-build.AssetConfig.property.assetHashType">assetHashType</a></code> | <code>aws-cdk-lib.AssetHashType</code> | Specifies the type of hash to calculate for this asset. |
 | <code><a href="#deploy-time-build.AssetConfig.property.bundling">bundling</a></code> | <code>aws-cdk-lib.BundlingOptions</code> | Bundle the asset by executing a command in a Docker container or a custom bundling provider. |
-| <code><a href="#deploy-time-build.AssetConfig.property.exclude">exclude</a></code> | <code>string[]</code> | Glob patterns to exclude from the copy. |
+| <code><a href="#deploy-time-build.AssetConfig.property.exclude">exclude</a></code> | <code>string[]</code> | File paths matching the patterns will be excluded. |
 | <code><a href="#deploy-time-build.AssetConfig.property.followSymlinks">followSymlinks</a></code> | <code>aws-cdk-lib.SymlinkFollowMode</code> | A strategy for how to handle symlinks. |
-| <code><a href="#deploy-time-build.AssetConfig.property.ignoreMode">ignoreMode</a></code> | <code>aws-cdk-lib.IgnoreMode</code> | The ignore behavior to use for exclude patterns. |
+| <code><a href="#deploy-time-build.AssetConfig.property.ignoreMode">ignoreMode</a></code> | <code>aws-cdk-lib.IgnoreMode</code> | The ignore behavior to use for `exclude` patterns. |
 | <code><a href="#deploy-time-build.AssetConfig.property.readers">readers</a></code> | <code>aws-cdk-lib.aws_iam.IGrantable[]</code> | A list of principals that should be able to read this asset from S3. |
 | <code><a href="#deploy-time-build.AssetConfig.property.path">path</a></code> | <code>string</code> | The disk location of the asset. |
 | <code><a href="#deploy-time-build.AssetConfig.property.commands">commands</a></code> | <code>string[]</code> | Shell commands executed right after the asset zip is extracted to the build environment. |
@@ -196,7 +196,10 @@ public readonly exclude: string[];
 - *Type:* string[]
 - *Default:* nothing is excluded
 
-Glob patterns to exclude from the copy.
+File paths matching the patterns will be excluded.
+
+See `ignoreMode` to set the matching behavior.
+Has no effect on Assets bundled using the `bundling` property.
 
 ---
 
@@ -222,7 +225,7 @@ public readonly ignoreMode: IgnoreMode;
 - *Type:* aws-cdk-lib.IgnoreMode
 - *Default:* IgnoreMode.GLOB
 
-The ignore behavior to use for exclude patterns.
+The ignore behavior to use for `exclude` patterns.
 
 ---
 
