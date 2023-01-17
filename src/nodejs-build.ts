@@ -2,7 +2,7 @@ import { createHash } from 'crypto';
 import { join } from 'path';
 import { CustomResource, Duration, Size } from 'aws-cdk-lib';
 import { IDistribution } from 'aws-cdk-lib/aws-cloudfront';
-import { Code, Runtime, SingletonFunction } from 'aws-cdk-lib/aws-lambda';
+import { Code, Runtime, RuntimeFamily, SingletonFunction } from 'aws-cdk-lib/aws-lambda';
 import { IBucket } from 'aws-cdk-lib/aws-s3';
 import { Asset, AssetProps } from 'aws-cdk-lib/aws-s3-assets';
 import { BucketDeployment, Source } from 'aws-cdk-lib/aws-s3-deployment';
@@ -64,8 +64,9 @@ export class NodejsBuild extends Construct {
     super(scope, id);
 
     const handler = new SingletonFunction(this, 'CustomResourceHandler', {
-      runtime: Runtime.NODEJS_14_X,
-      code: Code.fromAsset(join(__dirname, '../lambda/nodejs-build')),
+      // Use raw string to avoid from tightening CDK version requirement
+      runtime: new Runtime('nodejs18.x', RuntimeFamily.NODEJS),
+      code: Code.fromAsset(join(__dirname, '../lambda/nodejs-build/dist')),
       handler: 'index.handler',
       uuid: '25648b21-2c40-4f09-aa65-b6bbb0c44659', // generated for this construct
       lambdaPurpose: 'NodejsBuildCustomResourceHandler',

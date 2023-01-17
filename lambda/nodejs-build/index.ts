@@ -1,13 +1,13 @@
-import { execSync } from 'child_process';
 import * as fs from 'fs';
 import * as path from 'path';
 import AdmZip from 'adm-zip';
-import { S3 } from 'aws-sdk';
 import extract from 'extract-zip';
-import fetch from 'node-fetch';
+import { execSync } from 'child_process';
+import { Readable } from 'stream';
+import { S3Client, GetObjectCommand, PutObjectCommand } from '@aws-sdk/client-s3';
 import type { ResourceProperties } from '../../src/types';
 
-const s3 = new S3();
+const s3 = new S3Client({});
 
 type Event = {
   RequestType: 'Create' | 'Update' | 'Delete';
@@ -22,15 +22,14 @@ type Event = {
 export const handler = async (event: Event, context: any) => {
   let rootDir = '';
   console.log(JSON.stringify(event));
-  
+
   try {
     if (event.RequestType == 'Create' || event.RequestType == 'Update') {
       const props = event.ResourceProperties;
       rootDir = fs.mkdtempSync('/tmp/extract');
 
-      // set .npmrc and cache directory under /tmp since other directories are read-only in Lambda env
-      process.env.NPM_CONFIG_USERCONFIG = '/tmp/.npmrc';
-      execSync('npm config set cache /tmp/.npm');
+      // set npm cache directory under /tmp since other directories are read-only in Lambda env
+      process.env.NPM_CONFIG_CACHE = '/tmp/.npm';
 
       // inject environment variables from resource properties
       Object.entries(props.environment ?? {}).forEach(([key, value]) => (process.env[key] = value));
@@ -96,13 +95,13 @@ const sendStatus = async (status: 'SUCCESS' | 'FAILED', event: Event, context: a
 const uploadDistDirectory = async (srcPath: string, dstBucket: string, dstKey: string) => {
   const zip = new AdmZip();
   zip.addLocalFolder(srcPath);
-  await s3
-    .putObject({
+  await s3.send(
+    new PutObjectCommand({
       Body: zip.toBuffer(),
       Bucket: dstBucket,
       Key: dstKey,
     })
-    .promise();
+  );
 };
 
 const extractZip = async (rootDir: string, dirName: string, key: string, bucket: string) => {
@@ -116,17 +115,13 @@ const extractZip = async (rootDir: string, dirName: string, key: string, bucket:
 };
 
 const downloadS3File = async (key: string, bucket: string, dst: string) => {
-  // https://gist.github.com/milesrichardson/db724faf7615f0ea208590a52da2c0eb?permalink_comment_id=3539633#gistcomment-3539633
-  const writeStream = fs.createWriteStream(dst);
-  const readStream = s3.getObject({ Bucket: bucket, Key: key }).createReadStream();
-  readStream.pipe(writeStream);
-  return new Promise((resolve, reject) => {
-    readStream.on('error', (error) => {
-      console.log(error);
-      reject(error);
-    });
-    writeStream.once('finish', () => {
-      resolve(1);
-    });
+  const data = await s3.send(new GetObjectCommand({ Bucket: bucket, Key: key }));
+  await new Promise((resolve, reject) => {
+    if (data.Body instanceof Readable) {
+      data.Body
+        .pipe(fs.createWriteStream(dst))
+        .on('error', (err) => reject(err))
+        .on('close', () => resolve(1));
+    }
   });
 };
