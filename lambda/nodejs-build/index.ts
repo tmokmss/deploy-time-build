@@ -45,16 +45,12 @@ export const handler = async (event: Event, context: any) => {
 
       await Promise.all(promises);
 
-      try {
-        console.log(JSON.stringify(process.env));
-        const wd = path.join(rootDir, props.workingDirectory);
-        execSync(props.buildCommands.join(' && '), {
-          cwd: wd,
-          stdio: 'inherit',
-        });
-      } catch (e) {
-        console.log(e);
-      }
+      console.log(JSON.stringify(process.env));
+      const wd = path.join(rootDir, props.workingDirectory);
+      execSync(props.buildCommands.join(' && '), {
+        cwd: wd,
+        stdio: 'inherit',
+      });
 
       // zip the artifact directory and upload it to a S3 bucket.
       const srcPath = path.join(rootDir, props.outputSourceDirectory);
@@ -65,7 +61,7 @@ export const handler = async (event: Event, context: any) => {
     await sendStatus('SUCCESS', event, context);
   } catch (e) {
     console.log(e);
-    const err= e as Error;
+    const err = e as Error;
     await sendStatus('FAILED', event, context, err.message);
   } finally {
     if (rootDir != '') {
