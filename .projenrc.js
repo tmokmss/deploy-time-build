@@ -25,4 +25,5 @@ project.projectBuild.compileTask.prependExec('npm ci && npm run build', {
 });
 // Run integ-test
 project.projectBuild.testTask.exec('yarn tsc -p tsconfig.dev.json && yarn integ-runner');
+project.addPackageIgnore('!lambda/**/dist/*');
 project.synth();
