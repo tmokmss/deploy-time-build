@@ -7,12 +7,10 @@
     "build": "esbuild index.ts --bundle --outdir=./dist --platform=node --external:@aws-sdk/*"
   },
   "dependencies": {
-    "@aws-sdk/client-s3": "^3.245.0",
-    "adm-zip": "^0.5.9",
-    "extract-zip": "^2.0.1"
+    "@aws-sdk/client-codebuild": "^3.321.1",
+    "@aws-sdk/client-s3": "^3.245.0"
   },
   "devDependencies": {
-    "@types/adm-zip": "^0.5.0",
     "@types/aws-lambda": "^8.10.95",
     "esbuild": "^0.14.39"
   }

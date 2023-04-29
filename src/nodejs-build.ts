@@ -1,7 +1,9 @@
 import { createHash } from 'crypto';
 import { join } from 'path';
-import { CustomResource, Duration, Size } from 'aws-cdk-lib';
+import { CfnResource, CustomResource, Duration, Size } from 'aws-cdk-lib';
 import { IDistribution } from 'aws-cdk-lib/aws-cloudfront';
+import { BuildSpec, LinuxBuildImage, Project } from 'aws-cdk-lib/aws-codebuild';
+import { PolicyStatement } from 'aws-cdk-lib/aws-iam';
 import { Code, Runtime, RuntimeFamily, SingletonFunction } from 'aws-cdk-lib/aws-lambda';
 import { IBucket } from 'aws-cdk-lib/aws-s3';
 import { Asset, AssetProps } from 'aws-cdk-lib/aws-s3-assets';
@@ -75,13 +77,94 @@ export class NodejsBuild extends Construct {
       ephemeralStorageSize: Size.gibibytes(5),
     });
 
+    const project = new Project(this, 'MyProject', {
+      environment: { buildImage: LinuxBuildImage.STANDARD_6_0 },
+      buildSpec: BuildSpec.fromObject({
+        version: '0.2',
+        phases: {
+          install: {
+            'runtime-versions': {
+              nodejs: 18,
+            },
+          },
+          build: {
+            commands: [
+              'current_dir=$(pwd)',
+              `
+for obj in $(echo "$input" | jq -c '.[]'); do
+  assetUrl=$(echo "$obj" | jq -r '.assetUrl')
+  extractPath=$(echo "$obj" | jq -r '.extractPath')
+  commands=$(echo "$obj" | jq -r '.commands')
+
+
+  # Download the zip file
+  aws s3 cp "$assetUrl" temp.zip
+
+  # Extract the zip file to the extractPath directory
+  unzip temp.zip -d "$extractPath"
+
+  # Remove the zip file
+  rm temp.zip
+
+  # Run the specified commands in the extractPath directory
+  cd "$extractPath"
+  ls -la
+  eval "$commands"
+  cd "$current_dir"
+  ls -la
+done
+              `,
+              'ls -la',
+              'cd "$workingDirectory"',
+              'eval "$buildCommands"',
+              'ls -la',
+              'cd "$current_dir"',
+              'zip -r output.zip "$outputSourceDirectory"',
+              'aws s3 cp output.zip "s3://$destinationBucketName/$destinationObjectKey"',
+            ],
+          },
+          post_build: {
+            commands: [
+              'echo Build completed on `date`',
+              `
+STATUS='SUCCESS'
+if [ $CODEBUILD_BUILD_SUCCEEDING -ne 1 ] # Test if the build is failing
+then
+STATUS='FAILED'
+fi
+cat <<EOF > payload.json
+{
+  "StackId": "$stackId",
+  "RequestId": "$requestId",
+  "LogicalResourceId":"$logicalResourceId",
+  "PhysicalResourceId": "$destinationObjectKey",
+  "Status": "$STATUS"
+}
+EOF
+curl -vv -i -X PUT -H 'Content-Type:' -d "@payload.json" "$responseURL"
+              `,
+            ],
+          },
+        },
+      }),
+    });
+
+    (project.node.defaultChild as CfnResource).addPropertyOverride('Environment.Image', 'aws/codebuild/standard:7.0');
+
+    handler.addToRolePolicy(
+      new PolicyStatement({
+        actions: ['codebuild:StartBuild'],
+        resources: [project.projectArn],
+      }),
+    );
+
     let assetHash = 'nodejsBuild';
     const assets = props.assets.map((assetProps) => {
       const asset = new Asset(this, `Source-${assetProps.path.replace('/', '')}`, {
         ...assetProps,
       });
       assetHash += asset.assetHash;
-      asset.grantRead(handler);
+      asset.grantRead(project);
       return asset;
     });
 
@@ -91,7 +174,7 @@ export class NodejsBuild extends Construct {
 
     // use the asset bucket that are created by CDK bootstrap to store intermediate artifacts
     const bucket = assets[0].bucket;
-    bucket.grantWrite(handler);
+    bucket.grantWrite(project);
 
     const workingDirectory = props.workingDirectory ?? props.assets[0].path;
 
@@ -108,6 +191,7 @@ export class NodejsBuild extends Construct {
       outputSourceDirectory: join(workingDirectory, props.outputSourceDirectory),
       environment: props.buildEnvironment,
       buildCommands: props.buildCommands ?? ['npm run build'],
+      codeBuildProjectName: project.projectName,
     };
 
     const custom = new CustomResource(this, 'Resource', {

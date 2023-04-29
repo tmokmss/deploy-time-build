@@ -11,4 +11,5 @@ export type ResourceProperties = {
   workingDirectory: string;
   outputSourceDirectory: string;
   buildCommands: string[];
+  codeBuildProjectName: string;
 };
