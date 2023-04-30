@@ -2,7 +2,7 @@ export type ResourceProperties = {
   sources: {
     sourceBucketName: string;
     sourceObjectKey: string;
-    directoryName: string;
+    extractPath: string;
     commands?: string[];
   }[];
   environment?: { [key: string]: string };

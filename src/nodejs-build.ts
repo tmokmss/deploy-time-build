@@ -1,5 +1,5 @@
 import { createHash } from 'crypto';
-import { join } from 'path';
+import { join, basename } from 'path';
 import { CfnResource, CustomResource, Duration, Size } from 'aws-cdk-lib';
 import { IDistribution } from 'aws-cdk-lib/aws-cloudfront';
 import { BuildSpec, LinuxBuildImage, Project } from 'aws-cdk-lib/aws-codebuild';
@@ -17,6 +17,12 @@ export interface AssetConfig extends AssetProps {
    * @default No command is executed.
    */
   readonly commands?: string[];
+
+  /**
+   * Relative path from a build directory to the directory where the asset is extracted.
+   * @default basename of the asset path.
+   */
+  readonly extractPath?: string;
 }
 
 export interface NodejsBuildProps {
@@ -51,14 +57,19 @@ export interface NodejsBuildProps {
    */
   readonly buildCommands?: string[];
   /**
-   * The name of the working directory of build process in the build enironment.
-   * @default assetProps[0].assetProps.path
+   * Relative path from the build directory to the directory where build commands run.
+   * @default assetProps[0].extractPath
    */
   readonly workingDirectory?: string;
   /**
-   * The path to the directory that contains your build artifacts (relative to the working directory.)
+   * Relative path from the working directory to the directory where the build artifacts are output.
    */
   readonly outputSourceDirectory: string;
+  /**
+   * The version of Node.js to use in a build environment.
+   * @default 18
+   */
+  readonly nodeJsVersion?: number;
 }
 
 export class NodejsBuild extends Construct {
@@ -77,14 +88,14 @@ export class NodejsBuild extends Construct {
       ephemeralStorageSize: Size.gibibytes(5),
     });
 
-    const project = new Project(this, 'MyProject', {
+    const project = new Project(this, 'Project', {
       environment: { buildImage: LinuxBuildImage.STANDARD_6_0 },
       buildSpec: BuildSpec.fromObject({
         version: '0.2',
         phases: {
           install: {
             'runtime-versions': {
-              nodejs: 18,
+              nodejs: props.nodeJsVersion ?? 18,
             },
           },
           build: {
@@ -119,7 +130,8 @@ done
               'eval "$buildCommands"',
               'ls -la',
               'cd "$current_dir"',
-              'zip -r output.zip "$outputSourceDirectory"',
+              'cd "$outputSourceDirectory"',
+              'zip -r output.zip ./',
               'aws s3 cp output.zip "s3://$destinationBucketName/$destinationObjectKey"',
             ],
           },
@@ -131,6 +143,8 @@ STATUS='SUCCESS'
 if [ $CODEBUILD_BUILD_SUCCEEDING -ne 1 ] # Test if the build is failing
 then
 STATUS='FAILED'
+REASON="NodejsBuild failed. See CloudWatch Log stream for the detailed reason: 
+https://$AWS_REGION.console.aws.amazon.com/cloudwatch/home?region=$AWS_REGION#logsV2:log-groups/log-group/\\$252Faws\\$252Fcodebuild\\$252F$projectName/log-events/$CODEBUILD_LOG_PATH"
 fi
 cat <<EOF > payload.json
 {
@@ -138,7 +152,8 @@ cat <<EOF > payload.json
   "RequestId": "$requestId",
   "LogicalResourceId":"$logicalResourceId",
   "PhysicalResourceId": "$destinationObjectKey",
-  "Status": "$STATUS"
+  "Status": "$STATUS",
+  "Reason": "$REASON"
 }
 EOF
 curl -vv -i -X PUT -H 'Content-Type:' -d "@payload.json" "$responseURL"
@@ -176,19 +191,19 @@ curl -vv -i -X PUT -H 'Content-Type:' -d "@payload.json" "$responseURL"
     const bucket = assets[0].bucket;
     bucket.grantWrite(project);
 
-    const workingDirectory = props.workingDirectory ?? props.assets[0].path;
+    const sources = props.assets.map((s, i) => ({
+      sourceBucketName: assets[i].s3BucketName,
+      sourceObjectKey: assets[i].s3ObjectKey,
+      extractPath: s.extractPath ?? basename(s.path),
+      commands: s.commands,
+    }));
 
     const properties: ResourceProperties = {
-      sources: props.assets.map((s, i) => ({
-        sourceBucketName: assets[i].s3BucketName,
-        sourceObjectKey: assets[i].s3ObjectKey,
-        directoryName: s.path,
-        commands: s.commands,
-      })),
+      sources,
       destinationBucketName: bucket.bucketName,
       destinationObjectKey: `${assetHash}.zip`,
-      workingDirectory,
-      outputSourceDirectory: join(workingDirectory, props.outputSourceDirectory),
+      workingDirectory: sources[0].extractPath,
+      outputSourceDirectory: join(sources[0].extractPath, props.outputSourceDirectory),
       environment: props.buildEnvironment,
       buildCommands: props.buildCommands ?? ['npm run build'],
       codeBuildProjectName: project.projectName,

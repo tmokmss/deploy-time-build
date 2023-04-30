@@ -30,7 +30,7 @@ export const handler = async (event: Event, context: any) => {
               name: 'input',
               value: JSON.stringify(props.sources.map(source=> ({
                 assetUrl: `s3://${source.sourceBucketName}/${source.sourceObjectKey}`,
-                extractPath: source.directoryName,
+                extractPath: source.extractPath,
                 commands: (source.commands ?? []).join(" && "),
               }))),
             },
@@ -53,6 +53,10 @@ export const handler = async (event: Event, context: any) => {
             {
               name: 'outputSourceDirectory',
               value: props.outputSourceDirectory
+            },
+            {
+              name: 'projectName',
+              value: props.codeBuildProjectName,
             },
             {
               name: 'responseURL',

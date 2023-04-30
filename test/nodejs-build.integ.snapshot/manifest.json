@@ -31,13 +31,13 @@
           {
             "type": "aws:cdk:asset",
             "data": {
-              "path": "asset.13039ed50e1b40dd1a973f8d2992872d2d3c7b9869926910595df18ec8266bc5",
-              "id": "13039ed50e1b40dd1a973f8d2992872d2d3c7b9869926910595df18ec8266bc5",
+              "path": "asset.cf8bf7131250ccbd5d6ff8e369ac3700bc30286367ceb87346f9a82389d0fa84",
+              "id": "cf8bf7131250ccbd5d6ff8e369ac3700bc30286367ceb87346f9a82389d0fa84",
               "packaging": "zip",
-              "sourceHash": "13039ed50e1b40dd1a973f8d2992872d2d3c7b9869926910595df18ec8266bc5",
-              "s3BucketParameter": "AssetParameters13039ed50e1b40dd1a973f8d2992872d2d3c7b9869926910595df18ec8266bc5S3BucketBC3258A3",
-              "s3KeyParameter": "AssetParameters13039ed50e1b40dd1a973f8d2992872d2d3c7b9869926910595df18ec8266bc5S3VersionKey47BBE314",
-              "artifactHashParameter": "AssetParameters13039ed50e1b40dd1a973f8d2992872d2d3c7b9869926910595df18ec8266bc5ArtifactHashB0C24631"
+              "sourceHash": "cf8bf7131250ccbd5d6ff8e369ac3700bc30286367ceb87346f9a82389d0fa84",
+              "s3BucketParameter": "AssetParameterscf8bf7131250ccbd5d6ff8e369ac3700bc30286367ceb87346f9a82389d0fa84S3Bucket3C4A8161",
+              "s3KeyParameter": "AssetParameterscf8bf7131250ccbd5d6ff8e369ac3700bc30286367ceb87346f9a82389d0fa84S3VersionKeyE0E76689",
+              "artifactHashParameter": "AssetParameterscf8bf7131250ccbd5d6ff8e369ac3700bc30286367ceb87346f9a82389d0fa84ArtifactHash8B7F7239"
             }
           },
           {
@@ -125,22 +125,22 @@
             "data": "AssetParameterse57c1acaa363d7d2b81736776007a7091bc73dff4aeb8135627c4511a51e7dcaArtifactHashAC8BF1CD"
           }
         ],
-        "/NodejsBuildIntegTest/AssetParameters/13039ed50e1b40dd1a973f8d2992872d2d3c7b9869926910595df18ec8266bc5/S3Bucket": [
+        "/NodejsBuildIntegTest/AssetParameters/cf8bf7131250ccbd5d6ff8e369ac3700bc30286367ceb87346f9a82389d0fa84/S3Bucket": [
           {
             "type": "aws:cdk:logicalId",
-            "data": "AssetParameters13039ed50e1b40dd1a973f8d2992872d2d3c7b9869926910595df18ec8266bc5S3BucketBC3258A3"
+            "data": "AssetParameterscf8bf7131250ccbd5d6ff8e369ac3700bc30286367ceb87346f9a82389d0fa84S3Bucket3C4A8161"
           }
         ],
-        "/NodejsBuildIntegTest/AssetParameters/13039ed50e1b40dd1a973f8d2992872d2d3c7b9869926910595df18ec8266bc5/S3VersionKey": [
+        "/NodejsBuildIntegTest/AssetParameters/cf8bf7131250ccbd5d6ff8e369ac3700bc30286367ceb87346f9a82389d0fa84/S3VersionKey": [
           {
             "type": "aws:cdk:logicalId",
-            "data": "AssetParameters13039ed50e1b40dd1a973f8d2992872d2d3c7b9869926910595df18ec8266bc5S3VersionKey47BBE314"
+            "data": "AssetParameterscf8bf7131250ccbd5d6ff8e369ac3700bc30286367ceb87346f9a82389d0fa84S3VersionKeyE0E76689"
           }
         ],
-        "/NodejsBuildIntegTest/AssetParameters/13039ed50e1b40dd1a973f8d2992872d2d3c7b9869926910595df18ec8266bc5/ArtifactHash": [
+        "/NodejsBuildIntegTest/AssetParameters/cf8bf7131250ccbd5d6ff8e369ac3700bc30286367ceb87346f9a82389d0fa84/ArtifactHash": [
           {
             "type": "aws:cdk:logicalId",
-            "data": "AssetParameters13039ed50e1b40dd1a973f8d2992872d2d3c7b9869926910595df18ec8266bc5ArtifactHashB0C24631"
+            "data": "AssetParameterscf8bf7131250ccbd5d6ff8e369ac3700bc30286367ceb87346f9a82389d0fa84ArtifactHash8B7F7239"
           }
         ],
         "/NodejsBuildIntegTest/AssetParameters/72f05c779a8bc73c6ec86f6eafc720508792e7526696d3ae45a7fddcfc473c9d/S3Bucket": [
@@ -195,6 +195,24 @@
           {
             "type": "aws:cdk:logicalId",
             "data": "AssetParametersf98b78092dcdd31f5e6d47489beb5f804d4835ef86a8085d0a2053cb9ae711daArtifactHashD85D28D8"
+          }
+        ],
+        "/NodejsBuildIntegTest/ExampleBuild/Project/Role/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "ExampleBuildProjectRole823D0208"
+          }
+        ],
+        "/NodejsBuildIntegTest/ExampleBuild/Project/Role/DefaultPolicy/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "ExampleBuildProjectRoleDefaultPolicy1E341966"
+          }
+        ],
+        "/NodejsBuildIntegTest/ExampleBuild/Project/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "ExampleBuildProjectEF5CAC49"
           }
         ],
         "/NodejsBuildIntegTest/ExampleBuild/Resource/Default": [
