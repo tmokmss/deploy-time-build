@@ -117,11 +117,15 @@ export class NodejsBuild extends Construct {
           build: {
             commands: [
               'current_dir=$(pwd)',
+              // Iterate a json array using jq
+              // https://www.starkandwayne.com/blog/bash-for-loop-over-json-array-using-jq/index.html
               `
-for obj in $(echo "$input" | jq -c '.[]'); do
-  assetUrl=$(echo "$obj" | jq -r '.assetUrl')
-  extractPath=$(echo "$obj" | jq -r '.extractPath')
-  commands=$(echo "$obj" | jq -r '.commands')
+echo "$input"
+for obj in $(echo "$input" | jq -r '.[] | @base64'); do
+  decoded=$(echo "$obj" | base64 --decode)
+  assetUrl=$(echo "$decoded" | jq -r '.assetUrl')
+  extractPath=$(echo "$decoded" | jq -r '.extractPath')
+  commands=$(echo "$decoded" | jq -r '.commands')
 
   # Download the zip file
   aws s3 cp "$assetUrl" temp.zip
