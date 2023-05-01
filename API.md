@@ -126,6 +126,7 @@ const assetConfig: AssetConfig = { ... }
 | <code><a href="#deploy-time-build.AssetConfig.property.readers">readers</a></code> | <code>aws-cdk-lib.aws_iam.IGrantable[]</code> | A list of principals that should be able to read this asset from S3. |
 | <code><a href="#deploy-time-build.AssetConfig.property.path">path</a></code> | <code>string</code> | The disk location of the asset. |
 | <code><a href="#deploy-time-build.AssetConfig.property.commands">commands</a></code> | <code>string[]</code> | Shell commands executed right after the asset zip is extracted to the build environment. |
+| <code><a href="#deploy-time-build.AssetConfig.property.extractPath">extractPath</a></code> | <code>string</code> | Relative path from a build directory to the directory where the asset is extracted. |
 
 ---
 
@@ -273,6 +274,19 @@ Shell commands executed right after the asset zip is extracted to the build envi
 
 ---
 
+##### `extractPath`<sup>Optional</sup> <a name="extractPath" id="deploy-time-build.AssetConfig.property.extractPath"></a>
+
+```typescript
+public readonly extractPath: string;
+```
+
+- *Type:* string
+- *Default:* basename of the asset path.
+
+Relative path from a build directory to the directory where the asset is extracted.
+
+---
+
 ### NodejsBuildProps <a name="NodejsBuildProps" id="deploy-time-build.NodejsBuildProps"></a>
 
 #### Initializer <a name="Initializer" id="deploy-time-build.NodejsBuildProps.Initializer"></a>
@@ -289,12 +303,13 @@ const nodejsBuildProps: NodejsBuildProps = { ... }
 | --- | --- | --- |
 | <code><a href="#deploy-time-build.NodejsBuildProps.property.assets">assets</a></code> | <code><a href="#deploy-time-build.AssetConfig">AssetConfig</a>[]</code> | The AssetProps from which s3-assets are created and copied to the build environment. |
 | <code><a href="#deploy-time-build.NodejsBuildProps.property.destinationBucket">destinationBucket</a></code> | <code>aws-cdk-lib.aws_s3.IBucket</code> | S3 Bucket to which your build artifacts are finally deployed. |
-| <code><a href="#deploy-time-build.NodejsBuildProps.property.outputSourceDirectory">outputSourceDirectory</a></code> | <code>string</code> | The path to the directory that contains your build artifacts (relative to the working directory.). |
+| <code><a href="#deploy-time-build.NodejsBuildProps.property.outputSourceDirectory">outputSourceDirectory</a></code> | <code>string</code> | Relative path from the working directory to the directory where the build artifacts are output. |
 | <code><a href="#deploy-time-build.NodejsBuildProps.property.buildCommands">buildCommands</a></code> | <code>string[]</code> | Shell commands to build your project. |
 | <code><a href="#deploy-time-build.NodejsBuildProps.property.buildEnvironment">buildEnvironment</a></code> | <code>{[ key: string ]: string}</code> | Environment variables injected to the build environment. |
 | <code><a href="#deploy-time-build.NodejsBuildProps.property.destinationKeyPrefix">destinationKeyPrefix</a></code> | <code>string</code> | Key prefix to deploy your build artifact. |
 | <code><a href="#deploy-time-build.NodejsBuildProps.property.distribution">distribution</a></code> | <code>aws-cdk-lib.aws_cloudfront.IDistribution</code> | The distribution you are using to publish you build artifact. |
-| <code><a href="#deploy-time-build.NodejsBuildProps.property.workingDirectory">workingDirectory</a></code> | <code>string</code> | The name of the working directory of build process in the build enironment. |
+| <code><a href="#deploy-time-build.NodejsBuildProps.property.nodejsVersion">nodejsVersion</a></code> | <code>number</code> | The version of Node.js to use in a build environment. Available versions: 12, 14, 16, 18. |
+| <code><a href="#deploy-time-build.NodejsBuildProps.property.workingDirectory">workingDirectory</a></code> | <code>string</code> | Relative path from the build directory to the directory where build commands run. |
 
 ---
 
@@ -330,7 +345,7 @@ public readonly outputSourceDirectory: string;
 
 - *Type:* string
 
-The path to the directory that contains your build artifacts (relative to the working directory.).
+Relative path from the working directory to the directory where the build artifacts are output.
 
 ---
 
@@ -392,6 +407,19 @@ If any specified, the caches are invalidated on new artifact deployments.
 
 ---
 
+##### `nodejsVersion`<sup>Optional</sup> <a name="nodejsVersion" id="deploy-time-build.NodejsBuildProps.property.nodejsVersion"></a>
+
+```typescript
+public readonly nodejsVersion: number;
+```
+
+- *Type:* number
+- *Default:* 18
+
+The version of Node.js to use in a build environment. Available versions: 12, 14, 16, 18.
+
+---
+
 ##### `workingDirectory`<sup>Optional</sup> <a name="workingDirectory" id="deploy-time-build.NodejsBuildProps.property.workingDirectory"></a>
 
 ```typescript
@@ -399,9 +427,9 @@ public readonly workingDirectory: string;
 ```
 
 - *Type:* string
-- *Default:* assetProps[0].assetProps.path
+- *Default:* assetProps[0].extractPath
 
-The name of the working directory of build process in the build enironment.
+Relative path from the build directory to the directory where build commands run.
 
 ---
 

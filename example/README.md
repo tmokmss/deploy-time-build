@@ -1,7 +1,7 @@
 ## How to Deploy
 ```sh
 # Assume current directory is the example directory
-cd ../src/lambda/nodejs-build
+cd ../lambda/nodejs-build
 npm ci
 npm run build
 cd -
