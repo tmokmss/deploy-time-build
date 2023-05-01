@@ -1,4 +1,4 @@
-import { CodeBuildClient, StartBuildCommand } from '@aws-sdk/client-codebuild';
+import { BatchGetBuildsCommand, CodeBuildClient, StartBuildCommand } from '@aws-sdk/client-codebuild';
 import type { ResourceProperties } from '../../src/types';
 
 const cb = new CodeBuildClient({});
@@ -14,7 +14,6 @@ type Event = {
 };
 
 export const handler = async (event: Event, context: any) => {
-  let rootDir = '';
   console.log(JSON.stringify(event));
 
   try {
@@ -22,21 +21,23 @@ export const handler = async (event: Event, context: any) => {
       const props = event.ResourceProperties;
 
       // start code build project
-      await cb.send(
+      const build = await cb.send(
         new StartBuildCommand({
           projectName: props.codeBuildProjectName,
           environmentVariablesOverride: [
             {
               name: 'input',
-              value: JSON.stringify(props.sources.map(source=> ({
-                assetUrl: `s3://${source.sourceBucketName}/${source.sourceObjectKey}`,
-                extractPath: source.extractPath,
-                commands: (source.commands ?? []).join(" && "),
-              }))),
+              value: JSON.stringify(
+                props.sources.map((source) => ({
+                  assetUrl: `s3://${source.sourceBucketName}/${source.sourceObjectKey}`,
+                  extractPath: source.extractPath,
+                  commands: (source.commands ?? []).join(' && '),
+                }))
+              ),
             },
             {
               name: 'buildCommands',
-              value: props.buildCommands.join(" && "),
+              value: props.buildCommands.join(' && '),
             },
             {
               name: 'destinationBucketName',
@@ -44,15 +45,15 @@ export const handler = async (event: Event, context: any) => {
             },
             {
               name: 'destinationObjectKey',
-              value: props.destinationObjectKey
+              value: props.destinationObjectKey,
             },
             {
               name: 'workingDirectory',
-              value: props.workingDirectory
+              value: props.workingDirectory,
             },
             {
               name: 'outputSourceDirectory',
-              value: props.outputSourceDirectory
+              value: props.outputSourceDirectory,
             },
             {
               name: 'projectName',
@@ -81,8 +82,24 @@ export const handler = async (event: Event, context: any) => {
           ],
         })
       );
+
+      // Sometimes CodeBuild build fails before running buildspec, without calling the CFn callback.
+      // We can poll the status of a build for a few minutes and sendStatus if such errors are detected.
+      // if (build.build?.id == null) {
+      //   throw new Error('build id is null');
+      // }
+
+      // for (let i=0; i< 20; i++) {
+      //   const res = await cb.send(new BatchGetBuildsCommand({ ids: [build.build.id] }));
+      //   const status = res.builds?.[0].buildStatus;
+      //   if (status == null) {
+      //     throw new Error('build status is null');
+      //   }
+
+      //   await new Promise((resolve) => setTimeout(resolve, 5000));
+      // }
     } else {
-      // how do we process 'Delete' event?
+      // Do nothing on a DELETE event.
       await sendStatus('SUCCESS', event, context);
     }
   } catch (e) {

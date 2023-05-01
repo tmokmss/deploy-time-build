@@ -65,6 +65,7 @@ class TestStack extends Stack {
       buildEnvironment: {
         VITE_API_ENDPOINT: api.url,
       },
+      nodejsVersion: 18,
     });
 
     new CfnOutput(this, 'DistributionUrl', {

@@ -66,6 +66,8 @@ Then, the extracted directories will be located as the following:
 └── module1               # extracted module1 assets
 ```
 
+You can also override the path where assets are extracted by `extractPath` property for each asset.
+
 Please also check [the example directory](./example/) for a complete example. 
 
 ## Motivation - why do we need this construct?

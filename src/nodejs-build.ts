@@ -1,6 +1,6 @@
 import { createHash } from 'crypto';
 import { join, basename } from 'path';
-import { CfnResource, CustomResource, Duration, Size } from 'aws-cdk-lib';
+import { Annotations, CfnResource, CustomResource, Duration } from 'aws-cdk-lib';
 import { IDistribution } from 'aws-cdk-lib/aws-cloudfront';
 import { BuildSpec, LinuxBuildImage, Project } from 'aws-cdk-lib/aws-codebuild';
 import { PolicyStatement } from 'aws-cdk-lib/aws-iam';
@@ -66,10 +66,10 @@ export interface NodejsBuildProps {
    */
   readonly outputSourceDirectory: string;
   /**
-   * The version of Node.js to use in a build environment.
+   * The version of Node.js to use in a build environment. Available versions: 12, 14, 16, 18.
    * @default 18
    */
-  readonly nodeJsVersion?: number;
+  readonly nodejsVersion?: number;
 }
 
 export class NodejsBuild extends Construct {
@@ -83,10 +83,26 @@ export class NodejsBuild extends Construct {
       handler: 'index.handler',
       uuid: '25648b21-2c40-4f09-aa65-b6bbb0c44659', // generated for this construct
       lambdaPurpose: 'NodejsBuildCustomResourceHandler',
-      timeout: Duration.minutes(10),
-      memorySize: 1792,
-      ephemeralStorageSize: Size.gibibytes(5),
+      timeout: Duration.minutes(5),
     });
+
+    const nodejsVersion = props.nodejsVersion ?? 18;
+    let buildImage = 'aws/codebuild/standard:7.0';
+    // See: https://docs.aws.amazon.com/codebuild/latest/userguide/available-runtimes.html#linux-runtimes
+    switch (nodejsVersion) {
+      case 12:
+      case 14:
+        buildImage = 'aws/codebuild/standard:5.0';
+        break;
+      case 16:
+        buildImage = 'aws/codebuild/standard:6.0';
+        break;
+      case 18:
+        buildImage = 'aws/codebuild/standard:7.0';
+        break;
+      default:
+        Annotations.of(this).addError(`Unsupported Node.js version: ${nodejsVersion}`);
+    }
 
     const project = new Project(this, 'Project', {
       environment: { buildImage: LinuxBuildImage.STANDARD_6_0 },
@@ -95,7 +111,7 @@ export class NodejsBuild extends Construct {
         phases: {
           install: {
             'runtime-versions': {
-              nodejs: props.nodeJsVersion ?? 18,
+              nodejs: nodejsVersion,
             },
           },
           build: {
@@ -107,11 +123,11 @@ for obj in $(echo "$input" | jq -c '.[]'); do
   extractPath=$(echo "$obj" | jq -r '.extractPath')
   commands=$(echo "$obj" | jq -r '.commands')
 
-
   # Download the zip file
   aws s3 cp "$assetUrl" temp.zip
 
   # Extract the zip file to the extractPath directory
+  mkdir -p "$extractPath"
   unzip temp.zip -d "$extractPath"
 
   # Remove the zip file
@@ -164,7 +180,7 @@ curl -vv -i -X PUT -H 'Content-Type:' -d "@payload.json" "$responseURL"
       }),
     });
 
-    (project.node.defaultChild as CfnResource).addPropertyOverride('Environment.Image', 'aws/codebuild/standard:7.0');
+    (project.node.defaultChild as CfnResource).addPropertyOverride('Environment.Image', buildImage);
 
     handler.addToRolePolicy(
       new PolicyStatement({
@@ -191,7 +207,7 @@ curl -vv -i -X PUT -H 'Content-Type:' -d "@payload.json" "$responseURL"
     const bucket = assets[0].bucket;
     bucket.grantWrite(project);
 
-    const sources = props.assets.map((s, i) => ({
+    const sources: ResourceProperties['sources'] = props.assets.map((s, i) => ({
       sourceBucketName: assets[i].s3BucketName,
       sourceObjectKey: assets[i].s3ObjectKey,
       extractPath: s.extractPath ?? basename(s.path),

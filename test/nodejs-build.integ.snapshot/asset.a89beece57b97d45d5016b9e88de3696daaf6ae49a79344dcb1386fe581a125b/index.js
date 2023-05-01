@@ -25,12 +25,11 @@ module.exports = __toCommonJS(nodejs_build_exports);
 var import_client_codebuild = require("@aws-sdk/client-codebuild");
 var cb = new import_client_codebuild.CodeBuildClient({});
 var handler = async (event, context) => {
-  let rootDir = "";
   console.log(JSON.stringify(event));
   try {
     if (event.RequestType == "Create" || event.RequestType == "Update") {
       const props = event.ResourceProperties;
-      await cb.send(new import_client_codebuild.StartBuildCommand({
+      const build = await cb.send(new import_client_codebuild.StartBuildCommand({
         projectName: props.codeBuildProjectName,
         environmentVariablesOverride: [
           {

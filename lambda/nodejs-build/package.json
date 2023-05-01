@@ -7,11 +7,11 @@
     "build": "esbuild index.ts --bundle --outdir=./dist --platform=node --external:@aws-sdk/*"
   },
   "dependencies": {
-    "@aws-sdk/client-codebuild": "^3.321.1",
-    "@aws-sdk/client-s3": "^3.245.0"
+    "@aws-sdk/client-codebuild": "^3.321.1"
   },
   "devDependencies": {
     "@types/aws-lambda": "^8.10.95",
+    "@types/node": "^18.16.3",
     "esbuild": "^0.14.39"
   }
 }
