@@ -1,9 +1,10 @@
-import { Stack, StackProps, App, RemovalPolicy, CfnOutput } from 'aws-cdk-lib';
+import { Stack, StackProps, App, RemovalPolicy, CfnOutput, Aspects } from 'aws-cdk-lib';
 import { Construct } from 'constructs';
 import { MockIntegration, RestApi } from 'aws-cdk-lib/aws-apigateway';
 import { NodejsBuild } from '../src/nodejs-build';
 import { BlockPublicAccess, Bucket, BucketEncryption } from 'aws-cdk-lib/aws-s3';
 import { OriginAccessIdentity, CloudFrontWebDistribution } from 'aws-cdk-lib/aws-cloudfront';
+import { AwsSolutionsChecks } from 'cdk-nag';
 
 class TestStack extends Stack {
   constructor(scope: Construct, id: string, props: StackProps = {}) {
@@ -79,6 +80,7 @@ class TestApp extends App {
     super();
 
     new TestStack(this, 'TestStack');
+    Aspects.of(this).add(new AwsSolutionsChecks());
   }
 }
 
