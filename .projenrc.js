@@ -5,6 +5,7 @@ const project = new awscdk.AwsCdkConstructLibrary({
   cdkVersion: '2.38.0',  // For using @aws-cdk/integ-runner
   defaultReleaseBranch: 'main',
   name: 'deploy-time-build',
+  license: 'MIT',
   repositoryUrl: 'https://github.com/tmokmss/deploy-time-build.git',
   eslintOptions: {
     ignorePatterns: ['example/**/*', 'lambda/**/*', 'test/assets/**/*', 'test/*.snapshot/**/*', '*.d.ts'],
