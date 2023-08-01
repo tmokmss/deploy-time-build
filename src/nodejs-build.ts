@@ -1,5 +1,5 @@
 import { createHash } from 'crypto';
-import { join, basename } from 'path';
+import { posix, join, basename } from 'path';
 import { Annotations, CfnResource, CustomResource, Duration } from 'aws-cdk-lib';
 import { IDistribution } from 'aws-cdk-lib/aws-cloudfront';
 import { BuildSpec, LinuxBuildImage, Project } from 'aws-cdk-lib/aws-codebuild';
@@ -223,7 +223,8 @@ curl -vv -i -X PUT -H 'Content-Type:' -d "@payload.json" "$responseURL"
       destinationBucketName: bucket.bucketName,
       destinationObjectKey: `${assetHash}.zip`,
       workingDirectory: sources[0].extractPath,
-      outputSourceDirectory: join(sources[0].extractPath, props.outputSourceDirectory),
+      // join paths for CodeBuild (Linux) platform
+      outputSourceDirectory: posix.join(sources[0].extractPath, props.outputSourceDirectory),
       environment: props.buildEnvironment,
       buildCommands: props.buildCommands ?? ['npm run build'],
       codeBuildProjectName: project.projectName,
