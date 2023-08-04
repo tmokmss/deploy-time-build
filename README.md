@@ -9,8 +9,8 @@ Install from npm:
 ```sh
 npm i deploy-time-build
 ```
-
-Then write CDK code as below:
+### Build Node.js apps
+Use the following code to build Node.js apps like React frontend:
 
 ```ts
 import { NodejsBuild } from 'deploy-time-build';
@@ -69,6 +69,22 @@ Then, the extracted directories will be located as the following:
 You can also override the path where assets are extracted by `extractPath` property for each asset.
 
 Please also check [the example directory](./example/) for a complete example. 
+
+### Build SOCI index for a container image
+[Seekable OCI (SOCI)](https://docs.aws.amazon.com/AmazonECS/latest/userguide/container-considerations.html) is a way to help start tasks faster for Amazon ECS tasks on Fargate 1.4.0. You can build and push a SOCI index to use the feature by the following CDK code:
+
+```ts
+import { SociIndexBuild } from 'deploy-time-build;
+
+const asset = new DockerImageAsset(this, 'Image', { directory: 'example-image' });
+new SociIndexBuild(this, 'Index', { imageTag: asset.assetHash, repository: asset.repository });
+// or using a utility method
+SociIndexBuild.fromImageAsset(this, 'Index', asset);
+
+// Use the asset for ECS Fargate tasks
+import { AssetImage } from 'aws-cdk-lib/aws-ecs';
+const assetImage = AssetImage.fromDockerImageAsset(asset);
+```
 
 ## Motivation - why do we need this construct?
 Previously, there are a few different ways to deploy frontend applications from CDK (1 and 2 below). But none is perfect with different pros and cons. This construct adds another option to deploy frontend apps.
