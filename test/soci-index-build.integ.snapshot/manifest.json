@@ -1,0 +1,139 @@
+{
+  "version": "20.0.0",
+  "artifacts": {
+    "Tree": {
+      "type": "cdk:tree",
+      "properties": {
+        "file": "tree.json"
+      }
+    },
+    "SociIndexBuildIntegTest": {
+      "type": "aws:cloudformation:stack",
+      "environment": "aws://unknown-account/unknown-region",
+      "properties": {
+        "templateFile": "SociIndexBuildIntegTest.template.json",
+        "validateOnSynth": false
+      },
+      "metadata": {
+        "/SociIndexBuildIntegTest": [
+          {
+            "type": "aws:cdk:asset",
+            "data": {
+              "repositoryName": "aws-cdk/assets",
+              "imageTag": "47892ef0b0672c9b0d3a89eec073d382c4c3599f8d9f2993f6b675116886bdc2",
+              "id": "47892ef0b0672c9b0d3a89eec073d382c4c3599f8d9f2993f6b675116886bdc2",
+              "packaging": "container-image",
+              "path": "asset.47892ef0b0672c9b0d3a89eec073d382c4c3599f8d9f2993f6b675116886bdc2",
+              "sourceHash": "47892ef0b0672c9b0d3a89eec073d382c4c3599f8d9f2993f6b675116886bdc2",
+              "buildArgs": {
+                "DUMMY_FILE_SIZE_MB": "10"
+              }
+            }
+          },
+          {
+            "type": "aws:cdk:asset",
+            "data": {
+              "path": "asset.b49cc8147b0bf86afefc1c551a4b5cf9165167cf31a5d50e4bf169f944f6a363",
+              "id": "b49cc8147b0bf86afefc1c551a4b5cf9165167cf31a5d50e4bf169f944f6a363",
+              "packaging": "zip",
+              "sourceHash": "b49cc8147b0bf86afefc1c551a4b5cf9165167cf31a5d50e4bf169f944f6a363",
+              "s3BucketParameter": "AssetParametersb49cc8147b0bf86afefc1c551a4b5cf9165167cf31a5d50e4bf169f944f6a363S3BucketF9CF99E8",
+              "s3KeyParameter": "AssetParametersb49cc8147b0bf86afefc1c551a4b5cf9165167cf31a5d50e4bf169f944f6a363S3VersionKey6F0A4034",
+              "artifactHashParameter": "AssetParametersb49cc8147b0bf86afefc1c551a4b5cf9165167cf31a5d50e4bf169f944f6a363ArtifactHash63F36728"
+            }
+          },
+          {
+            "type": "aws:cdk:asset",
+            "data": {
+              "repositoryName": "aws-cdk/assets",
+              "imageTag": "3c364bb3b8fa32d39d28ce9761167263caf815b0bafa3d674aa36fd51e76adf2",
+              "id": "3c364bb3b8fa32d39d28ce9761167263caf815b0bafa3d674aa36fd51e76adf2",
+              "packaging": "container-image",
+              "path": "asset.3c364bb3b8fa32d39d28ce9761167263caf815b0bafa3d674aa36fd51e76adf2",
+              "sourceHash": "3c364bb3b8fa32d39d28ce9761167263caf815b0bafa3d674aa36fd51e76adf2",
+              "buildArgs": {
+                "DUMMY_FILE_SIZE_MB": "500"
+              }
+            }
+          }
+        ],
+        "/SociIndexBuildIntegTest/Image1/Index/Resource/Default": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "Image1Index415B9527"
+          }
+        ],
+        "/SociIndexBuildIntegTest/DeployTimeBuildCustomResourceHandlerdb740fd554364a848a09e6dfcd01f4f3/ServiceRole/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "DeployTimeBuildCustomResourceHandlerdb740fd554364a848a09e6dfcd01f4f3ServiceRoleB008BAA4"
+          }
+        ],
+        "/SociIndexBuildIntegTest/DeployTimeBuildCustomResourceHandlerdb740fd554364a848a09e6dfcd01f4f3/ServiceRole/DefaultPolicy/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "DeployTimeBuildCustomResourceHandlerdb740fd554364a848a09e6dfcd01f4f3ServiceRoleDefaultPolicyFECC51DC"
+          }
+        ],
+        "/SociIndexBuildIntegTest/DeployTimeBuildCustomResourceHandlerdb740fd554364a848a09e6dfcd01f4f3/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "DeployTimeBuildCustomResourceHandlerdb740fd554364a848a09e6dfcd01f4f306AEFF37"
+          }
+        ],
+        "/SociIndexBuildIntegTest/AssetParameters/b49cc8147b0bf86afefc1c551a4b5cf9165167cf31a5d50e4bf169f944f6a363/S3Bucket": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "AssetParametersb49cc8147b0bf86afefc1c551a4b5cf9165167cf31a5d50e4bf169f944f6a363S3BucketF9CF99E8"
+          }
+        ],
+        "/SociIndexBuildIntegTest/AssetParameters/b49cc8147b0bf86afefc1c551a4b5cf9165167cf31a5d50e4bf169f944f6a363/S3VersionKey": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "AssetParametersb49cc8147b0bf86afefc1c551a4b5cf9165167cf31a5d50e4bf169f944f6a363S3VersionKey6F0A4034"
+          }
+        ],
+        "/SociIndexBuildIntegTest/AssetParameters/b49cc8147b0bf86afefc1c551a4b5cf9165167cf31a5d50e4bf169f944f6a363/ArtifactHash": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "AssetParametersb49cc8147b0bf86afefc1c551a4b5cf9165167cf31a5d50e4bf169f944f6a363ArtifactHash63F36728"
+          }
+        ],
+        "/SociIndexBuildIntegTest/SociIndexBuild024cf76a10034aa4aa4b12c32c09ca3c/Role/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "SociIndexBuild024cf76a10034aa4aa4b12c32c09ca3cRole33DABF16"
+          }
+        ],
+        "/SociIndexBuildIntegTest/SociIndexBuild024cf76a10034aa4aa4b12c32c09ca3c/Role/DefaultPolicy/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "SociIndexBuild024cf76a10034aa4aa4b12c32c09ca3cRoleDefaultPolicyC13902A7"
+          }
+        ],
+        "/SociIndexBuildIntegTest/SociIndexBuild024cf76a10034aa4aa4b12c32c09ca3c/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "SociIndexBuild024cf76a10034aa4aa4b12c32c09ca3cFF24E8AD"
+          }
+        ],
+        "/SociIndexBuildIntegTest/Image2/Index/Resource/Default": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "Image2Index42EE498C"
+          }
+        ]
+      },
+      "displayName": "SociIndexBuildIntegTest"
+    },
+    "TestDefaultTestDeployAssert12909640": {
+      "type": "aws:cloudformation:stack",
+      "environment": "aws://unknown-account/unknown-region",
+      "properties": {
+        "templateFile": "TestDefaultTestDeployAssert12909640.template.json",
+        "validateOnSynth": false
+      },
+      "displayName": "Test/DefaultTest/DeployAssert"
+    }
+  }
+}

@@ -88,7 +88,7 @@
       "steps": [
         {
           "exec": "npm ci && npm run build",
-          "cwd": "lambda/nodejs-build"
+          "cwd": "lambda/trigger-codebuild"
         },
         {
           "exec": "jsii --silence-warnings=reserved-word"

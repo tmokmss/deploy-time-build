@@ -101,6 +101,134 @@ The tree node.
 ---
 
 
+### SociIndexBuild <a name="SociIndexBuild" id="deploy-time-build.SociIndexBuild"></a>
+
+#### Initializers <a name="Initializers" id="deploy-time-build.SociIndexBuild.Initializer"></a>
+
+```typescript
+import { SociIndexBuild } from 'deploy-time-build'
+
+new SociIndexBuild(scope: Construct, id: string, props: SociIndexBuildProps)
+```
+
+| **Name** | **Type** | **Description** |
+| --- | --- | --- |
+| <code><a href="#deploy-time-build.SociIndexBuild.Initializer.parameter.scope">scope</a></code> | <code>constructs.Construct</code> | *No description.* |
+| <code><a href="#deploy-time-build.SociIndexBuild.Initializer.parameter.id">id</a></code> | <code>string</code> | *No description.* |
+| <code><a href="#deploy-time-build.SociIndexBuild.Initializer.parameter.props">props</a></code> | <code><a href="#deploy-time-build.SociIndexBuildProps">SociIndexBuildProps</a></code> | *No description.* |
+
+---
+
+##### `scope`<sup>Required</sup> <a name="scope" id="deploy-time-build.SociIndexBuild.Initializer.parameter.scope"></a>
+
+- *Type:* constructs.Construct
+
+---
+
+##### `id`<sup>Required</sup> <a name="id" id="deploy-time-build.SociIndexBuild.Initializer.parameter.id"></a>
+
+- *Type:* string
+
+---
+
+##### `props`<sup>Required</sup> <a name="props" id="deploy-time-build.SociIndexBuild.Initializer.parameter.props"></a>
+
+- *Type:* <a href="#deploy-time-build.SociIndexBuildProps">SociIndexBuildProps</a>
+
+---
+
+#### Methods <a name="Methods" id="Methods"></a>
+
+| **Name** | **Description** |
+| --- | --- |
+| <code><a href="#deploy-time-build.SociIndexBuild.toString">toString</a></code> | Returns a string representation of this construct. |
+
+---
+
+##### `toString` <a name="toString" id="deploy-time-build.SociIndexBuild.toString"></a>
+
+```typescript
+public toString(): string
+```
+
+Returns a string representation of this construct.
+
+#### Static Functions <a name="Static Functions" id="Static Functions"></a>
+
+| **Name** | **Description** |
+| --- | --- |
+| <code><a href="#deploy-time-build.SociIndexBuild.isConstruct">isConstruct</a></code> | Checks if `x` is a construct. |
+| <code><a href="#deploy-time-build.SociIndexBuild.fromImageAsset">fromImageAsset</a></code> | A utility method to create a SociIndexBuild construct from a DockerImageAsset instance. |
+
+---
+
+##### ~~`isConstruct`~~ <a name="isConstruct" id="deploy-time-build.SociIndexBuild.isConstruct"></a>
+
+```typescript
+import { SociIndexBuild } from 'deploy-time-build'
+
+SociIndexBuild.isConstruct(x: any)
+```
+
+Checks if `x` is a construct.
+
+###### `x`<sup>Required</sup> <a name="x" id="deploy-time-build.SociIndexBuild.isConstruct.parameter.x"></a>
+
+- *Type:* any
+
+Any object.
+
+---
+
+##### `fromImageAsset` <a name="fromImageAsset" id="deploy-time-build.SociIndexBuild.fromImageAsset"></a>
+
+```typescript
+import { SociIndexBuild } from 'deploy-time-build'
+
+SociIndexBuild.fromImageAsset(scope: Construct, id: string, imageAsset: DockerImageAsset)
+```
+
+A utility method to create a SociIndexBuild construct from a DockerImageAsset instance.
+
+###### `scope`<sup>Required</sup> <a name="scope" id="deploy-time-build.SociIndexBuild.fromImageAsset.parameter.scope"></a>
+
+- *Type:* constructs.Construct
+
+---
+
+###### `id`<sup>Required</sup> <a name="id" id="deploy-time-build.SociIndexBuild.fromImageAsset.parameter.id"></a>
+
+- *Type:* string
+
+---
+
+###### `imageAsset`<sup>Required</sup> <a name="imageAsset" id="deploy-time-build.SociIndexBuild.fromImageAsset.parameter.imageAsset"></a>
+
+- *Type:* aws-cdk-lib.aws_ecr_assets.DockerImageAsset
+
+---
+
+#### Properties <a name="Properties" id="Properties"></a>
+
+| **Name** | **Type** | **Description** |
+| --- | --- | --- |
+| <code><a href="#deploy-time-build.SociIndexBuild.property.node">node</a></code> | <code>constructs.Node</code> | The tree node. |
+
+---
+
+##### `node`<sup>Required</sup> <a name="node" id="deploy-time-build.SociIndexBuild.property.node"></a>
+
+```typescript
+public readonly node: Node;
+```
+
+- *Type:* constructs.Node
+
+The tree node.
+
+---
+
+
 ## Structs <a name="Structs" id="Structs"></a>
 
 ### AssetConfig <a name="AssetConfig" id="deploy-time-build.AssetConfig"></a>
@@ -430,6 +558,52 @@ public readonly workingDirectory: string;
 - *Default:* assetProps[0].extractPath
 
 Relative path from the build directory to the directory where build commands run.
+
+---
+
+### SociIndexBuildProps <a name="SociIndexBuildProps" id="deploy-time-build.SociIndexBuildProps"></a>
+
+#### Initializer <a name="Initializer" id="deploy-time-build.SociIndexBuildProps.Initializer"></a>
+
+```typescript
+import { SociIndexBuildProps } from 'deploy-time-build'
+
+const sociIndexBuildProps: SociIndexBuildProps = { ... }
+```
+
+#### Properties <a name="Properties" id="Properties"></a>
+
+| **Name** | **Type** | **Description** |
+| --- | --- | --- |
+| <code><a href="#deploy-time-build.SociIndexBuildProps.property.imageTag">imageTag</a></code> | <code>string</code> | The tag of the container image you want to build index for. |
+| <code><a href="#deploy-time-build.SociIndexBuildProps.property.repository">repository</a></code> | <code>aws-cdk-lib.aws_ecr.IRepository</code> | The ECR repository your container image is stored. |
+
+---
+
+##### `imageTag`<sup>Required</sup> <a name="imageTag" id="deploy-time-build.SociIndexBuildProps.property.imageTag"></a>
+
+```typescript
+public readonly imageTag: string;
+```
+
+- *Type:* string
+
+The tag of the container image you want to build index for.
+
+---
+
+##### `repository`<sup>Required</sup> <a name="repository" id="deploy-time-build.SociIndexBuildProps.property.repository"></a>
+
+```typescript
+public readonly repository: IRepository;
+```
+
+- *Type:* aws-cdk-lib.aws_ecr.IRepository
+
+The ECR repository your container image is stored.
+
+You can only specify a repository in the same environment (account/region).
+The index artifact will be uploaded to this repository.
 
 ---
 

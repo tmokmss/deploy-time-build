@@ -1,4 +1,7 @@
-export type ResourceProperties = {
+export type ResourceProperties = NodejsBuildResourceProps | SociIndexBuildResourceProps;
+
+export type NodejsBuildResourceProps = {
+  type: 'NodejsBuild';
   sources: {
     sourceBucketName: string;
     sourceObjectKey: string;
@@ -11,5 +14,12 @@ export type ResourceProperties = {
   workingDirectory: string;
   outputSourceDirectory: string;
   buildCommands: string[];
+  codeBuildProjectName: string;
+};
+
+export type SociIndexBuildResourceProps = {
+  type: 'SociIndexBuild';
+  repositoryName: string;
+  imageTag: string;
   codeBuildProjectName: string;
 };
