@@ -1,11 +1,12 @@
 import { Stack, StackProps, App, RemovalPolicy, CfnOutput } from 'aws-cdk-lib';
 import { Construct } from 'constructs';
 import { MockIntegration, RestApi } from 'aws-cdk-lib/aws-apigateway';
-import { NodejsBuild } from '../src/nodejs-build';
+import { NodejsBuild, SociIndexBuild } from '../src/';
 import { BlockPublicAccess, Bucket, BucketEncryption } from 'aws-cdk-lib/aws-s3';
 import { OriginAccessIdentity, CloudFrontWebDistribution } from 'aws-cdk-lib/aws-cloudfront';
+import { DockerImageAsset } from 'aws-cdk-lib/aws-ecr-assets';
 
-class TestStack extends Stack {
+class NodejsTestStack extends Stack {
   constructor(scope: Construct, id: string, props: StackProps = {}) {
     super(scope, id, props);
 
@@ -74,11 +75,22 @@ class TestStack extends Stack {
   }
 }
 
+class SociIndexTestStack extends Stack {
+  constructor(scope: Construct, id: string, props: StackProps = {}) {
+    super(scope, id, props);
+
+    const asset = new DockerImageAsset(this, 'Image', { directory: 'example-image' });
+
+    new SociIndexBuild(this, 'Index', { imageTag: asset.assetHash, repository: asset.repository });
+  }
+}
+
 class TestApp extends App {
   constructor() {
     super();
 
-    new TestStack(this, 'TestStack');
+    new NodejsTestStack(this, 'NodejsTestStack');
+    new SociIndexTestStack(this, 'SociIndexTestStack');
   }
 }
 

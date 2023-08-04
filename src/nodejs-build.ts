@@ -1,6 +1,6 @@
 import { createHash } from 'crypto';
 import { posix, join, basename } from 'path';
-import { Annotations, CfnResource, CustomResource, Duration } from 'aws-cdk-lib';
+import { Annotations, CustomResource, Duration } from 'aws-cdk-lib';
 import { IDistribution } from 'aws-cdk-lib/aws-cloudfront';
 import { BuildSpec, LinuxBuildImage, Project } from 'aws-cdk-lib/aws-codebuild';
 import { PolicyStatement } from 'aws-cdk-lib/aws-iam';
@@ -9,7 +9,7 @@ import { IBucket } from 'aws-cdk-lib/aws-s3';
 import { Asset, AssetProps } from 'aws-cdk-lib/aws-s3-assets';
 import { BucketDeployment, Source } from 'aws-cdk-lib/aws-s3-deployment';
 import { Construct } from 'constructs';
-import { ResourceProperties } from './types';
+import { NodejsBuildResourceProps } from './types';
 
 export interface AssetConfig extends AssetProps {
   /**
@@ -79,7 +79,7 @@ export class NodejsBuild extends Construct {
     const handler = new SingletonFunction(this, 'CustomResourceHandler', {
       // Use raw string to avoid from tightening CDK version requirement
       runtime: new Runtime('nodejs18.x', RuntimeFamily.NODEJS),
-      code: Code.fromAsset(join(__dirname, '../lambda/nodejs-build/dist')),
+      code: Code.fromAsset(join(__dirname, '../lambda/trigger-codebuild/dist')),
       handler: 'index.handler',
       uuid: '25648b21-2c40-4f09-aa65-b6bbb0c44659', // generated for this construct
       lambdaPurpose: 'NodejsBuildCustomResourceHandler',
@@ -105,7 +105,7 @@ export class NodejsBuild extends Construct {
     }
 
     const project = new Project(this, 'Project', {
-      environment: { buildImage: LinuxBuildImage.STANDARD_6_0 },
+      environment: { buildImage: LinuxBuildImage.fromCodeBuildImageId(buildImage) },
       buildSpec: BuildSpec.fromObject({
         version: '0.2',
         phases: {
@@ -184,8 +184,6 @@ curl -vv -i -X PUT -H 'Content-Type:' -d "@payload.json" "$responseURL"
       }),
     });
 
-    (project.node.defaultChild as CfnResource).addPropertyOverride('Environment.Image', buildImage);
-
     handler.addToRolePolicy(
       new PolicyStatement({
         actions: ['codebuild:StartBuild'],
@@ -211,14 +209,15 @@ curl -vv -i -X PUT -H 'Content-Type:' -d "@payload.json" "$responseURL"
     const bucket = assets[0].bucket;
     bucket.grantWrite(project);
 
-    const sources: ResourceProperties['sources'] = props.assets.map((s, i) => ({
+    const sources: NodejsBuildResourceProps['sources'] = props.assets.map((s, i) => ({
       sourceBucketName: assets[i].s3BucketName,
       sourceObjectKey: assets[i].s3ObjectKey,
       extractPath: s.extractPath ?? basename(s.path),
       commands: s.commands,
     }));
 
-    const properties: ResourceProperties = {
+    const properties: NodejsBuildResourceProps = {
+      type: 'NodejsBuild',
       sources,
       destinationBucketName: bucket.bucketName,
       destinationObjectKey: `${assetHash}.zip`,

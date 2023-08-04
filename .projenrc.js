@@ -22,7 +22,7 @@ const project = new awscdk.AwsCdkConstructLibrary({
 });
 // Bundle custom resource handler Lambda code
 project.projectBuild.compileTask.prependExec('npm ci && npm run build', {
-  cwd: 'lambda/nodejs-build',
+  cwd: 'lambda/trigger-codebuild',
 });
 // Run integ-test
 project.projectBuild.testTask.exec('yarn tsc -p tsconfig.dev.json && yarn integ-runner');
