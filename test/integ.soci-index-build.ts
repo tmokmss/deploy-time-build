@@ -26,7 +26,7 @@ class TestStack extends Stack {
         directory: '../example/example-image',
         buildArgs: { DUMMY_FILE_SIZE_MB: '500' },
       });
-      SociIndexBuild.fromImageAsset(parent, 'Index', asset);
+      SociIndexBuild.fromDockerImageAsset(parent, 'Index', asset);
     }
   }
 }

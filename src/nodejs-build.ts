@@ -72,6 +72,10 @@ export interface NodejsBuildProps {
   readonly nodejsVersion?: number;
 }
 
+
+/**
+ * Build Node.js app and optionally publish the artifact to an S3 bucket.
+ */
 export class NodejsBuild extends Construct {
   constructor(scope: Construct, id: string, props: NodejsBuildProps) {
     super(scope, id);

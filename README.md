@@ -79,7 +79,7 @@ import { SociIndexBuild } from 'deploy-time-build;
 const asset = new DockerImageAsset(this, 'Image', { directory: 'example-image' });
 new SociIndexBuild(this, 'Index', { imageTag: asset.assetHash, repository: asset.repository });
 // or using a utility method
-SociIndexBuild.fromImageAsset(this, 'Index', asset);
+SociIndexBuild.fromDockerImageAsset(this, 'Index2', asset);
 
 // Use the asset for ECS Fargate tasks
 import { AssetImage } from 'aws-cdk-lib/aws-ecs';

@@ -4,6 +4,8 @@
 
 ### NodejsBuild <a name="NodejsBuild" id="deploy-time-build.NodejsBuild"></a>
 
+Build Node.js app and optionally publish the artifact to an S3 bucket.
+
 #### Initializers <a name="Initializers" id="deploy-time-build.NodejsBuild.Initializer"></a>
 
 ```typescript
@@ -103,6 +105,11 @@ The tree node.
 
 ### SociIndexBuild <a name="SociIndexBuild" id="deploy-time-build.SociIndexBuild"></a>
 
+Build and publish a SOCI index for a container image.
+
+A SOCI index helps start Fargate tasks faster in some cases.
+Please read the following document for more details: https://docs.aws.amazon.com/AmazonECS/latest/userguide/container-considerations.html
+
 #### Initializers <a name="Initializers" id="deploy-time-build.SociIndexBuild.Initializer"></a>
 
 ```typescript
@@ -158,7 +165,7 @@ Returns a string representation of this construct.
 | **Name** | **Description** |
 | --- | --- |
 | <code><a href="#deploy-time-build.SociIndexBuild.isConstruct">isConstruct</a></code> | Checks if `x` is a construct. |
-| <code><a href="#deploy-time-build.SociIndexBuild.fromImageAsset">fromImageAsset</a></code> | A utility method to create a SociIndexBuild construct from a DockerImageAsset instance. |
+| <code><a href="#deploy-time-build.SociIndexBuild.fromDockerImageAsset">fromDockerImageAsset</a></code> | A utility method to create a SociIndexBuild construct from a DockerImageAsset instance. |
 
 ---
 
@@ -180,29 +187,29 @@ Any object.
 
 ---
 
-##### `fromImageAsset` <a name="fromImageAsset" id="deploy-time-build.SociIndexBuild.fromImageAsset"></a>
+##### `fromDockerImageAsset` <a name="fromDockerImageAsset" id="deploy-time-build.SociIndexBuild.fromDockerImageAsset"></a>
 
 ```typescript
 import { SociIndexBuild } from 'deploy-time-build'
 
-SociIndexBuild.fromImageAsset(scope: Construct, id: string, imageAsset: DockerImageAsset)
+SociIndexBuild.fromDockerImageAsset(scope: Construct, id: string, imageAsset: DockerImageAsset)
 ```
 
 A utility method to create a SociIndexBuild construct from a DockerImageAsset instance.
 
-###### `scope`<sup>Required</sup> <a name="scope" id="deploy-time-build.SociIndexBuild.fromImageAsset.parameter.scope"></a>
+###### `scope`<sup>Required</sup> <a name="scope" id="deploy-time-build.SociIndexBuild.fromDockerImageAsset.parameter.scope"></a>
 
 - *Type:* constructs.Construct
 
 ---
 
-###### `id`<sup>Required</sup> <a name="id" id="deploy-time-build.SociIndexBuild.fromImageAsset.parameter.id"></a>
+###### `id`<sup>Required</sup> <a name="id" id="deploy-time-build.SociIndexBuild.fromDockerImageAsset.parameter.id"></a>
 
 - *Type:* string
 
 ---
 
-###### `imageAsset`<sup>Required</sup> <a name="imageAsset" id="deploy-time-build.SociIndexBuild.fromImageAsset.parameter.imageAsset"></a>
+###### `imageAsset`<sup>Required</sup> <a name="imageAsset" id="deploy-time-build.SociIndexBuild.fromDockerImageAsset.parameter.imageAsset"></a>
 
 - *Type:* aws-cdk-lib.aws_ecr_assets.DockerImageAsset
 

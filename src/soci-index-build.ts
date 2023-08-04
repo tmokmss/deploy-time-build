@@ -23,11 +23,16 @@ export interface SociIndexBuildProps {
   readonly imageTag: string;
 }
 
+/**
+ * Build and publish a SOCI index for a container image.
+ * A SOCI index helps start Fargate tasks faster in some cases.
+ * Please read the following document for more details: https://docs.aws.amazon.com/AmazonECS/latest/userguide/container-considerations.html
+ */
 export class SociIndexBuild extends Construct {
   /**
    * A utility method to create a SociIndexBuild construct from a DockerImageAsset instance.
    */
-  public static fromImageAsset(scope: Construct, id: string, imageAsset: DockerImageAsset) {
+  public static fromDockerImageAsset(scope: Construct, id: string, imageAsset: DockerImageAsset) {
     return new SociIndexBuild(scope, id, {
       repository: imageAsset.repository,
       imageTag: imageAsset.assetHash,
