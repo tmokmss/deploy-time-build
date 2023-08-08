@@ -86,7 +86,11 @@ import { AssetImage } from 'aws-cdk-lib/aws-ecs';
 const assetImage = AssetImage.fromDockerImageAsset(asset);
 ```
 
-## Motivation - why do we need this construct?
+The below image is the architecture for `SociIndexBuild` construct. We currently use [`soci-wrapper`](https://github.com/tmokmss/soci-wrapper) to build and push SOCI indices.
+
+![soci-architecture](imgs/soci-architecture.png)
+
+## Motivation - why do we need the `NodejsBuild` construct?
 Previously, there are a few different ways to deploy frontend applications from CDK (1 and 2 below). But none is perfect with different pros and cons. This construct adds another option to deploy frontend apps.
 
 ### 1. Deploy depending resources first, then build a frontend app and deploy it separately
