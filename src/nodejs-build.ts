@@ -3,7 +3,7 @@ import { posix, join, basename } from 'path';
 import { Annotations, CustomResource, Duration } from 'aws-cdk-lib';
 import { IDistribution } from 'aws-cdk-lib/aws-cloudfront';
 import { BuildSpec, LinuxBuildImage, Project } from 'aws-cdk-lib/aws-codebuild';
-import { PolicyStatement } from 'aws-cdk-lib/aws-iam';
+import { IGrantable, IPrincipal, PolicyStatement } from 'aws-cdk-lib/aws-iam';
 import { Code, Runtime, RuntimeFamily, SingletonFunction } from 'aws-cdk-lib/aws-lambda';
 import { IBucket } from 'aws-cdk-lib/aws-s3';
 import { Asset, AssetProps } from 'aws-cdk-lib/aws-s3-assets';
@@ -72,11 +72,12 @@ export interface NodejsBuildProps {
   readonly nodejsVersion?: number;
 }
 
-
 /**
  * Build Node.js app and optionally publish the artifact to an S3 bucket.
  */
-export class NodejsBuild extends Construct {
+export class NodejsBuild extends Construct implements IGrantable {
+  public readonly grantPrincipal: IPrincipal;
+
   constructor(scope: Construct, id: string, props: NodejsBuildProps) {
     super(scope, id);
 
@@ -194,6 +195,8 @@ curl -vv -i -X PUT -H 'Content-Type:' -d "@payload.json" "$responseURL"
         resources: [project.projectArn],
       }),
     );
+
+    this.grantPrincipal = project.grantPrincipal;
 
     let assetHash = 'nodejsBuild';
     const assets = props.assets.map((assetProps) => {

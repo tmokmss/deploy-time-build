@@ -70,6 +70,22 @@ You can also override the path where assets are extracted by `extractPath` prope
 
 Please also check [the example directory](./example/) for a complete example. 
 
+#### Allowing access from the build environment to other AWS resources
+Since `NodejsBuild` construct implements [`iam.IGrantable`](https://docs.aws.amazon.com/cdk/api/v2/docs/aws-cdk-lib.aws_iam.IGrantable.html) interface, you can use `grant*` method of other constructs to allow access from the build environment.
+
+```ts
+declare const someBucket: s3.IBucket;
+declare const build: NodejsBuild;
+someBucket.grantReadWrite(build);
+```
+
+You can also use [`iam.Grant`](https://docs.aws.amazon.com/cdk/api/v2/docs/aws-cdk-lib.aws_iam.Grant.html) class to allow any actions and resources.
+
+```ts
+declare const build: NodejsBuild;
+iam.Grant.addToPrincipal({ grantee: build, actions: ['s3:ListBucket'], resources:['*'] })
+```
+
 ### Build SOCI index for a container image
 [Seekable OCI (SOCI)](https://docs.aws.amazon.com/AmazonECS/latest/userguide/container-considerations.html) is a way to help start tasks faster for Amazon ECS tasks on Fargate 1.4.0. You can build and push a SOCI index to use the feature by the following CDK code:
 

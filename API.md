@@ -4,6 +4,8 @@
 
 ### NodejsBuild <a name="NodejsBuild" id="deploy-time-build.NodejsBuild"></a>
 
+- *Implements:* aws-cdk-lib.aws_iam.IGrantable
+
 Build Node.js app and optionally publish the artifact to an S3 bucket.
 
 #### Initializers <a name="Initializers" id="deploy-time-build.NodejsBuild.Initializer"></a>
@@ -87,6 +89,7 @@ Any object.
 | **Name** | **Type** | **Description** |
 | --- | --- | --- |
 | <code><a href="#deploy-time-build.NodejsBuild.property.node">node</a></code> | <code>constructs.Node</code> | The tree node. |
+| <code><a href="#deploy-time-build.NodejsBuild.property.grantPrincipal">grantPrincipal</a></code> | <code>aws-cdk-lib.aws_iam.IPrincipal</code> | The principal to grant permissions to. |
 
 ---
 
@@ -99,6 +102,18 @@ public readonly node: Node;
 - *Type:* constructs.Node
 
 The tree node.
+
+---
+
+##### `grantPrincipal`<sup>Required</sup> <a name="grantPrincipal" id="deploy-time-build.NodejsBuild.property.grantPrincipal"></a>
+
+```typescript
+public readonly grantPrincipal: IPrincipal;
+```
+
+- *Type:* aws-cdk-lib.aws_iam.IPrincipal
+
+The principal to grant permissions to.
 
 ---
 
