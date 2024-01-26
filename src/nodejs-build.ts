@@ -1,4 +1,3 @@
-import { createHash } from 'crypto';
 import { posix, join, basename } from 'path';
 import { Annotations, CustomResource, Duration } from 'aws-cdk-lib';
 import { IDistribution } from 'aws-cdk-lib/aws-cloudfront';
@@ -204,19 +203,13 @@ curl -v -i -X PUT -H 'Content-Type:' -d "@payload.json" "$responseURL"
 
     this.grantPrincipal = project.grantPrincipal;
 
-    let assetHash = 'nodejsBuild';
     const assets = props.assets.map((assetProps) => {
       const asset = new Asset(this, `Source-${assetProps.path.replace('/', '')}`, {
         ...assetProps,
       });
-      assetHash += asset.assetHash;
       asset.grantRead(project);
       return asset;
     });
-
-    // generate a new asset hash that includes all the assets specified.
-    const md5 = createHash('md5');
-    assetHash = md5.update(assetHash).digest('hex');
 
     // use the asset bucket that are created by CDK bootstrap to store intermediate artifacts
     const bucket = assets[0].bucket;
