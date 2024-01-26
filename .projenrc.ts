@@ -1,21 +1,23 @@
-const { awscdk } = require('projen');
+import { awscdk } from 'projen';
+
 const project = new awscdk.AwsCdkConstructLibrary({
+  projenrcTs: true,
   author: 'tmokmss',
   authorAddress: 'tomookam@live.jp',
-  cdkVersion: '2.38.0',  // For using @aws-cdk/integ-runner
+  cdkVersion: '2.38.0', // For using @aws-cdk/integ-runner
   defaultReleaseBranch: 'main',
   name: 'deploy-time-build',
   license: 'MIT',
   repositoryUrl: 'https://github.com/tmokmss/deploy-time-build.git',
   eslintOptions: {
+    dirs: [],
     ignorePatterns: ['example/**/*', 'lambda/**/*', 'test/assets/**/*', 'test/*.snapshot/**/*', '*.d.ts'],
   },
-  gitignore: [
-    '*.js', '*.d.ts', '!test/*.integ.snapshot/**/*'
-  ],
+  gitignore: ['*.js', '*.d.ts', '!test/*.integ.snapshot/**/*'],
   keywords: ['aws', 'cdk', 'lambda', 'aws-cdk'],
   tsconfigDev: {
-    exclude: ['example', 'test/*.integ.snapshot']
+    compilerOptions: {},
+    exclude: ['example', 'test/*.integ.snapshot'],
   },
   devDeps: ['@aws-cdk/integ-runner@2.38.0', '@aws-cdk/integ-tests-alpha@2.38.0-alpha.0'],
   description: 'Build your frontend apps during CDK deployment!',
