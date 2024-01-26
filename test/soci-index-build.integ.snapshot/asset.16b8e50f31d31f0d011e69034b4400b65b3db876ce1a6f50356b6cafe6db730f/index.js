@@ -1,6 +1,8 @@
+var __create = Object.create;
 var __defProp = Object.defineProperty;
 var __getOwnPropDesc = Object.getOwnPropertyDescriptor;
 var __getOwnPropNames = Object.getOwnPropertyNames;
+var __getProtoOf = Object.getPrototypeOf;
 var __hasOwnProp = Object.prototype.hasOwnProperty;
 var __export = (target, all) => {
   for (var name in all)
@@ -14,6 +16,7 @@ var __copyProps = (to, from, except, desc) => {
   }
   return to;
 };
+var __toESM = (mod, isNodeMode, target) => (target = mod != null ? __create(__getProtoOf(mod)) : {}, __copyProps(isNodeMode || !mod || !mod.__esModule ? __defProp(target, "default", { value: mod, enumerable: true }) : target, mod));
 var __toCommonJS = (mod) => __copyProps(__defProp({}, "__esModule", { value: true }), mod);
 
 // index.ts
@@ -23,6 +26,7 @@ __export(trigger_codebuild_exports, {
 });
 module.exports = __toCommonJS(trigger_codebuild_exports);
 var import_client_codebuild = require("@aws-sdk/client-codebuild");
+var import_crypto = __toESM(require("crypto"));
 var cb = new import_client_codebuild.CodeBuildClient({});
 var handler = async (event, context) => {
   console.log(JSON.stringify(event));
@@ -53,7 +57,7 @@ var handler = async (event, context) => {
               },
               {
                 name: "destinationObjectKey",
-                value: props.destinationObjectKey
+                value: `${import_crypto.default.randomBytes(16).toString("hex")}.zip`
               },
               {
                 name: "workingDirectory",

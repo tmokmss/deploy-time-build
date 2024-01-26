@@ -223,13 +223,13 @@
                   "version": "10.0.5"
                 }
               },
-              "b49cc8147b0bf86afefc1c551a4b5cf9165167cf31a5d50e4bf169f944f6a363": {
-                "id": "b49cc8147b0bf86afefc1c551a4b5cf9165167cf31a5d50e4bf169f944f6a363",
-                "path": "NodejsBuildIntegTest/AssetParameters/b49cc8147b0bf86afefc1c551a4b5cf9165167cf31a5d50e4bf169f944f6a363",
+              "16b8e50f31d31f0d011e69034b4400b65b3db876ce1a6f50356b6cafe6db730f": {
+                "id": "16b8e50f31d31f0d011e69034b4400b65b3db876ce1a6f50356b6cafe6db730f",
+                "path": "NodejsBuildIntegTest/AssetParameters/16b8e50f31d31f0d011e69034b4400b65b3db876ce1a6f50356b6cafe6db730f",
                 "children": {
                   "S3Bucket": {
                     "id": "S3Bucket",
-                    "path": "NodejsBuildIntegTest/AssetParameters/b49cc8147b0bf86afefc1c551a4b5cf9165167cf31a5d50e4bf169f944f6a363/S3Bucket",
+                    "path": "NodejsBuildIntegTest/AssetParameters/16b8e50f31d31f0d011e69034b4400b65b3db876ce1a6f50356b6cafe6db730f/S3Bucket",
                     "constructInfo": {
                       "fqn": "aws-cdk-lib.CfnParameter",
                       "version": "2.38.0"
@@ -237,7 +237,7 @@
                   },
                   "S3VersionKey": {
                     "id": "S3VersionKey",
-                    "path": "NodejsBuildIntegTest/AssetParameters/b49cc8147b0bf86afefc1c551a4b5cf9165167cf31a5d50e4bf169f944f6a363/S3VersionKey",
+                    "path": "NodejsBuildIntegTest/AssetParameters/16b8e50f31d31f0d011e69034b4400b65b3db876ce1a6f50356b6cafe6db730f/S3VersionKey",
                     "constructInfo": {
                       "fqn": "aws-cdk-lib.CfnParameter",
                       "version": "2.38.0"
@@ -245,7 +245,7 @@
                   },
                   "ArtifactHash": {
                     "id": "ArtifactHash",
-                    "path": "NodejsBuildIntegTest/AssetParameters/b49cc8147b0bf86afefc1c551a4b5cf9165167cf31a5d50e4bf169f944f6a363/ArtifactHash",
+                    "path": "NodejsBuildIntegTest/AssetParameters/16b8e50f31d31f0d011e69034b4400b65b3db876ce1a6f50356b6cafe6db730f/ArtifactHash",
                     "constructInfo": {
                       "fqn": "aws-cdk-lib.CfnParameter",
                       "version": "2.38.0"
@@ -613,7 +613,7 @@
                         },
                         "source": {
                           "type": "NO_SOURCE",
-                          "buildSpec": "{\n  \"version\": \"0.2\",\n  \"phases\": {\n    \"install\": {\n      \"runtime-versions\": {\n        \"nodejs\": 20\n      }\n    },\n    \"build\": {\n      \"commands\": [\n        \"current_dir=$(pwd)\",\n        \"\\necho \\\"$input\\\"\\nfor obj in $(echo \\\"$input\\\" | jq -r '.[] | @base64'); do\\n  decoded=$(echo \\\"$obj\\\" | base64 --decode)\\n  assetUrl=$(echo \\\"$decoded\\\" | jq -r '.assetUrl')\\n  extractPath=$(echo \\\"$decoded\\\" | jq -r '.extractPath')\\n  commands=$(echo \\\"$decoded\\\" | jq -r '.commands')\\n\\n  # Download the zip file\\n  aws s3 cp \\\"$assetUrl\\\" temp.zip\\n\\n  # Extract the zip file to the extractPath directory\\n  mkdir -p \\\"$extractPath\\\"\\n  unzip temp.zip -d \\\"$extractPath\\\"\\n\\n  # Remove the zip file\\n  rm temp.zip\\n\\n  # Run the specified commands in the extractPath directory\\n  cd \\\"$extractPath\\\"\\n  ls -la\\n  eval \\\"$commands\\\"\\n  cd \\\"$current_dir\\\"\\n  ls -la\\ndone\\n              \",\n        \"ls -la\",\n        \"cd \\\"$workingDirectory\\\"\",\n        \"eval \\\"$buildCommands\\\"\",\n        \"ls -la\",\n        \"cd \\\"$current_dir\\\"\",\n        \"cd \\\"$outputSourceDirectory\\\"\",\n        \"zip -r output.zip ./\",\n        \"aws s3 cp output.zip \\\"s3://$destinationBucketName/$destinationObjectKey\\\"\"\n      ]\n    },\n    \"post_build\": {\n      \"commands\": [\n        \"echo Build completed on `date`\",\n        \"\\nSTATUS='SUCCESS'\\nif [ $CODEBUILD_BUILD_SUCCEEDING -ne 1 ] # Test if the build is failing\\nthen\\nSTATUS='FAILED'\\nREASON=\\\"NodejsBuild failed. See CloudWatch Log stream for the detailed reason: \\nhttps://$AWS_REGION.console.aws.amazon.com/cloudwatch/home?region=$AWS_REGION#logsV2:log-groups/log-group/\\\\$252Faws\\\\$252Fcodebuild\\\\$252F$projectName/log-events/$CODEBUILD_LOG_PATH\\\"\\nfi\\ncat <<EOF > payload.json\\n{\\n  \\\"StackId\\\": \\\"$stackId\\\",\\n  \\\"RequestId\\\": \\\"$requestId\\\",\\n  \\\"LogicalResourceId\\\":\\\"$logicalResourceId\\\",\\n  \\\"PhysicalResourceId\\\": \\\"$destinationObjectKey\\\",\\n  \\\"Status\\\": \\\"$STATUS\\\",\\n  \\\"Reason\\\": \\\"$REASON\\\"\\n}\\nEOF\\ncurl -vv -i -X PUT -H 'Content-Type:' -d \\\"@payload.json\\\" \\\"$responseURL\\\"\\n              \"\n      ]\n    }\n  }\n}"
+                          "buildSpec": "{\n  \"version\": \"0.2\",\n  \"phases\": {\n    \"install\": {\n      \"runtime-versions\": {\n        \"nodejs\": 20\n      }\n    },\n    \"build\": {\n      \"commands\": [\n        \"current_dir=$(pwd)\",\n        \"\\necho \\\"$input\\\"\\nfor obj in $(echo \\\"$input\\\" | jq -r '.[] | @base64'); do\\n  decoded=$(echo \\\"$obj\\\" | base64 --decode)\\n  assetUrl=$(echo \\\"$decoded\\\" | jq -r '.assetUrl')\\n  extractPath=$(echo \\\"$decoded\\\" | jq -r '.extractPath')\\n  commands=$(echo \\\"$decoded\\\" | jq -r '.commands')\\n\\n  # Download the zip file\\n  aws s3 cp \\\"$assetUrl\\\" temp.zip\\n\\n  # Extract the zip file to the extractPath directory\\n  mkdir -p \\\"$extractPath\\\"\\n  unzip temp.zip -d \\\"$extractPath\\\"\\n\\n  # Remove the zip file\\n  rm temp.zip\\n\\n  # Run the specified commands in the extractPath directory\\n  cd \\\"$extractPath\\\"\\n  ls -la\\n  eval \\\"$commands\\\"\\n  cd \\\"$current_dir\\\"\\n  ls -la\\ndone\\n              \",\n        \"ls -la\",\n        \"cd \\\"$workingDirectory\\\"\",\n        \"eval \\\"$buildCommands\\\"\",\n        \"ls -la\",\n        \"cd \\\"$current_dir\\\"\",\n        \"cd \\\"$outputSourceDirectory\\\"\",\n        \"zip -r output.zip ./\",\n        \"aws s3 cp output.zip \\\"s3://$destinationBucketName/$destinationObjectKey\\\"\"\n      ]\n    },\n    \"post_build\": {\n      \"commands\": [\n        \"echo Build completed on `date`\",\n        \"\\nSTATUS='SUCCESS'\\nif [ $CODEBUILD_BUILD_SUCCEEDING -ne 1 ] # Test if the build is failing\\nthen\\nSTATUS='FAILED'\\nREASON=\\\"NodejsBuild failed. See CloudWatch Log stream for the detailed reason: \\nhttps://$AWS_REGION.console.aws.amazon.com/cloudwatch/home?region=$AWS_REGION#logsV2:log-groups/log-group/\\\\$252Faws\\\\$252Fcodebuild\\\\$252F$projectName/log-events/$CODEBUILD_LOG_PATH\\\"\\nfi\\ncat <<EOF > payload.json\\n{\\n  \\\"StackId\\\": \\\"$stackId\\\",\\n  \\\"RequestId\\\": \\\"$requestId\\\",\\n  \\\"LogicalResourceId\\\":\\\"$logicalResourceId\\\",\\n  \\\"PhysicalResourceId\\\": \\\"$logicalResourceId\\\",\\n  \\\"Status\\\": \\\"$STATUS\\\",\\n  \\\"Reason\\\": \\\"$REASON\\\",\\n  \\\"Data\\\": {\\n    \\\"destinationObjectKey\\\": \\\"$destinationObjectKey\\\"\\n  }\\n}\\nEOF\\ncurl -v -i -X PUT -H 'Content-Type:' -d \\\"@payload.json\\\" \\\"$responseURL\\\"\\n              \"\n      ]\n    }\n  }\n}"
                         },
                         "cache": {
                           "type": "NO_CACHE"
@@ -937,7 +937,7 @@
                   "aws:cdk:cloudformation:props": {
                     "code": {
                       "s3Bucket": {
-                        "Ref": "AssetParametersb49cc8147b0bf86afefc1c551a4b5cf9165167cf31a5d50e4bf169f944f6a363S3BucketF9CF99E8"
+                        "Ref": "AssetParameters16b8e50f31d31f0d011e69034b4400b65b3db876ce1a6f50356b6cafe6db730fS3BucketE9994E97"
                       },
                       "s3Key": {
                         "Fn::Join": [
@@ -950,7 +950,7 @@
                                   "Fn::Split": [
                                     "||",
                                     {
-                                      "Ref": "AssetParametersb49cc8147b0bf86afefc1c551a4b5cf9165167cf31a5d50e4bf169f944f6a363S3VersionKey6F0A4034"
+                                      "Ref": "AssetParameters16b8e50f31d31f0d011e69034b4400b65b3db876ce1a6f50356b6cafe6db730fS3VersionKey0A39C10D"
                                     }
                                   ]
                                 }
@@ -963,7 +963,7 @@
                                   "Fn::Split": [
                                     "||",
                                     {
-                                      "Ref": "AssetParametersb49cc8147b0bf86afefc1c551a4b5cf9165167cf31a5d50e4bf169f944f6a363S3VersionKey6F0A4034"
+                                      "Ref": "AssetParameters16b8e50f31d31f0d011e69034b4400b65b3db876ce1a6f50356b6cafe6db730fS3VersionKey0A39C10D"
                                     }
                                   ]
                                 }
