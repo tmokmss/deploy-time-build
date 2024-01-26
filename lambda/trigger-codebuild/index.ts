@@ -1,5 +1,6 @@
 import { BatchGetBuildsCommand, CodeBuildClient, StartBuildCommand } from '@aws-sdk/client-codebuild';
 import type { ResourceProperties } from '../../src/types';
+import Crypto from 'crypto';
 
 const cb = new CodeBuildClient({});
 
@@ -46,7 +47,8 @@ export const handler = async (event: Event, context: any) => {
               },
               {
                 name: 'destinationObjectKey',
-                value: props.destinationObjectKey,
+                // This should be random to always trigger a BucketDeployment update process
+                value: `${Crypto.randomBytes(16).toString('hex')}.zip`,
               },
               {
                 name: 'workingDirectory',

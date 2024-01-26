@@ -227,7 +227,7 @@
                   "aws:cdk:cloudformation:props": {
                     "code": {
                       "s3Bucket": {
-                        "Ref": "AssetParametersb49cc8147b0bf86afefc1c551a4b5cf9165167cf31a5d50e4bf169f944f6a363S3BucketF9CF99E8"
+                        "Ref": "AssetParameters16b8e50f31d31f0d011e69034b4400b65b3db876ce1a6f50356b6cafe6db730fS3BucketE9994E97"
                       },
                       "s3Key": {
                         "Fn::Join": [
@@ -240,7 +240,7 @@
                                   "Fn::Split": [
                                     "||",
                                     {
-                                      "Ref": "AssetParametersb49cc8147b0bf86afefc1c551a4b5cf9165167cf31a5d50e4bf169f944f6a363S3VersionKey6F0A4034"
+                                      "Ref": "AssetParameters16b8e50f31d31f0d011e69034b4400b65b3db876ce1a6f50356b6cafe6db730fS3VersionKey0A39C10D"
                                     }
                                   ]
                                 }
@@ -253,7 +253,7 @@
                                   "Fn::Split": [
                                     "||",
                                     {
-                                      "Ref": "AssetParametersb49cc8147b0bf86afefc1c551a4b5cf9165167cf31a5d50e4bf169f944f6a363S3VersionKey6F0A4034"
+                                      "Ref": "AssetParameters16b8e50f31d31f0d011e69034b4400b65b3db876ce1a6f50356b6cafe6db730fS3VersionKey0A39C10D"
                                     }
                                   ]
                                 }
@@ -289,13 +289,13 @@
             "id": "AssetParameters",
             "path": "SociIndexBuildIntegTest/AssetParameters",
             "children": {
-              "b49cc8147b0bf86afefc1c551a4b5cf9165167cf31a5d50e4bf169f944f6a363": {
-                "id": "b49cc8147b0bf86afefc1c551a4b5cf9165167cf31a5d50e4bf169f944f6a363",
-                "path": "SociIndexBuildIntegTest/AssetParameters/b49cc8147b0bf86afefc1c551a4b5cf9165167cf31a5d50e4bf169f944f6a363",
+              "16b8e50f31d31f0d011e69034b4400b65b3db876ce1a6f50356b6cafe6db730f": {
+                "id": "16b8e50f31d31f0d011e69034b4400b65b3db876ce1a6f50356b6cafe6db730f",
+                "path": "SociIndexBuildIntegTest/AssetParameters/16b8e50f31d31f0d011e69034b4400b65b3db876ce1a6f50356b6cafe6db730f",
                 "children": {
                   "S3Bucket": {
                     "id": "S3Bucket",
-                    "path": "SociIndexBuildIntegTest/AssetParameters/b49cc8147b0bf86afefc1c551a4b5cf9165167cf31a5d50e4bf169f944f6a363/S3Bucket",
+                    "path": "SociIndexBuildIntegTest/AssetParameters/16b8e50f31d31f0d011e69034b4400b65b3db876ce1a6f50356b6cafe6db730f/S3Bucket",
                     "constructInfo": {
                       "fqn": "aws-cdk-lib.CfnParameter",
                       "version": "2.38.0"
@@ -303,7 +303,7 @@
                   },
                   "S3VersionKey": {
                     "id": "S3VersionKey",
-                    "path": "SociIndexBuildIntegTest/AssetParameters/b49cc8147b0bf86afefc1c551a4b5cf9165167cf31a5d50e4bf169f944f6a363/S3VersionKey",
+                    "path": "SociIndexBuildIntegTest/AssetParameters/16b8e50f31d31f0d011e69034b4400b65b3db876ce1a6f50356b6cafe6db730f/S3VersionKey",
                     "constructInfo": {
                       "fqn": "aws-cdk-lib.CfnParameter",
                       "version": "2.38.0"
@@ -311,7 +311,7 @@
                   },
                   "ArtifactHash": {
                     "id": "ArtifactHash",
-                    "path": "SociIndexBuildIntegTest/AssetParameters/b49cc8147b0bf86afefc1c551a4b5cf9165167cf31a5d50e4bf169f944f6a363/ArtifactHash",
+                    "path": "SociIndexBuildIntegTest/AssetParameters/16b8e50f31d31f0d011e69034b4400b65b3db876ce1a6f50356b6cafe6db730f/ArtifactHash",
                     "constructInfo": {
                       "fqn": "aws-cdk-lib.CfnParameter",
                       "version": "2.38.0"

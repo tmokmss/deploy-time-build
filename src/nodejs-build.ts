@@ -110,6 +110,8 @@ export class NodejsBuild extends Construct implements IGrantable {
         Annotations.of(this).addWarning(`Possibly unsupported Node.js version: ${nodejsVersion}. Currently 12, 14, 16, 18, and 20 are supported.`);
     }
 
+    const destinationObjectKeyOutputKey = 'destinationObjectKey';
+
     const project = new Project(this, 'Project', {
       environment: { buildImage: LinuxBuildImage.fromCodeBuildImageId(buildImage) },
       buildSpec: BuildSpec.fromObject({
@@ -177,12 +179,15 @@ cat <<EOF > payload.json
   "StackId": "$stackId",
   "RequestId": "$requestId",
   "LogicalResourceId":"$logicalResourceId",
-  "PhysicalResourceId": "$destinationObjectKey",
+  "PhysicalResourceId": "$logicalResourceId",
   "Status": "$STATUS",
-  "Reason": "$REASON"
+  "Reason": "$REASON",
+  "Data": {
+    "${destinationObjectKeyOutputKey}": "$destinationObjectKey"
+  }
 }
 EOF
-curl -vv -i -X PUT -H 'Content-Type:' -d "@payload.json" "$responseURL"
+curl -v -i -X PUT -H 'Content-Type:' -d "@payload.json" "$responseURL"
               `,
             ],
           },
@@ -228,7 +233,6 @@ curl -vv -i -X PUT -H 'Content-Type:' -d "@payload.json" "$responseURL"
       type: 'NodejsBuild',
       sources,
       destinationBucketName: bucket.bucketName,
-      destinationObjectKey: `${assetHash}.zip`,
       workingDirectory: sources[0].extractPath,
       // join paths for CodeBuild (Linux) platform
       outputSourceDirectory: posix.join(sources[0].extractPath, props.outputSourceDirectory),
@@ -244,7 +248,7 @@ curl -vv -i -X PUT -H 'Content-Type:' -d "@payload.json" "$responseURL"
     });
 
     const deploy = new BucketDeployment(this, 'Deploy', {
-      sources: [Source.bucket(bucket, properties.destinationObjectKey)],
+      sources: [Source.bucket(bucket, custom.getAttString(destinationObjectKeyOutputKey))],
       destinationBucket: props.destinationBucket,
       destinationKeyPrefix: props.destinationKeyPrefix,
       distribution: props.distribution,
