@@ -5,7 +5,7 @@ cd ../lambda/nodejs-build
 npm ci
 npm run build
 cd -
-npx cdk deploy
+npx cdk deploy NodejsTestStack
 ```
 
 ## Description

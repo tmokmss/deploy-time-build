@@ -66,7 +66,7 @@ export interface NodejsBuildProps {
    */
   readonly outputSourceDirectory: string;
   /**
-   * The version of Node.js to use in a build environment. Available versions: 12, 14, 16, 18.
+   * The version of Node.js to use in a build environment. Available versions: 12, 14, 16, 18, 20.
    * @default 18
    */
   readonly nodejsVersion?: number;
@@ -103,10 +103,11 @@ export class NodejsBuild extends Construct implements IGrantable {
         buildImage = 'aws/codebuild/standard:6.0';
         break;
       case 18:
+      case 20:
         buildImage = 'aws/codebuild/standard:7.0';
         break;
       default:
-        Annotations.of(this).addError(`Unsupported Node.js version: ${nodejsVersion}`);
+        Annotations.of(this).addWarning(`Possibly unsupported Node.js version: ${nodejsVersion}. Currently 12, 14, 16, 18, and 20 are supported.`);
     }
 
     const project = new Project(this, 'Project', {
