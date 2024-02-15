@@ -6,21 +6,26 @@ const project = new awscdk.AwsCdkConstructLibrary({
   authorAddress: 'tomookam@live.jp',
   cdkVersion: '2.38.0', // For using @aws-cdk/integ-runner
   defaultReleaseBranch: 'main',
+  jsiiVersion: '~5.3.0',
   name: 'deploy-time-build',
   license: 'MIT',
   repositoryUrl: 'https://github.com/tmokmss/deploy-time-build.git',
+  publishToPypi: {
+    distName: 'deploy-time-build',
+    module: 'deploy_time_build',
+  },
   eslintOptions: {
     dirs: [],
     ignorePatterns: ['example/**/*', 'lambda/**/*', 'test/assets/**/*', 'test/*.snapshot/**/*', '*.d.ts'],
   },
   gitignore: ['*.js', '*.d.ts', '!test/*.integ.snapshot/**/*'],
-  keywords: ['aws', 'cdk', 'lambda', 'aws-cdk'],
+  keywords: ['aws', 'cdk', 'lambda', 'aws-cdk', 'ecr', 'ecs'],
   tsconfigDev: {
     compilerOptions: {},
     exclude: ['example', 'test/*.integ.snapshot'],
   },
   devDeps: ['@aws-cdk/integ-runner@2.38.0', '@aws-cdk/integ-tests-alpha@2.38.0-alpha.0'],
-  description: 'Build your frontend apps during CDK deployment!',
+  description: 'Build during CDK deployment.',
 });
 // Bundle custom resource handler Lambda code
 project.projectBuild.compileTask.prependExec('npm ci && npm run build', {
