@@ -42,6 +42,8 @@ export class SociIndexBuild extends Construct {
   constructor(scope: Construct, id: string, props: SociIndexBuildProps) {
     super(scope, id);
 
+    const binaryUrl = 'https://github.com/tmokmss/soci-wrapper/releases/download/v0.1.1/soci-wrapper-v0.1.1-linux-amd64.tar.gz';
+
     const handler = new SingletonFunction(this, 'CustomResourceHandler', {
       // Use raw string to avoid from tightening CDK version requirement
       runtime: new Runtime('nodejs18.x', RuntimeFamily.NODEJS),
@@ -62,7 +64,7 @@ export class SociIndexBuild extends Construct {
           build: {
             commands: [
               'current_dir=$(pwd)',
-              'wget --quiet -O soci-wrapper.tar.gz https://github.com/tmokmss/soci-wrapper/releases/download/v0.1.0/soci-wrapper-v0.1.0-linux-amd64.tar.gz',
+              `wget --quiet -O soci-wrapper.tar.gz ${binaryUrl}`,
               'tar -xvzf soci-wrapper.tar.gz',
               '',
               'export AWS_ACCOUNT=$(aws sts get-caller-identity --query "Account" --output text)',

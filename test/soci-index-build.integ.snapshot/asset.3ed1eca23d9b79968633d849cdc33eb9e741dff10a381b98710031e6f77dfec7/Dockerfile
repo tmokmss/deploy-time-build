@@ -1,4 +1,4 @@
-FROM nginx:1.25.1
+FROM nginx:latest
 # create dummy file to change the size of a image
 ARG DUMMY_FILE_SIZE_MB="10"
 # RUN fallocate -l ${DUMMY_FILE_SIZE_MB} dummy.img
