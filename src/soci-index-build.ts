@@ -42,7 +42,9 @@ export class SociIndexBuild extends Construct {
   constructor(scope: Construct, id: string, props: SociIndexBuildProps) {
     super(scope, id);
 
-    const binaryUrl = 'https://github.com/tmokmss/soci-wrapper/releases/download/v0.1.1/soci-wrapper-v0.1.1-linux-amd64.tar.gz';
+    const sociWrapperVersion = 'v0.1.2';
+
+    const binaryUrl = `https://github.com/tmokmss/soci-wrapper/releases/download/${sociWrapperVersion}/soci-wrapper-${sociWrapperVersion}-linux-amd64.tar.gz`;
 
     const handler = new SingletonFunction(this, 'CustomResourceHandler', {
       // Use raw string to avoid from tightening CDK version requirement
