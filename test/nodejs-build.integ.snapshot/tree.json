@@ -43,10 +43,6 @@
                     },
                     "tags": [
                       {
-                        "key": "aws-cdk:auto-delete-objects",
-                        "value": "true"
-                      },
-                      {
                         "key": "aws-cdk:cr-owned:/:8aab14f9",
                         "value": "true"
                       }
@@ -57,312 +53,11 @@
                   "fqn": "aws-cdk-lib.aws_s3.CfnBucket",
                   "version": "2.38.0"
                 }
-              },
-              "Policy": {
-                "id": "Policy",
-                "path": "NodejsBuildIntegTest/Destination/Policy",
-                "children": {
-                  "Resource": {
-                    "id": "Resource",
-                    "path": "NodejsBuildIntegTest/Destination/Policy/Resource",
-                    "attributes": {
-                      "aws:cdk:cloudformation:type": "AWS::S3::BucketPolicy",
-                      "aws:cdk:cloudformation:props": {
-                        "bucket": {
-                          "Ref": "Destination920A3C57"
-                        },
-                        "policyDocument": {
-                          "Statement": [
-                            {
-                              "Action": [
-                                "s3:DeleteObject*",
-                                "s3:GetBucket*",
-                                "s3:List*"
-                              ],
-                              "Effect": "Allow",
-                              "Principal": {
-                                "AWS": {
-                                  "Fn::GetAtt": [
-                                    "CustomS3AutoDeleteObjectsCustomResourceProviderRole3B1BD092",
-                                    "Arn"
-                                  ]
-                                }
-                              },
-                              "Resource": [
-                                {
-                                  "Fn::GetAtt": [
-                                    "Destination920A3C57",
-                                    "Arn"
-                                  ]
-                                },
-                                {
-                                  "Fn::Join": [
-                                    "",
-                                    [
-                                      {
-                                        "Fn::GetAtt": [
-                                          "Destination920A3C57",
-                                          "Arn"
-                                        ]
-                                      },
-                                      "/*"
-                                    ]
-                                  ]
-                                }
-                              ]
-                            }
-                          ],
-                          "Version": "2012-10-17"
-                        }
-                      }
-                    },
-                    "constructInfo": {
-                      "fqn": "aws-cdk-lib.aws_s3.CfnBucketPolicy",
-                      "version": "2.38.0"
-                    }
-                  }
-                },
-                "constructInfo": {
-                  "fqn": "aws-cdk-lib.aws_s3.BucketPolicy",
-                  "version": "2.38.0"
-                }
-              },
-              "AutoDeleteObjectsCustomResource": {
-                "id": "AutoDeleteObjectsCustomResource",
-                "path": "NodejsBuildIntegTest/Destination/AutoDeleteObjectsCustomResource",
-                "children": {
-                  "Default": {
-                    "id": "Default",
-                    "path": "NodejsBuildIntegTest/Destination/AutoDeleteObjectsCustomResource/Default",
-                    "constructInfo": {
-                      "fqn": "aws-cdk-lib.CfnResource",
-                      "version": "2.38.0"
-                    }
-                  }
-                },
-                "constructInfo": {
-                  "fqn": "aws-cdk-lib.CustomResource",
-                  "version": "2.38.0"
-                }
               }
             },
             "constructInfo": {
               "fqn": "aws-cdk-lib.aws_s3.Bucket",
               "version": "2.38.0"
-            }
-          },
-          "Custom::S3AutoDeleteObjectsCustomResourceProvider": {
-            "id": "Custom::S3AutoDeleteObjectsCustomResourceProvider",
-            "path": "NodejsBuildIntegTest/Custom::S3AutoDeleteObjectsCustomResourceProvider",
-            "children": {
-              "Staging": {
-                "id": "Staging",
-                "path": "NodejsBuildIntegTest/Custom::S3AutoDeleteObjectsCustomResourceProvider/Staging",
-                "constructInfo": {
-                  "fqn": "aws-cdk-lib.AssetStaging",
-                  "version": "2.38.0"
-                }
-              },
-              "Role": {
-                "id": "Role",
-                "path": "NodejsBuildIntegTest/Custom::S3AutoDeleteObjectsCustomResourceProvider/Role",
-                "constructInfo": {
-                  "fqn": "aws-cdk-lib.CfnResource",
-                  "version": "2.38.0"
-                }
-              },
-              "Handler": {
-                "id": "Handler",
-                "path": "NodejsBuildIntegTest/Custom::S3AutoDeleteObjectsCustomResourceProvider/Handler",
-                "constructInfo": {
-                  "fqn": "aws-cdk-lib.CfnResource",
-                  "version": "2.38.0"
-                }
-              }
-            },
-            "constructInfo": {
-              "fqn": "aws-cdk-lib.CustomResourceProvider",
-              "version": "2.38.0"
-            }
-          },
-          "AssetParameters": {
-            "id": "AssetParameters",
-            "path": "NodejsBuildIntegTest/AssetParameters",
-            "children": {
-              "e57c1acaa363d7d2b81736776007a7091bc73dff4aeb8135627c4511a51e7dca": {
-                "id": "e57c1acaa363d7d2b81736776007a7091bc73dff4aeb8135627c4511a51e7dca",
-                "path": "NodejsBuildIntegTest/AssetParameters/e57c1acaa363d7d2b81736776007a7091bc73dff4aeb8135627c4511a51e7dca",
-                "children": {
-                  "S3Bucket": {
-                    "id": "S3Bucket",
-                    "path": "NodejsBuildIntegTest/AssetParameters/e57c1acaa363d7d2b81736776007a7091bc73dff4aeb8135627c4511a51e7dca/S3Bucket",
-                    "constructInfo": {
-                      "fqn": "aws-cdk-lib.CfnParameter",
-                      "version": "2.38.0"
-                    }
-                  },
-                  "S3VersionKey": {
-                    "id": "S3VersionKey",
-                    "path": "NodejsBuildIntegTest/AssetParameters/e57c1acaa363d7d2b81736776007a7091bc73dff4aeb8135627c4511a51e7dca/S3VersionKey",
-                    "constructInfo": {
-                      "fqn": "aws-cdk-lib.CfnParameter",
-                      "version": "2.38.0"
-                    }
-                  },
-                  "ArtifactHash": {
-                    "id": "ArtifactHash",
-                    "path": "NodejsBuildIntegTest/AssetParameters/e57c1acaa363d7d2b81736776007a7091bc73dff4aeb8135627c4511a51e7dca/ArtifactHash",
-                    "constructInfo": {
-                      "fqn": "aws-cdk-lib.CfnParameter",
-                      "version": "2.38.0"
-                    }
-                  }
-                },
-                "constructInfo": {
-                  "fqn": "constructs.Construct",
-                  "version": "10.0.5"
-                }
-              },
-              "16b8e50f31d31f0d011e69034b4400b65b3db876ce1a6f50356b6cafe6db730f": {
-                "id": "16b8e50f31d31f0d011e69034b4400b65b3db876ce1a6f50356b6cafe6db730f",
-                "path": "NodejsBuildIntegTest/AssetParameters/16b8e50f31d31f0d011e69034b4400b65b3db876ce1a6f50356b6cafe6db730f",
-                "children": {
-                  "S3Bucket": {
-                    "id": "S3Bucket",
-                    "path": "NodejsBuildIntegTest/AssetParameters/16b8e50f31d31f0d011e69034b4400b65b3db876ce1a6f50356b6cafe6db730f/S3Bucket",
-                    "constructInfo": {
-                      "fqn": "aws-cdk-lib.CfnParameter",
-                      "version": "2.38.0"
-                    }
-                  },
-                  "S3VersionKey": {
-                    "id": "S3VersionKey",
-                    "path": "NodejsBuildIntegTest/AssetParameters/16b8e50f31d31f0d011e69034b4400b65b3db876ce1a6f50356b6cafe6db730f/S3VersionKey",
-                    "constructInfo": {
-                      "fqn": "aws-cdk-lib.CfnParameter",
-                      "version": "2.38.0"
-                    }
-                  },
-                  "ArtifactHash": {
-                    "id": "ArtifactHash",
-                    "path": "NodejsBuildIntegTest/AssetParameters/16b8e50f31d31f0d011e69034b4400b65b3db876ce1a6f50356b6cafe6db730f/ArtifactHash",
-                    "constructInfo": {
-                      "fqn": "aws-cdk-lib.CfnParameter",
-                      "version": "2.38.0"
-                    }
-                  }
-                },
-                "constructInfo": {
-                  "fqn": "constructs.Construct",
-                  "version": "10.0.5"
-                }
-              },
-              "72f05c779a8bc73c6ec86f6eafc720508792e7526696d3ae45a7fddcfc473c9d": {
-                "id": "72f05c779a8bc73c6ec86f6eafc720508792e7526696d3ae45a7fddcfc473c9d",
-                "path": "NodejsBuildIntegTest/AssetParameters/72f05c779a8bc73c6ec86f6eafc720508792e7526696d3ae45a7fddcfc473c9d",
-                "children": {
-                  "S3Bucket": {
-                    "id": "S3Bucket",
-                    "path": "NodejsBuildIntegTest/AssetParameters/72f05c779a8bc73c6ec86f6eafc720508792e7526696d3ae45a7fddcfc473c9d/S3Bucket",
-                    "constructInfo": {
-                      "fqn": "aws-cdk-lib.CfnParameter",
-                      "version": "2.38.0"
-                    }
-                  },
-                  "S3VersionKey": {
-                    "id": "S3VersionKey",
-                    "path": "NodejsBuildIntegTest/AssetParameters/72f05c779a8bc73c6ec86f6eafc720508792e7526696d3ae45a7fddcfc473c9d/S3VersionKey",
-                    "constructInfo": {
-                      "fqn": "aws-cdk-lib.CfnParameter",
-                      "version": "2.38.0"
-                    }
-                  },
-                  "ArtifactHash": {
-                    "id": "ArtifactHash",
-                    "path": "NodejsBuildIntegTest/AssetParameters/72f05c779a8bc73c6ec86f6eafc720508792e7526696d3ae45a7fddcfc473c9d/ArtifactHash",
-                    "constructInfo": {
-                      "fqn": "aws-cdk-lib.CfnParameter",
-                      "version": "2.38.0"
-                    }
-                  }
-                },
-                "constructInfo": {
-                  "fqn": "constructs.Construct",
-                  "version": "10.0.5"
-                }
-              },
-              "1d3b5490cd99feddeb525a62c046988997469f2a765d0f12b43cff9d87a284fa": {
-                "id": "1d3b5490cd99feddeb525a62c046988997469f2a765d0f12b43cff9d87a284fa",
-                "path": "NodejsBuildIntegTest/AssetParameters/1d3b5490cd99feddeb525a62c046988997469f2a765d0f12b43cff9d87a284fa",
-                "children": {
-                  "S3Bucket": {
-                    "id": "S3Bucket",
-                    "path": "NodejsBuildIntegTest/AssetParameters/1d3b5490cd99feddeb525a62c046988997469f2a765d0f12b43cff9d87a284fa/S3Bucket",
-                    "constructInfo": {
-                      "fqn": "aws-cdk-lib.CfnParameter",
-                      "version": "2.38.0"
-                    }
-                  },
-                  "S3VersionKey": {
-                    "id": "S3VersionKey",
-                    "path": "NodejsBuildIntegTest/AssetParameters/1d3b5490cd99feddeb525a62c046988997469f2a765d0f12b43cff9d87a284fa/S3VersionKey",
-                    "constructInfo": {
-                      "fqn": "aws-cdk-lib.CfnParameter",
-                      "version": "2.38.0"
-                    }
-                  },
-                  "ArtifactHash": {
-                    "id": "ArtifactHash",
-                    "path": "NodejsBuildIntegTest/AssetParameters/1d3b5490cd99feddeb525a62c046988997469f2a765d0f12b43cff9d87a284fa/ArtifactHash",
-                    "constructInfo": {
-                      "fqn": "aws-cdk-lib.CfnParameter",
-                      "version": "2.38.0"
-                    }
-                  }
-                },
-                "constructInfo": {
-                  "fqn": "constructs.Construct",
-                  "version": "10.0.5"
-                }
-              },
-              "f98b78092dcdd31f5e6d47489beb5f804d4835ef86a8085d0a2053cb9ae711da": {
-                "id": "f98b78092dcdd31f5e6d47489beb5f804d4835ef86a8085d0a2053cb9ae711da",
-                "path": "NodejsBuildIntegTest/AssetParameters/f98b78092dcdd31f5e6d47489beb5f804d4835ef86a8085d0a2053cb9ae711da",
-                "children": {
-                  "S3Bucket": {
-                    "id": "S3Bucket",
-                    "path": "NodejsBuildIntegTest/AssetParameters/f98b78092dcdd31f5e6d47489beb5f804d4835ef86a8085d0a2053cb9ae711da/S3Bucket",
-                    "constructInfo": {
-                      "fqn": "aws-cdk-lib.CfnParameter",
-                      "version": "2.38.0"
-                    }
-                  },
-                  "S3VersionKey": {
-                    "id": "S3VersionKey",
-                    "path": "NodejsBuildIntegTest/AssetParameters/f98b78092dcdd31f5e6d47489beb5f804d4835ef86a8085d0a2053cb9ae711da/S3VersionKey",
-                    "constructInfo": {
-                      "fqn": "aws-cdk-lib.CfnParameter",
-                      "version": "2.38.0"
-                    }
-                  },
-                  "ArtifactHash": {
-                    "id": "ArtifactHash",
-                    "path": "NodejsBuildIntegTest/AssetParameters/f98b78092dcdd31f5e6d47489beb5f804d4835ef86a8085d0a2053cb9ae711da/ArtifactHash",
-                    "constructInfo": {
-                      "fqn": "aws-cdk-lib.CfnParameter",
-                      "version": "2.38.0"
-                    }
-                  }
-                },
-                "constructInfo": {
-                  "fqn": "constructs.Construct",
-                  "version": "10.0.5"
-                }
-              }
-            },
-            "constructInfo": {
-              "fqn": "constructs.Construct",
-              "version": "10.0.5"
             }
           },
           "ExampleBuild": {
@@ -993,6 +688,152 @@
             "constructInfo": {
               "fqn": "aws-cdk-lib.aws_lambda.Function",
               "version": "2.38.0"
+            }
+          },
+          "AssetParameters": {
+            "id": "AssetParameters",
+            "path": "NodejsBuildIntegTest/AssetParameters",
+            "children": {
+              "16b8e50f31d31f0d011e69034b4400b65b3db876ce1a6f50356b6cafe6db730f": {
+                "id": "16b8e50f31d31f0d011e69034b4400b65b3db876ce1a6f50356b6cafe6db730f",
+                "path": "NodejsBuildIntegTest/AssetParameters/16b8e50f31d31f0d011e69034b4400b65b3db876ce1a6f50356b6cafe6db730f",
+                "children": {
+                  "S3Bucket": {
+                    "id": "S3Bucket",
+                    "path": "NodejsBuildIntegTest/AssetParameters/16b8e50f31d31f0d011e69034b4400b65b3db876ce1a6f50356b6cafe6db730f/S3Bucket",
+                    "constructInfo": {
+                      "fqn": "aws-cdk-lib.CfnParameter",
+                      "version": "2.38.0"
+                    }
+                  },
+                  "S3VersionKey": {
+                    "id": "S3VersionKey",
+                    "path": "NodejsBuildIntegTest/AssetParameters/16b8e50f31d31f0d011e69034b4400b65b3db876ce1a6f50356b6cafe6db730f/S3VersionKey",
+                    "constructInfo": {
+                      "fqn": "aws-cdk-lib.CfnParameter",
+                      "version": "2.38.0"
+                    }
+                  },
+                  "ArtifactHash": {
+                    "id": "ArtifactHash",
+                    "path": "NodejsBuildIntegTest/AssetParameters/16b8e50f31d31f0d011e69034b4400b65b3db876ce1a6f50356b6cafe6db730f/ArtifactHash",
+                    "constructInfo": {
+                      "fqn": "aws-cdk-lib.CfnParameter",
+                      "version": "2.38.0"
+                    }
+                  }
+                },
+                "constructInfo": {
+                  "fqn": "constructs.Construct",
+                  "version": "10.0.5"
+                }
+              },
+              "72f05c779a8bc73c6ec86f6eafc720508792e7526696d3ae45a7fddcfc473c9d": {
+                "id": "72f05c779a8bc73c6ec86f6eafc720508792e7526696d3ae45a7fddcfc473c9d",
+                "path": "NodejsBuildIntegTest/AssetParameters/72f05c779a8bc73c6ec86f6eafc720508792e7526696d3ae45a7fddcfc473c9d",
+                "children": {
+                  "S3Bucket": {
+                    "id": "S3Bucket",
+                    "path": "NodejsBuildIntegTest/AssetParameters/72f05c779a8bc73c6ec86f6eafc720508792e7526696d3ae45a7fddcfc473c9d/S3Bucket",
+                    "constructInfo": {
+                      "fqn": "aws-cdk-lib.CfnParameter",
+                      "version": "2.38.0"
+                    }
+                  },
+                  "S3VersionKey": {
+                    "id": "S3VersionKey",
+                    "path": "NodejsBuildIntegTest/AssetParameters/72f05c779a8bc73c6ec86f6eafc720508792e7526696d3ae45a7fddcfc473c9d/S3VersionKey",
+                    "constructInfo": {
+                      "fqn": "aws-cdk-lib.CfnParameter",
+                      "version": "2.38.0"
+                    }
+                  },
+                  "ArtifactHash": {
+                    "id": "ArtifactHash",
+                    "path": "NodejsBuildIntegTest/AssetParameters/72f05c779a8bc73c6ec86f6eafc720508792e7526696d3ae45a7fddcfc473c9d/ArtifactHash",
+                    "constructInfo": {
+                      "fqn": "aws-cdk-lib.CfnParameter",
+                      "version": "2.38.0"
+                    }
+                  }
+                },
+                "constructInfo": {
+                  "fqn": "constructs.Construct",
+                  "version": "10.0.5"
+                }
+              },
+              "1d3b5490cd99feddeb525a62c046988997469f2a765d0f12b43cff9d87a284fa": {
+                "id": "1d3b5490cd99feddeb525a62c046988997469f2a765d0f12b43cff9d87a284fa",
+                "path": "NodejsBuildIntegTest/AssetParameters/1d3b5490cd99feddeb525a62c046988997469f2a765d0f12b43cff9d87a284fa",
+                "children": {
+                  "S3Bucket": {
+                    "id": "S3Bucket",
+                    "path": "NodejsBuildIntegTest/AssetParameters/1d3b5490cd99feddeb525a62c046988997469f2a765d0f12b43cff9d87a284fa/S3Bucket",
+                    "constructInfo": {
+                      "fqn": "aws-cdk-lib.CfnParameter",
+                      "version": "2.38.0"
+                    }
+                  },
+                  "S3VersionKey": {
+                    "id": "S3VersionKey",
+                    "path": "NodejsBuildIntegTest/AssetParameters/1d3b5490cd99feddeb525a62c046988997469f2a765d0f12b43cff9d87a284fa/S3VersionKey",
+                    "constructInfo": {
+                      "fqn": "aws-cdk-lib.CfnParameter",
+                      "version": "2.38.0"
+                    }
+                  },
+                  "ArtifactHash": {
+                    "id": "ArtifactHash",
+                    "path": "NodejsBuildIntegTest/AssetParameters/1d3b5490cd99feddeb525a62c046988997469f2a765d0f12b43cff9d87a284fa/ArtifactHash",
+                    "constructInfo": {
+                      "fqn": "aws-cdk-lib.CfnParameter",
+                      "version": "2.38.0"
+                    }
+                  }
+                },
+                "constructInfo": {
+                  "fqn": "constructs.Construct",
+                  "version": "10.0.5"
+                }
+              },
+              "f98b78092dcdd31f5e6d47489beb5f804d4835ef86a8085d0a2053cb9ae711da": {
+                "id": "f98b78092dcdd31f5e6d47489beb5f804d4835ef86a8085d0a2053cb9ae711da",
+                "path": "NodejsBuildIntegTest/AssetParameters/f98b78092dcdd31f5e6d47489beb5f804d4835ef86a8085d0a2053cb9ae711da",
+                "children": {
+                  "S3Bucket": {
+                    "id": "S3Bucket",
+                    "path": "NodejsBuildIntegTest/AssetParameters/f98b78092dcdd31f5e6d47489beb5f804d4835ef86a8085d0a2053cb9ae711da/S3Bucket",
+                    "constructInfo": {
+                      "fqn": "aws-cdk-lib.CfnParameter",
+                      "version": "2.38.0"
+                    }
+                  },
+                  "S3VersionKey": {
+                    "id": "S3VersionKey",
+                    "path": "NodejsBuildIntegTest/AssetParameters/f98b78092dcdd31f5e6d47489beb5f804d4835ef86a8085d0a2053cb9ae711da/S3VersionKey",
+                    "constructInfo": {
+                      "fqn": "aws-cdk-lib.CfnParameter",
+                      "version": "2.38.0"
+                    }
+                  },
+                  "ArtifactHash": {
+                    "id": "ArtifactHash",
+                    "path": "NodejsBuildIntegTest/AssetParameters/f98b78092dcdd31f5e6d47489beb5f804d4835ef86a8085d0a2053cb9ae711da/ArtifactHash",
+                    "constructInfo": {
+                      "fqn": "aws-cdk-lib.CfnParameter",
+                      "version": "2.38.0"
+                    }
+                  }
+                },
+                "constructInfo": {
+                  "fqn": "constructs.Construct",
+                  "version": "10.0.5"
+                }
+              }
+            },
+            "constructInfo": {
+              "fqn": "constructs.Construct",
+              "version": "10.0.5"
             }
           },
           "Custom::CDKBucketDeployment8693BB64968944B69AAFB0CC9EB8756C": {

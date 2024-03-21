@@ -19,18 +19,6 @@
           {
             "type": "aws:cdk:asset",
             "data": {
-              "path": "asset.e57c1acaa363d7d2b81736776007a7091bc73dff4aeb8135627c4511a51e7dca",
-              "id": "e57c1acaa363d7d2b81736776007a7091bc73dff4aeb8135627c4511a51e7dca",
-              "packaging": "zip",
-              "sourceHash": "e57c1acaa363d7d2b81736776007a7091bc73dff4aeb8135627c4511a51e7dca",
-              "s3BucketParameter": "AssetParameterse57c1acaa363d7d2b81736776007a7091bc73dff4aeb8135627c4511a51e7dcaS3Bucket4FBDA57E",
-              "s3KeyParameter": "AssetParameterse57c1acaa363d7d2b81736776007a7091bc73dff4aeb8135627c4511a51e7dcaS3VersionKeyF0409EA0",
-              "artifactHashParameter": "AssetParameterse57c1acaa363d7d2b81736776007a7091bc73dff4aeb8135627c4511a51e7dcaArtifactHashAC8BF1CD"
-            }
-          },
-          {
-            "type": "aws:cdk:asset",
-            "data": {
               "path": "asset.16b8e50f31d31f0d011e69034b4400b65b3db876ce1a6f50356b6cafe6db730f",
               "id": "16b8e50f31d31f0d011e69034b4400b65b3db876ce1a6f50356b6cafe6db730f",
               "packaging": "zip",
@@ -83,46 +71,58 @@
             "data": "Destination920A3C57"
           }
         ],
-        "/NodejsBuildIntegTest/Destination/Policy/Resource": [
+        "/NodejsBuildIntegTest/ExampleBuild/Project/Role/Resource": [
           {
             "type": "aws:cdk:logicalId",
-            "data": "DestinationPolicy7982387E"
+            "data": "ExampleBuildProjectRole823D0208"
           }
         ],
-        "/NodejsBuildIntegTest/Destination/AutoDeleteObjectsCustomResource/Default": [
+        "/NodejsBuildIntegTest/ExampleBuild/Project/Role/DefaultPolicy/Resource": [
           {
             "type": "aws:cdk:logicalId",
-            "data": "DestinationAutoDeleteObjectsCustomResource15E926BA"
+            "data": "ExampleBuildProjectRoleDefaultPolicy1E341966"
           }
         ],
-        "/NodejsBuildIntegTest/Custom::S3AutoDeleteObjectsCustomResourceProvider/Role": [
+        "/NodejsBuildIntegTest/ExampleBuild/Project/Resource": [
           {
             "type": "aws:cdk:logicalId",
-            "data": "CustomS3AutoDeleteObjectsCustomResourceProviderRole3B1BD092"
+            "data": "ExampleBuildProjectEF5CAC49"
           }
         ],
-        "/NodejsBuildIntegTest/Custom::S3AutoDeleteObjectsCustomResourceProvider/Handler": [
+        "/NodejsBuildIntegTest/ExampleBuild/Resource/Default": [
           {
             "type": "aws:cdk:logicalId",
-            "data": "CustomS3AutoDeleteObjectsCustomResourceProviderHandler9D90184F"
+            "data": "ExampleBuild61F1D79B"
           }
         ],
-        "/NodejsBuildIntegTest/AssetParameters/e57c1acaa363d7d2b81736776007a7091bc73dff4aeb8135627c4511a51e7dca/S3Bucket": [
+        "/NodejsBuildIntegTest/ExampleBuild/Deploy/AwsCliLayer/Resource": [
           {
             "type": "aws:cdk:logicalId",
-            "data": "AssetParameterse57c1acaa363d7d2b81736776007a7091bc73dff4aeb8135627c4511a51e7dcaS3Bucket4FBDA57E"
+            "data": "ExampleBuildDeployAwsCliLayerF15CA413"
           }
         ],
-        "/NodejsBuildIntegTest/AssetParameters/e57c1acaa363d7d2b81736776007a7091bc73dff4aeb8135627c4511a51e7dca/S3VersionKey": [
+        "/NodejsBuildIntegTest/ExampleBuild/Deploy/CustomResource/Default": [
           {
             "type": "aws:cdk:logicalId",
-            "data": "AssetParameterse57c1acaa363d7d2b81736776007a7091bc73dff4aeb8135627c4511a51e7dcaS3VersionKeyF0409EA0"
+            "data": "ExampleBuildDeployCustomResourceF69A1525"
           }
         ],
-        "/NodejsBuildIntegTest/AssetParameters/e57c1acaa363d7d2b81736776007a7091bc73dff4aeb8135627c4511a51e7dca/ArtifactHash": [
+        "/NodejsBuildIntegTest/NodejsBuildCustomResourceHandler25648b212c404f09aa65b6bbb0c44659/ServiceRole/Resource": [
           {
             "type": "aws:cdk:logicalId",
-            "data": "AssetParameterse57c1acaa363d7d2b81736776007a7091bc73dff4aeb8135627c4511a51e7dcaArtifactHashAC8BF1CD"
+            "data": "NodejsBuildCustomResourceHandler25648b212c404f09aa65b6bbb0c44659ServiceRoleCB01FBE6"
+          }
+        ],
+        "/NodejsBuildIntegTest/NodejsBuildCustomResourceHandler25648b212c404f09aa65b6bbb0c44659/ServiceRole/DefaultPolicy/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "NodejsBuildCustomResourceHandler25648b212c404f09aa65b6bbb0c44659ServiceRoleDefaultPolicyCF8879D3"
+          }
+        ],
+        "/NodejsBuildIntegTest/NodejsBuildCustomResourceHandler25648b212c404f09aa65b6bbb0c44659/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "NodejsBuildCustomResourceHandler25648b212c404f09aa65b6bbb0c446591C4101F8"
           }
         ],
         "/NodejsBuildIntegTest/AssetParameters/16b8e50f31d31f0d011e69034b4400b65b3db876ce1a6f50356b6cafe6db730f/S3Bucket": [
@@ -195,60 +195,6 @@
           {
             "type": "aws:cdk:logicalId",
             "data": "AssetParametersf98b78092dcdd31f5e6d47489beb5f804d4835ef86a8085d0a2053cb9ae711daArtifactHashD85D28D8"
-          }
-        ],
-        "/NodejsBuildIntegTest/ExampleBuild/Project/Role/Resource": [
-          {
-            "type": "aws:cdk:logicalId",
-            "data": "ExampleBuildProjectRole823D0208"
-          }
-        ],
-        "/NodejsBuildIntegTest/ExampleBuild/Project/Role/DefaultPolicy/Resource": [
-          {
-            "type": "aws:cdk:logicalId",
-            "data": "ExampleBuildProjectRoleDefaultPolicy1E341966"
-          }
-        ],
-        "/NodejsBuildIntegTest/ExampleBuild/Project/Resource": [
-          {
-            "type": "aws:cdk:logicalId",
-            "data": "ExampleBuildProjectEF5CAC49"
-          }
-        ],
-        "/NodejsBuildIntegTest/ExampleBuild/Resource/Default": [
-          {
-            "type": "aws:cdk:logicalId",
-            "data": "ExampleBuild61F1D79B"
-          }
-        ],
-        "/NodejsBuildIntegTest/ExampleBuild/Deploy/AwsCliLayer/Resource": [
-          {
-            "type": "aws:cdk:logicalId",
-            "data": "ExampleBuildDeployAwsCliLayerF15CA413"
-          }
-        ],
-        "/NodejsBuildIntegTest/ExampleBuild/Deploy/CustomResource/Default": [
-          {
-            "type": "aws:cdk:logicalId",
-            "data": "ExampleBuildDeployCustomResourceF69A1525"
-          }
-        ],
-        "/NodejsBuildIntegTest/NodejsBuildCustomResourceHandler25648b212c404f09aa65b6bbb0c44659/ServiceRole/Resource": [
-          {
-            "type": "aws:cdk:logicalId",
-            "data": "NodejsBuildCustomResourceHandler25648b212c404f09aa65b6bbb0c44659ServiceRoleCB01FBE6"
-          }
-        ],
-        "/NodejsBuildIntegTest/NodejsBuildCustomResourceHandler25648b212c404f09aa65b6bbb0c44659/ServiceRole/DefaultPolicy/Resource": [
-          {
-            "type": "aws:cdk:logicalId",
-            "data": "NodejsBuildCustomResourceHandler25648b212c404f09aa65b6bbb0c44659ServiceRoleDefaultPolicyCF8879D3"
-          }
-        ],
-        "/NodejsBuildIntegTest/NodejsBuildCustomResourceHandler25648b212c404f09aa65b6bbb0c44659/Resource": [
-          {
-            "type": "aws:cdk:logicalId",
-            "data": "NodejsBuildCustomResourceHandler25648b212c404f09aa65b6bbb0c446591C4101F8"
           }
         ],
         "/NodejsBuildIntegTest/Custom::CDKBucketDeployment8693BB64968944B69AAFB0CC9EB8756C/ServiceRole/Resource": [
