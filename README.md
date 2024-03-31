@@ -1,7 +1,8 @@
 # Deploy-time Build
-AWS CDK L3 construct that enables you to build apps during deploy time, aiming to resolve a few problems when we deploy frontend apps from CDK.
+AWS CDK L3 construct that allows you to run a build job for specific purposes. Currently this library supports the following use cases:
 
-![architecture](./imgs/architecture.png)
+* Build web frontend static files
+* Build Seekable OCI (SOCI) indices for container images
 
 ## Usage
 Install from npm:
@@ -9,8 +10,16 @@ Install from npm:
 ```sh
 npm i deploy-time-build
 ```
+
+This library defines several L3 constructs for specific use cases. Here is the usage for each case.
+
 ### Build Node.js apps
-Use the following code to build Node.js apps like React frontend:
+
+You can build a Node.js app such as a React frontend app on deploy time by the `NodejsBuild` construct.
+
+![architecture](./imgs/architecture.png)
+
+The following code is an example to use the construct:
 
 ```ts
 import { NodejsBuild } from 'deploy-time-build';
@@ -86,32 +95,12 @@ declare const build: NodejsBuild;
 iam.Grant.addToPrincipal({ grantee: build, actions: ['s3:ListBucket'], resources:['*'] })
 ```
 
-### Build SOCI index for a container image
-[Seekable OCI (SOCI)](https://docs.aws.amazon.com/AmazonECS/latest/userguide/container-considerations.html) is a way to help start tasks faster for Amazon ECS tasks on Fargate 1.4.0. You can build and push a SOCI index to use the feature by the following CDK code:
-
-```ts
-import { SociIndexBuild } from 'deploy-time-build;
-
-const asset = new DockerImageAsset(this, 'Image', { directory: 'example-image' });
-new SociIndexBuild(this, 'Index', { imageTag: asset.assetHash, repository: asset.repository });
-// or using a utility method
-SociIndexBuild.fromDockerImageAsset(this, 'Index2', asset);
-
-// Use the asset for ECS Fargate tasks
-import { AssetImage } from 'aws-cdk-lib/aws-ecs';
-const assetImage = AssetImage.fromDockerImageAsset(asset);
-```
-
-The below image is the architecture for `SociIndexBuild` construct. We currently use [`soci-wrapper`](https://github.com/tmokmss/soci-wrapper) to build and push SOCI indices.
-
-![soci-architecture](imgs/soci-architecture.png)
-
-## Motivation - why do we need the `NodejsBuild` construct?
+#### Motivation - why do we need the `NodejsBuild` construct?
 I talked about why this construct can be useful in some situations at CDK Day 2023. See the recording or slides below:
 
 [Recording](https://www.youtube.com/live/b-nSH18gFQk?si=ogEZ2x1NixOj6J6j&t=373) | [Slides](https://speakerdeck.com/tmokmss/deploy-web-frontend-apps-with-aws-cdk)
 
-## Considerations
+#### Considerations
 Since this construct builds your frontend apps every time you deploy the stack and there is any change in input assets (and currently there's even no build cache in the Lambda function!), the time a deployment takes tends to be longer (e.g. a few minutes even for the simple app in `example` directory.) This might results in worse developer experience if you want to deploy changes frequently (imagine `cdk watch` deployment always re-build your frontend app).
 
 To mitigate this issue, you can separate the stack for frontend construct from other stacks especially for a dev environment. Another solution would be to set a fixed string as an asset hash, and avoid builds on every deployment.
@@ -128,6 +117,32 @@ To mitigate this issue, you can separate the stack for frontend construct from o
         },
       ],
 ```
+
+### Build SOCI index for a container image
+[Seekable OCI (SOCI)](https://docs.aws.amazon.com/AmazonECS/latest/userguide/container-considerations.html) is a way to help start tasks faster for Amazon ECS tasks on Fargate 1.4.0. You can build and push a SOCI index using the `SociIndexBuild` construct.
+
+![soci-architecture](imgs/soci-architecture.png)
+
+The following code is an example to use the construct:
+
+```ts
+import { SociIndexBuild } from 'deploy-time-build;
+
+const asset = new DockerImageAsset(this, 'Image', { directory: 'example-image' });
+new SociIndexBuild(this, 'Index', { imageTag: asset.assetHash, repository: asset.repository });
+// or using a utility method
+SociIndexBuild.fromDockerImageAsset(this, 'Index2', asset);
+
+// Use the asset for ECS Fargate tasks
+import { AssetImage } from 'aws-cdk-lib/aws-ecs';
+const assetImage = AssetImage.fromDockerImageAsset(asset);
+```
+
+We currently use [`soci-wrapper`](https://github.com/tmokmss/soci-wrapper) to build and push SOCI indices.
+
+#### Motivation - why do we need the `SociIndexBuild` construct?
+
+Currently there are several other ways to build a SOCI index; 1. use `soci-snapshotter` CLI, or 2. use [cfn-ecr-aws-soci-index-builder](https://github.com/aws-ia/cfn-ecr-aws-soci-index-builder) solution, none of which can be directly used from AWS CDK. If you are familiar with CDK, you should often deploy container images as CDK assets, which is an ideal way to integrate with other L2 constructs such as ECS. To make the developer experience for SOCI as close as the ordinary container images, the `SociIndexBuild` allows you to deploying a SOCI index directly from CDK, without any dependencies outside of CDK context.
 
 ## Development
 Commands for maintainers:
