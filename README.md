@@ -123,7 +123,7 @@ To mitigate this issue, you can separate the stack for frontend construct from o
 You can build a container image at deploy time by the following code:
 
 ```ts
-import { ContainerImageBuild } from 'deploy-time-build;
+import { ContainerImageBuild } from 'deploy-time-build';
 
 const image = new ContainerImageBuild(this, 'Build', { 
     directory: 'example-image', 
@@ -156,7 +156,7 @@ The third argument (props) are the super set of DockerImageAsset's properties. Y
 The following code is an example to use the construct:
 
 ```ts
-import { SociIndexBuild } from 'deploy-time-build;
+import { SociIndexBuild } from 'deploy-time-build';
 
 const asset = new DockerImageAsset(this, 'Image', { directory: 'example-image' });
 new SociIndexBuild(this, 'Index', { imageTag: asset.assetHash, repository: asset.repository });
