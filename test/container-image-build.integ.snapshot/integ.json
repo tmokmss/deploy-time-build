@@ -1,0 +1,12 @@
+{
+  "version": "20.0.0",
+  "testCases": {
+    "Test/DefaultTest": {
+      "stacks": [
+        "ContainerImageBuildIntegTest"
+      ],
+      "diffAssets": true,
+      "assertionStack": "TestDefaultTestDeployAssert12909640"
+    }
+  }
+}

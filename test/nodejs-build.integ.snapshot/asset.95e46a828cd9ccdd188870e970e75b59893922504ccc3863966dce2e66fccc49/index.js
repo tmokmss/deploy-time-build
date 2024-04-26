@@ -33,12 +33,31 @@ var handler = async (event, context) => {
   try {
     if (event.RequestType == "Create" || event.RequestType == "Update") {
       const props = event.ResourceProperties;
+      const commonEnvironments = [
+        {
+          name: "responseURL",
+          value: event.ResponseURL
+        },
+        {
+          name: "stackId",
+          value: event.StackId
+        },
+        {
+          name: "requestId",
+          value: event.RequestId
+        },
+        {
+          name: "logicalResourceId",
+          value: event.LogicalResourceId
+        }
+      ];
       let command;
       switch (props.type) {
         case "NodejsBuild":
           command = new import_client_codebuild.StartBuildCommand({
             projectName: props.codeBuildProjectName,
             environmentVariablesOverride: [
+              ...commonEnvironments,
               {
                 name: "input",
                 value: JSON.stringify(props.sources.map((source) => ({
@@ -71,22 +90,6 @@ var handler = async (event, context) => {
                 name: "projectName",
                 value: props.codeBuildProjectName
               },
-              {
-                name: "responseURL",
-                value: event.ResponseURL
-              },
-              {
-                name: "stackId",
-                value: event.StackId
-              },
-              {
-                name: "requestId",
-                value: event.RequestId
-              },
-              {
-                name: "logicalResourceId",
-                value: event.LogicalResourceId
-              },
               ...Object.entries(props.environment ?? {}).map(([name, value]) => ({
                 name,
                 value
@@ -98,6 +101,7 @@ var handler = async (event, context) => {
           command = new import_client_codebuild.StartBuildCommand({
             projectName: props.codeBuildProjectName,
             environmentVariablesOverride: [
+              ...commonEnvironments,
               {
                 name: "repositoryName",
                 value: props.repositoryName
@@ -109,26 +113,43 @@ var handler = async (event, context) => {
               {
                 name: "projectName",
                 value: props.codeBuildProjectName
-              },
-              {
-                name: "responseURL",
-                value: event.ResponseURL
-              },
-              {
-                name: "stackId",
-                value: event.StackId
-              },
-              {
-                name: "requestId",
-                value: event.RequestId
-              },
-              {
-                name: "logicalResourceId",
-                value: event.LogicalResourceId
               }
             ]
           });
           break;
+        case "ContainerImageBuild": {
+          command = new import_client_codebuild.StartBuildCommand({
+            projectName: props.codeBuildProjectName,
+            environmentVariablesOverride: [
+              ...commonEnvironments,
+              {
+                name: "repositoryUri",
+                value: props.repositoryUri
+              },
+              {
+                name: "repositoryAuthUri",
+                value: props.repositoryUri.split("/")[0]
+              },
+              {
+                name: "buildCommand",
+                value: props.buildCommand
+              },
+              {
+                name: "imageTag",
+                value: props.imageTag
+              },
+              {
+                name: "projectName",
+                value: props.codeBuildProjectName
+              },
+              {
+                name: "sourceS3Url",
+                value: props.sourceS3Url
+              }
+            ]
+          });
+          break;
+        }
         default:
           throw new Error(`invalid event type ${props}}`);
       }

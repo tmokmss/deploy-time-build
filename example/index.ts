@@ -1,10 +1,13 @@
 import { Stack, StackProps, App, RemovalPolicy, CfnOutput } from 'aws-cdk-lib';
 import { Construct } from 'constructs';
 import { MockIntegration, RestApi } from 'aws-cdk-lib/aws-apigateway';
-import { NodejsBuild, SociIndexBuild } from '../src/';
+import { ContainerImageBuild, NodejsBuild, SociIndexBuild } from '../src/';
 import { BlockPublicAccess, Bucket, BucketEncryption } from 'aws-cdk-lib/aws-s3';
 import { OriginAccessIdentity, CloudFrontWebDistribution } from 'aws-cdk-lib/aws-cloudfront';
-import { DockerImageAsset } from 'aws-cdk-lib/aws-ecr-assets';
+import { DockerImageAsset, Platform } from 'aws-cdk-lib/aws-ecr-assets';
+import { DockerImageFunction } from 'aws-cdk-lib/aws-lambda';
+import { AwsLogDriver, Cluster, CpuArchitecture, FargateTaskDefinition } from 'aws-cdk-lib/aws-ecs';
+import { SubnetType, Vpc } from 'aws-cdk-lib/aws-ec2';
 
 class NodejsTestStack extends Stack {
   constructor(scope: Construct, id: string, props: StackProps = {}) {
@@ -85,12 +88,46 @@ class SociIndexTestStack extends Stack {
   }
 }
 
+class ContainerImageTestStack extends Stack {
+  constructor(scope: Construct, id: string, props: StackProps = {}) {
+    super(scope, id, props);
+
+    const image = new ContainerImageBuild(this, 'Build', { directory: 'example-image', buildArgs: { DUMMY_FILE_SIZE_MB: '15' } });
+    const armImage = new ContainerImageBuild(this, 'BuildArm', {
+      directory: 'example-image',
+      platform: Platform.LINUX_ARM64,
+      repository: image.repository,
+      zstdCompression: true,
+    });
+    new DockerImageFunction(this, 'Function', {
+      code: image.toLambdaDockerImageCode(),
+    });
+    new Cluster(this, 'Cluster', {
+      vpc: new Vpc(this, 'Vpc', {
+        maxAzs: 1,
+        subnetConfiguration: [
+          {
+            cidrMask: 24,
+            name: 'public',
+            subnetType: SubnetType.PUBLIC,
+          },
+        ],
+      }),
+    });
+    new FargateTaskDefinition(this, 'TaskDefinition', { runtimePlatform: { cpuArchitecture: CpuArchitecture.ARM64 } }).addContainer('main', {
+      image: armImage.toEcsDockerImageCode(),
+      logging: new AwsLogDriver({ streamPrefix: 'main' }),
+    });
+  }
+}
+
 class TestApp extends App {
   constructor() {
     super();
 
     new NodejsTestStack(this, 'NodejsTestStack');
     new SociIndexTestStack(this, 'SociIndexTestStack');
+    new ContainerImageTestStack(this, 'ContainerImageTestStack');
   }
 }
 

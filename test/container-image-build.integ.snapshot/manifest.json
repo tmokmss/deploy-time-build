@@ -1,0 +1,237 @@
+{
+  "version": "20.0.0",
+  "artifacts": {
+    "Tree": {
+      "type": "cdk:tree",
+      "properties": {
+        "file": "tree.json"
+      }
+    },
+    "ContainerImageBuildIntegTest": {
+      "type": "aws:cloudformation:stack",
+      "environment": "aws://unknown-account/unknown-region",
+      "properties": {
+        "templateFile": "ContainerImageBuildIntegTest.template.json",
+        "validateOnSynth": false
+      },
+      "metadata": {
+        "/ContainerImageBuildIntegTest": [
+          {
+            "type": "aws:cdk:asset",
+            "data": {
+              "path": "asset.95e46a828cd9ccdd188870e970e75b59893922504ccc3863966dce2e66fccc49",
+              "id": "95e46a828cd9ccdd188870e970e75b59893922504ccc3863966dce2e66fccc49",
+              "packaging": "zip",
+              "sourceHash": "95e46a828cd9ccdd188870e970e75b59893922504ccc3863966dce2e66fccc49",
+              "s3BucketParameter": "AssetParameters95e46a828cd9ccdd188870e970e75b59893922504ccc3863966dce2e66fccc49S3Bucket73B303AC",
+              "s3KeyParameter": "AssetParameters95e46a828cd9ccdd188870e970e75b59893922504ccc3863966dce2e66fccc49S3VersionKey39332242",
+              "artifactHashParameter": "AssetParameters95e46a828cd9ccdd188870e970e75b59893922504ccc3863966dce2e66fccc49ArtifactHash0DB02EFB"
+            }
+          },
+          {
+            "type": "aws:cdk:asset",
+            "data": {
+              "path": "asset.f7fa10e7cd7b9b27f49a4a335f4aa9795fb7e68a665c34ca8bf5711f0aa6aeab",
+              "id": "f7fa10e7cd7b9b27f49a4a335f4aa9795fb7e68a665c34ca8bf5711f0aa6aeab",
+              "packaging": "zip",
+              "sourceHash": "f7fa10e7cd7b9b27f49a4a335f4aa9795fb7e68a665c34ca8bf5711f0aa6aeab",
+              "s3BucketParameter": "AssetParametersf7fa10e7cd7b9b27f49a4a335f4aa9795fb7e68a665c34ca8bf5711f0aa6aeabS3Bucket1FF22598",
+              "s3KeyParameter": "AssetParametersf7fa10e7cd7b9b27f49a4a335f4aa9795fb7e68a665c34ca8bf5711f0aa6aeabS3VersionKey681A3270",
+              "artifactHashParameter": "AssetParametersf7fa10e7cd7b9b27f49a4a335f4aa9795fb7e68a665c34ca8bf5711f0aa6aeabArtifactHashC9CEFA00"
+            }
+          }
+        ],
+        "/ContainerImageBuildIntegTest/Build/Repository/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "BuildRepository4E6D17C2"
+          }
+        ],
+        "/ContainerImageBuildIntegTest/Build/Resource/Default": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "Build45A36621"
+          }
+        ],
+        "/ContainerImageBuildIntegTest/DeployTimeBuildCustomResourceHandlerdb740fd554364a848a09e6dfcd01f4f3/ServiceRole/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "DeployTimeBuildCustomResourceHandlerdb740fd554364a848a09e6dfcd01f4f3ServiceRoleB008BAA4"
+          }
+        ],
+        "/ContainerImageBuildIntegTest/DeployTimeBuildCustomResourceHandlerdb740fd554364a848a09e6dfcd01f4f3/ServiceRole/DefaultPolicy/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "DeployTimeBuildCustomResourceHandlerdb740fd554364a848a09e6dfcd01f4f3ServiceRoleDefaultPolicyFECC51DC"
+          }
+        ],
+        "/ContainerImageBuildIntegTest/DeployTimeBuildCustomResourceHandlerdb740fd554364a848a09e6dfcd01f4f3/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "DeployTimeBuildCustomResourceHandlerdb740fd554364a848a09e6dfcd01f4f306AEFF37"
+          }
+        ],
+        "/ContainerImageBuildIntegTest/AssetParameters/95e46a828cd9ccdd188870e970e75b59893922504ccc3863966dce2e66fccc49/S3Bucket": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "AssetParameters95e46a828cd9ccdd188870e970e75b59893922504ccc3863966dce2e66fccc49S3Bucket73B303AC"
+          }
+        ],
+        "/ContainerImageBuildIntegTest/AssetParameters/95e46a828cd9ccdd188870e970e75b59893922504ccc3863966dce2e66fccc49/S3VersionKey": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "AssetParameters95e46a828cd9ccdd188870e970e75b59893922504ccc3863966dce2e66fccc49S3VersionKey39332242"
+          }
+        ],
+        "/ContainerImageBuildIntegTest/AssetParameters/95e46a828cd9ccdd188870e970e75b59893922504ccc3863966dce2e66fccc49/ArtifactHash": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "AssetParameters95e46a828cd9ccdd188870e970e75b59893922504ccc3863966dce2e66fccc49ArtifactHash0DB02EFB"
+          }
+        ],
+        "/ContainerImageBuildIntegTest/AssetParameters/f7fa10e7cd7b9b27f49a4a335f4aa9795fb7e68a665c34ca8bf5711f0aa6aeab/S3Bucket": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "AssetParametersf7fa10e7cd7b9b27f49a4a335f4aa9795fb7e68a665c34ca8bf5711f0aa6aeabS3Bucket1FF22598"
+          }
+        ],
+        "/ContainerImageBuildIntegTest/AssetParameters/f7fa10e7cd7b9b27f49a4a335f4aa9795fb7e68a665c34ca8bf5711f0aa6aeab/S3VersionKey": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "AssetParametersf7fa10e7cd7b9b27f49a4a335f4aa9795fb7e68a665c34ca8bf5711f0aa6aeabS3VersionKey681A3270"
+          }
+        ],
+        "/ContainerImageBuildIntegTest/AssetParameters/f7fa10e7cd7b9b27f49a4a335f4aa9795fb7e68a665c34ca8bf5711f0aa6aeab/ArtifactHash": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "AssetParametersf7fa10e7cd7b9b27f49a4a335f4aa9795fb7e68a665c34ca8bf5711f0aa6aeabArtifactHashC9CEFA00"
+          }
+        ],
+        "/ContainerImageBuildIntegTest/ContainerImageBuildAmd64e83729feb1564e709bec452b15847a30/Role/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "ContainerImageBuildAmd64e83729feb1564e709bec452b15847a30RoleB1437276"
+          }
+        ],
+        "/ContainerImageBuildIntegTest/ContainerImageBuildAmd64e83729feb1564e709bec452b15847a30/Role/DefaultPolicy/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "ContainerImageBuildAmd64e83729feb1564e709bec452b15847a30RoleDefaultPolicy9F1BA63A"
+          }
+        ],
+        "/ContainerImageBuildIntegTest/ContainerImageBuildAmd64e83729feb1564e709bec452b15847a30/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "ContainerImageBuildAmd64e83729feb1564e709bec452b15847a30F1D2BABB"
+          }
+        ],
+        "/ContainerImageBuildIntegTest/BuildArm/Resource/Default": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "BuildArmF8ABF624"
+          }
+        ],
+        "/ContainerImageBuildIntegTest/Function/ServiceRole/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "FunctionServiceRole675BB04A"
+          }
+        ],
+        "/ContainerImageBuildIntegTest/Function/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "Function76856677"
+          }
+        ],
+        "/ContainerImageBuildIntegTest/Vpc/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "Vpc8378EB38"
+          }
+        ],
+        "/ContainerImageBuildIntegTest/Vpc/publicSubnet1/Subnet": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "VpcpublicSubnet1Subnet2BB74ED7"
+          }
+        ],
+        "/ContainerImageBuildIntegTest/Vpc/publicSubnet1/RouteTable": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "VpcpublicSubnet1RouteTable15C15F8E"
+          }
+        ],
+        "/ContainerImageBuildIntegTest/Vpc/publicSubnet1/RouteTableAssociation": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "VpcpublicSubnet1RouteTableAssociation4E83B6E4"
+          }
+        ],
+        "/ContainerImageBuildIntegTest/Vpc/publicSubnet1/DefaultRoute": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "VpcpublicSubnet1DefaultRouteB88F9E93"
+          }
+        ],
+        "/ContainerImageBuildIntegTest/Vpc/IGW": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "VpcIGWD7BA715C"
+          }
+        ],
+        "/ContainerImageBuildIntegTest/Vpc/VPCGW": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "VpcVPCGWBF912B6E"
+          }
+        ],
+        "/ContainerImageBuildIntegTest/Cluster/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "ClusterEB0386A7"
+          }
+        ],
+        "/ContainerImageBuildIntegTest/TaskDefinition/TaskRole/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "TaskDefinitionTaskRoleFD40A61D"
+          }
+        ],
+        "/ContainerImageBuildIntegTest/TaskDefinition/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "TaskDefinitionB36D86D9"
+          }
+        ],
+        "/ContainerImageBuildIntegTest/TaskDefinition/main/LogGroup/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "TaskDefinitionmainLogGroup2F2AC027"
+          }
+        ],
+        "/ContainerImageBuildIntegTest/TaskDefinition/ExecutionRole/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "TaskDefinitionExecutionRole8D61C2FB"
+          }
+        ],
+        "/ContainerImageBuildIntegTest/TaskDefinition/ExecutionRole/DefaultPolicy/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "TaskDefinitionExecutionRoleDefaultPolicy1F3406F5"
+          }
+        ]
+      },
+      "displayName": "ContainerImageBuildIntegTest"
+    },
+    "TestDefaultTestDeployAssert12909640": {
+      "type": "aws:cloudformation:stack",
+      "environment": "aws://unknown-account/unknown-region",
+      "properties": {
+        "templateFile": "TestDefaultTestDeployAssert12909640.template.json",
+        "validateOnSynth": false
+      },
+      "displayName": "Test/DefaultTest/DeployAssert"
+    }
+  }
+}
