@@ -158,6 +158,158 @@ yarn integ-runner --update-on-failed
 
 ## Constructs <a name="Constructs" id="Constructs"></a>
 
+### ContainerImageBuild <a name="ContainerImageBuild" id="deploy-time-build.ContainerImageBuild"></a>
+
+- *Implements:* aws-cdk-lib.aws_iam.IGrantable
+
+Build Node.js app and optionally publish the artifact to an S3 bucket.
+
+#### Initializers <a name="Initializers" id="deploy-time-build.ContainerImageBuild.Initializer"></a>
+
+```typescript
+import { ContainerImageBuild } from 'deploy-time-build'
+
+new ContainerImageBuild(scope: Construct, id: string, props: ContainerImageBuildProps)
+```
+
+| **Name** | **Type** | **Description** |
+| --- | --- | --- |
+| <code><a href="#deploy-time-build.ContainerImageBuild.Initializer.parameter.scope">scope</a></code> | <code>constructs.Construct</code> | *No description.* |
+| <code><a href="#deploy-time-build.ContainerImageBuild.Initializer.parameter.id">id</a></code> | <code>string</code> | *No description.* |
+| <code><a href="#deploy-time-build.ContainerImageBuild.Initializer.parameter.props">props</a></code> | <code><a href="#deploy-time-build.ContainerImageBuildProps">ContainerImageBuildProps</a></code> | *No description.* |
+
+---
+
+##### `scope`<sup>Required</sup> <a name="scope" id="deploy-time-build.ContainerImageBuild.Initializer.parameter.scope"></a>
+
+- *Type:* constructs.Construct
+
+---
+
+##### `id`<sup>Required</sup> <a name="id" id="deploy-time-build.ContainerImageBuild.Initializer.parameter.id"></a>
+
+- *Type:* string
+
+---
+
+##### `props`<sup>Required</sup> <a name="props" id="deploy-time-build.ContainerImageBuild.Initializer.parameter.props"></a>
+
+- *Type:* <a href="#deploy-time-build.ContainerImageBuildProps">ContainerImageBuildProps</a>
+
+---
+
+#### Methods <a name="Methods" id="Methods"></a>
+
+| **Name** | **Description** |
+| --- | --- |
+| <code><a href="#deploy-time-build.ContainerImageBuild.toString">toString</a></code> | Returns a string representation of this construct. |
+| <code><a href="#deploy-time-build.ContainerImageBuild.toEcsDockerImageCode">toEcsDockerImageCode</a></code> | *No description.* |
+| <code><a href="#deploy-time-build.ContainerImageBuild.toLambdaDockerImageCode">toLambdaDockerImageCode</a></code> | *No description.* |
+
+---
+
+##### `toString` <a name="toString" id="deploy-time-build.ContainerImageBuild.toString"></a>
+
+```typescript
+public toString(): string
+```
+
+Returns a string representation of this construct.
+
+##### `toEcsDockerImageCode` <a name="toEcsDockerImageCode" id="deploy-time-build.ContainerImageBuild.toEcsDockerImageCode"></a>
+
+```typescript
+public toEcsDockerImageCode(): EcrImage
+```
+
+##### `toLambdaDockerImageCode` <a name="toLambdaDockerImageCode" id="deploy-time-build.ContainerImageBuild.toLambdaDockerImageCode"></a>
+
+```typescript
+public toLambdaDockerImageCode(): DockerImageCode
+```
+
+#### Static Functions <a name="Static Functions" id="Static Functions"></a>
+
+| **Name** | **Description** |
+| --- | --- |
+| <code><a href="#deploy-time-build.ContainerImageBuild.isConstruct">isConstruct</a></code> | Checks if `x` is a construct. |
+
+---
+
+##### ~~`isConstruct`~~ <a name="isConstruct" id="deploy-time-build.ContainerImageBuild.isConstruct"></a>
+
+```typescript
+import { ContainerImageBuild } from 'deploy-time-build'
+
+ContainerImageBuild.isConstruct(x: any)
+```
+
+Checks if `x` is a construct.
+
+###### `x`<sup>Required</sup> <a name="x" id="deploy-time-build.ContainerImageBuild.isConstruct.parameter.x"></a>
+
+- *Type:* any
+
+Any object.
+
+---
+
+#### Properties <a name="Properties" id="Properties"></a>
+
+| **Name** | **Type** | **Description** |
+| --- | --- | --- |
+| <code><a href="#deploy-time-build.ContainerImageBuild.property.node">node</a></code> | <code>constructs.Node</code> | The tree node. |
+| <code><a href="#deploy-time-build.ContainerImageBuild.property.grantPrincipal">grantPrincipal</a></code> | <code>aws-cdk-lib.aws_iam.IPrincipal</code> | The principal to grant permissions to. |
+| <code><a href="#deploy-time-build.ContainerImageBuild.property.imageTag">imageTag</a></code> | <code>string</code> | *No description.* |
+| <code><a href="#deploy-time-build.ContainerImageBuild.property.repository">repository</a></code> | <code>aws-cdk-lib.aws_ecr.IRepository</code> | *No description.* |
+
+---
+
+##### `node`<sup>Required</sup> <a name="node" id="deploy-time-build.ContainerImageBuild.property.node"></a>
+
+```typescript
+public readonly node: Node;
+```
+
+- *Type:* constructs.Node
+
+The tree node.
+
+---
+
+##### `grantPrincipal`<sup>Required</sup> <a name="grantPrincipal" id="deploy-time-build.ContainerImageBuild.property.grantPrincipal"></a>
+
+```typescript
+public readonly grantPrincipal: IPrincipal;
+```
+
+- *Type:* aws-cdk-lib.aws_iam.IPrincipal
+
+The principal to grant permissions to.
+
+---
+
+##### `imageTag`<sup>Required</sup> <a name="imageTag" id="deploy-time-build.ContainerImageBuild.property.imageTag"></a>
+
+```typescript
+public readonly imageTag: string;
+```
+
+- *Type:* string
+
+---
+
+##### `repository`<sup>Required</sup> <a name="repository" id="deploy-time-build.ContainerImageBuild.property.repository"></a>
+
+```typescript
+public readonly repository: IRepository;
+```
+
+- *Type:* aws-cdk-lib.aws_ecr.IRepository
+
+---
+
+
 ### NodejsBuild <a name="NodejsBuild" id="deploy-time-build.NodejsBuild"></a>
 
 - *Implements:* aws-cdk-lib.aws_iam.IGrantable
@@ -590,6 +742,233 @@ public readonly extractPath: string;
 - *Default:* basename of the asset path.
 
 Relative path from a build directory to the directory where the asset is extracted.
+
+---
+
+### ContainerImageBuildProps <a name="ContainerImageBuildProps" id="deploy-time-build.ContainerImageBuildProps"></a>
+
+Note:   the default platform is LINUX_AMD64.
+
+#### Initializer <a name="Initializer" id="deploy-time-build.ContainerImageBuildProps.Initializer"></a>
+
+```typescript
+import { ContainerImageBuildProps } from 'deploy-time-build'
+
+const containerImageBuildProps: ContainerImageBuildProps = { ... }
+```
+
+#### Properties <a name="Properties" id="Properties"></a>
+
+| **Name** | **Type** | **Description** |
+| --- | --- | --- |
+| <code><a href="#deploy-time-build.ContainerImageBuildProps.property.exclude">exclude</a></code> | <code>string[]</code> | File paths matching the patterns will be excluded. |
+| <code><a href="#deploy-time-build.ContainerImageBuildProps.property.followSymlinks">followSymlinks</a></code> | <code>aws-cdk-lib.SymlinkFollowMode</code> | A strategy for how to handle symlinks. |
+| <code><a href="#deploy-time-build.ContainerImageBuildProps.property.ignoreMode">ignoreMode</a></code> | <code>aws-cdk-lib.IgnoreMode</code> | The ignore behavior to use for `exclude` patterns. |
+| <code><a href="#deploy-time-build.ContainerImageBuildProps.property.extraHash">extraHash</a></code> | <code>string</code> | Extra information to encode into the fingerprint (e.g. build instructions and other inputs). |
+| <code><a href="#deploy-time-build.ContainerImageBuildProps.property.buildArgs">buildArgs</a></code> | <code>{[ key: string ]: string}</code> | Build args to pass to the `docker build` command. |
+| <code><a href="#deploy-time-build.ContainerImageBuildProps.property.file">file</a></code> | <code>string</code> | Path to the Dockerfile (relative to the directory). |
+| <code><a href="#deploy-time-build.ContainerImageBuildProps.property.invalidation">invalidation</a></code> | <code>aws-cdk-lib.aws_ecr_assets.DockerImageAssetInvalidationOptions</code> | Options to control which parameters are used to invalidate the asset hash. |
+| <code><a href="#deploy-time-build.ContainerImageBuildProps.property.networkMode">networkMode</a></code> | <code>aws-cdk-lib.aws_ecr_assets.NetworkMode</code> | Networking mode for the RUN commands during build. |
+| <code><a href="#deploy-time-build.ContainerImageBuildProps.property.platform">platform</a></code> | <code>aws-cdk-lib.aws_ecr_assets.Platform</code> | Platform to build for. |
+| <code><a href="#deploy-time-build.ContainerImageBuildProps.property.target">target</a></code> | <code>string</code> | Docker target to build to. |
+| <code><a href="#deploy-time-build.ContainerImageBuildProps.property.directory">directory</a></code> | <code>string</code> | The directory where the Dockerfile is stored. |
+| <code><a href="#deploy-time-build.ContainerImageBuildProps.property.repository">repository</a></code> | <code>aws-cdk-lib.aws_ecr.IRepository</code> | The ECR repository to push the image. |
+| <code><a href="#deploy-time-build.ContainerImageBuildProps.property.tag">tag</a></code> | <code>string</code> | The tag when to push the image. |
+| <code><a href="#deploy-time-build.ContainerImageBuildProps.property.zstdCompression">zstdCompression</a></code> | <code>boolean</code> | Use zstd for compressing a container image. |
+
+---
+
+##### `exclude`<sup>Optional</sup> <a name="exclude" id="deploy-time-build.ContainerImageBuildProps.property.exclude"></a>
+
+```typescript
+public readonly exclude: string[];
+```
+
+- *Type:* string[]
+- *Default:* nothing is excluded
+
+File paths matching the patterns will be excluded.
+
+See `ignoreMode` to set the matching behavior.
+Has no effect on Assets bundled using the `bundling` property.
+
+---
+
+##### `followSymlinks`<sup>Optional</sup> <a name="followSymlinks" id="deploy-time-build.ContainerImageBuildProps.property.followSymlinks"></a>
+
+```typescript
+public readonly followSymlinks: SymlinkFollowMode;
+```
+
+- *Type:* aws-cdk-lib.SymlinkFollowMode
+- *Default:* SymlinkFollowMode.NEVER
+
+A strategy for how to handle symlinks.
+
+---
+
+##### `ignoreMode`<sup>Optional</sup> <a name="ignoreMode" id="deploy-time-build.ContainerImageBuildProps.property.ignoreMode"></a>
+
+```typescript
+public readonly ignoreMode: IgnoreMode;
+```
+
+- *Type:* aws-cdk-lib.IgnoreMode
+- *Default:* IgnoreMode.GLOB
+
+The ignore behavior to use for `exclude` patterns.
+
+---
+
+##### `extraHash`<sup>Optional</sup> <a name="extraHash" id="deploy-time-build.ContainerImageBuildProps.property.extraHash"></a>
+
+```typescript
+public readonly extraHash: string;
+```
+
+- *Type:* string
+- *Default:* hash is only based on source content
+
+Extra information to encode into the fingerprint (e.g. build instructions and other inputs).
+
+---
+
+##### `buildArgs`<sup>Optional</sup> <a name="buildArgs" id="deploy-time-build.ContainerImageBuildProps.property.buildArgs"></a>
+
+```typescript
+public readonly buildArgs: {[ key: string ]: string};
+```
+
+- *Type:* {[ key: string ]: string}
+- *Default:* no build args are passed
+
+Build args to pass to the `docker build` command.
+
+Since Docker build arguments are resolved before deployment, keys and
+values cannot refer to unresolved tokens (such as `lambda.functionArn` or
+`queue.queueUrl`).
+
+---
+
+##### `file`<sup>Optional</sup> <a name="file" id="deploy-time-build.ContainerImageBuildProps.property.file"></a>
+
+```typescript
+public readonly file: string;
+```
+
+- *Type:* string
+- *Default:* 'Dockerfile'
+
+Path to the Dockerfile (relative to the directory).
+
+---
+
+##### `invalidation`<sup>Optional</sup> <a name="invalidation" id="deploy-time-build.ContainerImageBuildProps.property.invalidation"></a>
+
+```typescript
+public readonly invalidation: DockerImageAssetInvalidationOptions;
+```
+
+- *Type:* aws-cdk-lib.aws_ecr_assets.DockerImageAssetInvalidationOptions
+- *Default:* hash all parameters
+
+Options to control which parameters are used to invalidate the asset hash.
+
+---
+
+##### `networkMode`<sup>Optional</sup> <a name="networkMode" id="deploy-time-build.ContainerImageBuildProps.property.networkMode"></a>
+
+```typescript
+public readonly networkMode: NetworkMode;
+```
+
+- *Type:* aws-cdk-lib.aws_ecr_assets.NetworkMode
+- *Default:* no networking mode specified (the default networking mode `NetworkMode.DEFAULT` will be used)
+
+Networking mode for the RUN commands during build.
+
+Support docker API 1.25+.
+
+---
+
+##### `platform`<sup>Optional</sup> <a name="platform" id="deploy-time-build.ContainerImageBuildProps.property.platform"></a>
+
+```typescript
+public readonly platform: Platform;
+```
+
+- *Type:* aws-cdk-lib.aws_ecr_assets.Platform
+- *Default:* no platform specified (the current machine architecture will be used)
+
+Platform to build for.
+
+_Requires Docker Buildx_.
+
+---
+
+##### `target`<sup>Optional</sup> <a name="target" id="deploy-time-build.ContainerImageBuildProps.property.target"></a>
+
+```typescript
+public readonly target: string;
+```
+
+- *Type:* string
+- *Default:* no target
+
+Docker target to build to.
+
+---
+
+##### `directory`<sup>Required</sup> <a name="directory" id="deploy-time-build.ContainerImageBuildProps.property.directory"></a>
+
+```typescript
+public readonly directory: string;
+```
+
+- *Type:* string
+
+The directory where the Dockerfile is stored.
+
+Any directory inside with a name that matches the CDK output folder (cdk.out by default) will be excluded from the asset
+
+---
+
+##### `repository`<sup>Optional</sup> <a name="repository" id="deploy-time-build.ContainerImageBuildProps.property.repository"></a>
+
+```typescript
+public readonly repository: IRepository;
+```
+
+- *Type:* aws-cdk-lib.aws_ecr.IRepository
+- *Default:* create a new ECR repository
+
+The ECR repository to push the image.
+
+---
+
+##### `tag`<sup>Optional</sup> <a name="tag" id="deploy-time-build.ContainerImageBuildProps.property.tag"></a>
+
+```typescript
+public readonly tag: string;
+```
+
+- *Type:* string
+- *Default:* use assetHash as tag
+
+The tag when to push the image.
+
+---
+
+##### `zstdCompression`<sup>Optional</sup> <a name="zstdCompression" id="deploy-time-build.ContainerImageBuildProps.property.zstdCompression"></a>
+
+```typescript
+public readonly zstdCompression: boolean;
+```
+
+- *Type:* boolean
+- *Default:* false
+
+Use zstd for compressing a container image.
 
 ---
 

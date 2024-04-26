@@ -13,7 +13,7 @@ export interface SingletonProjectProps extends ProjectProps {
   /**
    * A descriptive name for the purpose of this CodeBuild project.
    *
-   * If the project does not have a physical name, this string will be reflected its generated name. The combination of lambdaPurpose and uuid must be unique.
+   * If the project does not have a physical name, this string will be reflected its generated name. The combination of projectPurpose and uuid must be unique.
    *
    * @default SingletonProject
    */
