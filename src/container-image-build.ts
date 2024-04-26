@@ -13,10 +13,6 @@ import { Construct } from 'constructs';
 import { SingletonProject } from './singleton-project';
 import { ContainerImageBuildResourceProps } from './types';
 
-/**
- * Note:
- *   the default platform is LINUX_AMD64
- */
 export interface ContainerImageBuildProps extends DockerImageAssetProps {
   /**
    * The tag when to push the image
@@ -37,13 +33,8 @@ export interface ContainerImageBuildProps extends DockerImageAssetProps {
   readonly zstdCompression?: boolean;
 }
 
-// reference:
-// https://docs.aws.amazon.com/cdk/api/v2/docs/aws-cdk-lib.aws_ecr_assets.DockerImageAsset.html
-// https://docs.aws.amazon.com/cdk/api/v2/docs/aws-cdk-lib.aws_lambda.AssetImageCodeProps.html
-// https://docs.aws.amazon.com/cdk/api/v2/docs/aws-cdk-lib.aws_ecs.AssetImageProps.html
-
 /**
- * Build Node.js app and optionally publish the artifact to an S3 bucket.
+ * Build a container image and push it to an ECR repository on deploy-time.
  */
 export class ContainerImageBuild extends Construct implements IGrantable {
   public readonly grantPrincipal: IPrincipal;
@@ -189,6 +180,9 @@ curl -v -i -X PUT -H 'Content-Type:' -d "@payload.json" "$responseURL"
     this.imageTag = custom.getAttString('ImageTag');
   }
 
+  /**
+   * Get the instance of {@link DockerImageCode} for a Lambda function image.
+   */
   public toLambdaDockerImageCode() {
     if (this.props.zstdCompression) {
       throw new Error('You cannot enable zstdCompression for a Lambda image.');
@@ -196,6 +190,9 @@ curl -v -i -X PUT -H 'Content-Type:' -d "@payload.json" "$responseURL"
     return DockerImageCode.fromEcr(this.repository, { tagOrDigest: this.imageTag });
   }
 
+  /**
+   * Get the instance of {@link ContainerImage} for an ECS task definition.
+   */
   public toEcsDockerImageCode() {
     return ContainerImage.fromEcrRepository(this.repository, this.imageTag);
   }

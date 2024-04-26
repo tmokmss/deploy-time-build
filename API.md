@@ -2,6 +2,7 @@
 AWS CDK L3 construct that allows you to run a build job for specific purposes. Currently this library supports the following use cases:
 
 * Build web frontend static files
+* Build a container image
 * Build Seekable OCI (SOCI) indices for container images
 
 ## Usage
@@ -118,6 +119,35 @@ To mitigate this issue, you can separate the stack for frontend construct from o
       ],
 ```
 
+### Build a container image
+You can build a container image at deploy time by the following code:
+
+```ts
+import { ContainerImageBuild } from 'deploy-time-build;
+
+const image = new ContainerImageBuild(this, 'Build', {
+    directory: 'example-image',
+    buildArgs: { DUMMY_FILE_SIZE_MB: '15' },
+    tag: 'my-image-tag',
+});
+new DockerImageFunction(this, 'Function', {
+    code: image.toLambdaDockerImageCode(),
+});
+const armImage = new ContainerImageBuild(this, 'BuildArm', {
+    directory: 'example-image',
+    platform: Platform.LINUX_ARM64,
+    repository: image.repository,
+    zstdCompression: true,
+});
+new FargateTaskDefinition(this, 'TaskDefinition', {
+    runtimePlatform: { cpuArchitecture: CpuArchitecture.ARM64 }
+}).addContainer('main', {
+    image: armImage.toEcsDockerImageCode(),
+});
+```
+
+The third argument (props) are the super set of DockerImageAsset's properties. You can additionally set `tag` and `repository`.
+
 ### Build SOCI index for a container image
 [Seekable OCI (SOCI)](https://aws.amazon.com/about-aws/whats-new/2022/09/introducing-seekable-oci-lazy-loading-container-images/) is a way to help start tasks faster for Amazon ECS tasks on Fargate 1.4.0. You can build and push a SOCI index using the `SociIndexBuild` construct.
 
@@ -162,7 +192,7 @@ yarn integ-runner --update-on-failed
 
 - *Implements:* aws-cdk-lib.aws_iam.IGrantable
 
-Build Node.js app and optionally publish the artifact to an S3 bucket.
+Build a container image and push it to an ECR repository on deploy-time.
 
 #### Initializers <a name="Initializers" id="deploy-time-build.ContainerImageBuild.Initializer"></a>
 
@@ -203,8 +233,8 @@ new ContainerImageBuild(scope: Construct, id: string, props: ContainerImageBuild
 | **Name** | **Description** |
 | --- | --- |
 | <code><a href="#deploy-time-build.ContainerImageBuild.toString">toString</a></code> | Returns a string representation of this construct. |
-| <code><a href="#deploy-time-build.ContainerImageBuild.toEcsDockerImageCode">toEcsDockerImageCode</a></code> | *No description.* |
-| <code><a href="#deploy-time-build.ContainerImageBuild.toLambdaDockerImageCode">toLambdaDockerImageCode</a></code> | *No description.* |
+| <code><a href="#deploy-time-build.ContainerImageBuild.toEcsDockerImageCode">toEcsDockerImageCode</a></code> | Get the instance of {@link ContainerImage} for an ECS task definition. |
+| <code><a href="#deploy-time-build.ContainerImageBuild.toLambdaDockerImageCode">toLambdaDockerImageCode</a></code> | Get the instance of {@link DockerImageCode} for a Lambda function image. |
 
 ---
 
@@ -222,11 +252,15 @@ Returns a string representation of this construct.
 public toEcsDockerImageCode(): EcrImage
 ```
 
+Get the instance of {@link ContainerImage} for an ECS task definition.
+
 ##### `toLambdaDockerImageCode` <a name="toLambdaDockerImageCode" id="deploy-time-build.ContainerImageBuild.toLambdaDockerImageCode"></a>
 
 ```typescript
 public toLambdaDockerImageCode(): DockerImageCode
 ```
+
+Get the instance of {@link DockerImageCode} for a Lambda function image.
 
 #### Static Functions <a name="Static Functions" id="Static Functions"></a>
 
@@ -746,8 +780,6 @@ Relative path from a build directory to the directory where the asset is extract
 ---
 
 ### ContainerImageBuildProps <a name="ContainerImageBuildProps" id="deploy-time-build.ContainerImageBuildProps"></a>
-
-Note:   the default platform is LINUX_AMD64.
 
 #### Initializer <a name="Initializer" id="deploy-time-build.ContainerImageBuildProps.Initializer"></a>
 

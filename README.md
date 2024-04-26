@@ -2,6 +2,7 @@
 AWS CDK L3 construct that allows you to run a build job for specific purposes. Currently this library supports the following use cases:
 
 * Build web frontend static files
+* Build a container image
 * Build Seekable OCI (SOCI) indices for container images
 
 ## Usage
@@ -117,6 +118,35 @@ To mitigate this issue, you can separate the stack for frontend construct from o
         },
       ],
 ```
+
+### Build a container image
+You can build a container image at deploy time by the following code:
+
+```ts
+import { ContainerImageBuild } from 'deploy-time-build;
+
+const image = new ContainerImageBuild(this, 'Build', { 
+    directory: 'example-image', 
+    buildArgs: { DUMMY_FILE_SIZE_MB: '15' },
+    tag: 'my-image-tag',
+});
+new DockerImageFunction(this, 'Function', {
+    code: image.toLambdaDockerImageCode(),
+});
+const armImage = new ContainerImageBuild(this, 'BuildArm', {
+    directory: 'example-image',
+    platform: Platform.LINUX_ARM64,
+    repository: image.repository,
+    zstdCompression: true,
+});
+new FargateTaskDefinition(this, 'TaskDefinition', { 
+    runtimePlatform: { cpuArchitecture: CpuArchitecture.ARM64 } 
+}).addContainer('main', {
+    image: armImage.toEcsDockerImageCode(),
+});
+```
+
+The third argument (props) are the super set of DockerImageAsset's properties. You can additionally set `tag` and `repository`.
 
 ### Build SOCI index for a container image
 [Seekable OCI (SOCI)](https://aws.amazon.com/about-aws/whats-new/2022/09/introducing-seekable-oci-lazy-loading-container-images/) is a way to help start tasks faster for Amazon ECS tasks on Fargate 1.4.0. You can build and push a SOCI index using the `SociIndexBuild` construct.
