@@ -146,7 +146,7 @@ new FargateTaskDefinition(this, 'TaskDefinition', {
 });
 ```
 
-The third argument (props) are a superset of DockerImageAsset's properties. You can additionally set a few properties such as `tag`, `repository`, and `zstdCompression`.
+The third argument (props) are a superset of DockerImageAsset's properties. You can set a few additional properties such as `tag`, `repository`, and `zstdCompression`.
 
 ### Build SOCI index for a container image
 [Seekable OCI (SOCI)](https://aws.amazon.com/about-aws/whats-new/2022/09/introducing-seekable-oci-lazy-loading-container-images/) is a way to help start tasks faster for Amazon ECS tasks on Fargate 1.4.0. You can build and push a SOCI index using the `SociIndexBuild` construct.
