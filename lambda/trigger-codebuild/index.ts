@@ -38,6 +38,7 @@ export const handler = async (event: Event, context: any) => {
           value: event.LogicalResourceId,
         },
       ];
+      const newPhysicalId = Crypto.randomBytes(16).toString('hex');
 
       let command: StartBuildCommand;
       switch (props.type) {
@@ -67,7 +68,7 @@ export const handler = async (event: Event, context: any) => {
               {
                 name: 'destinationObjectKey',
                 // This should be random to always trigger a BucketDeployment update process
-                value: `${Crypto.randomBytes(16).toString('hex')}.zip`,
+                value: `${newPhysicalId}.zip`,
               },
               {
                 name: 'workingDirectory',
@@ -80,6 +81,18 @@ export const handler = async (event: Event, context: any) => {
               {
                 name: 'projectName',
                 value: props.codeBuildProjectName,
+              },
+              {
+                name: 'outputEnvFile',
+                value: props.outputEnvFile.toString(),
+              },
+              {
+                name: 'envFileKey',
+                value: `deploy-time-build/${event.StackId.split('/')[1]}/${event.LogicalResourceId}/${newPhysicalId}.env`,
+              },
+              {
+                name: 'envNames',
+                value: Object.keys(props.environment ?? {}).join(','),
               },
               ...Object.entries(props.environment ?? {}).map(([name, value]) => ({
                 name,
