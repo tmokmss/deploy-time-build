@@ -78,6 +78,8 @@ Then, the extracted directories will be located as the following:
 
 You can also override the path where assets are extracted by `extractPath` property for each asset.
 
+With `outputEnvFile` property enabled, a `.env` file is automatically generated and uploaded to your S3 bucket. This file can be used running you frontend project locally. You can download the file to your local machine by running the command added in the stack output.
+
 Please also check [the example directory](./example/) for a complete example.
 
 #### Allowing access from the build environment to other AWS resources
