@@ -1,13 +1,13 @@
-import { Stack, StackProps, App, RemovalPolicy, CfnOutput } from 'aws-cdk-lib';
+import { Stack, StackProps, App, CfnOutput } from 'aws-cdk-lib';
 import { Construct } from 'constructs';
 import { MockIntegration, RestApi } from 'aws-cdk-lib/aws-apigateway';
 import { ContainerImageBuild, NodejsBuild, SociIndexBuild } from '../src/';
 import { BlockPublicAccess, Bucket, BucketEncryption } from 'aws-cdk-lib/aws-s3';
-import { OriginAccessIdentity, CloudFrontWebDistribution } from 'aws-cdk-lib/aws-cloudfront';
 import { DockerImageAsset, Platform } from 'aws-cdk-lib/aws-ecr-assets';
 import { DockerImageFunction } from 'aws-cdk-lib/aws-lambda';
 import { AwsLogDriver, Cluster, CpuArchitecture, FargateTaskDefinition } from 'aws-cdk-lib/aws-ecs';
 import { SubnetType, Vpc } from 'aws-cdk-lib/aws-ec2';
+import { OriginAccessIdentity, CloudFrontWebDistribution } from 'aws-cdk-lib/aws-cloudfront';
 
 class NodejsTestStack extends Stack {
   constructor(scope: Construct, id: string, props: StackProps = {}) {
@@ -28,8 +28,8 @@ class NodejsTestStack extends Stack {
     );
 
     const dstBucket = new Bucket(this, 'DstBucket', {
-      autoDeleteObjects: true,
-      removalPolicy: RemovalPolicy.DESTROY,
+      // autoDeleteObjects: true,
+      // removalPolicy: RemovalPolicy.DESTROY,
       blockPublicAccess: BlockPublicAccess.BLOCK_ALL,
       encryption: BucketEncryption.S3_MANAGED,
     });
@@ -54,6 +54,10 @@ class NodejsTestStack extends Stack {
       ],
     });
 
+    new CfnOutput(this, 'DistributionUrl', {
+      value: `https://${distribution.distributionDomainName}`,
+    });
+
     new NodejsBuild(this, 'ExampleBuild', {
       assets: [
         {
@@ -68,13 +72,13 @@ class NodejsTestStack extends Stack {
       buildCommands: ['npm ci', 'npm run build'],
       buildEnvironment: {
         VITE_API_ENDPOINT: api.url,
+        AAA: 'asdf',
+        BBB: dstBucket.bucketName,
       },
       nodejsVersion: 20,
+      outputEnvFile: true,
     });
 
-    new CfnOutput(this, 'DistributionUrl', {
-      value: `https://${distribution.distributionDomainName}`,
-    });
   }
 }
 

@@ -1026,6 +1026,7 @@ const nodejsBuildProps: NodejsBuildProps = { ... }
 | <code><a href="#deploy-time-build.NodejsBuildProps.property.destinationKeyPrefix">destinationKeyPrefix</a></code> | <code>string</code> | Key prefix to deploy your build artifact. |
 | <code><a href="#deploy-time-build.NodejsBuildProps.property.distribution">distribution</a></code> | <code>aws-cdk-lib.aws_cloudfront.IDistribution</code> | The distribution you are using to publish you build artifact. |
 | <code><a href="#deploy-time-build.NodejsBuildProps.property.nodejsVersion">nodejsVersion</a></code> | <code>number</code> | The version of Node.js to use in a build environment. Available versions: 12, 14, 16, 18, 20. |
+| <code><a href="#deploy-time-build.NodejsBuildProps.property.outputEnvFile">outputEnvFile</a></code> | <code>boolean</code> | If true, a .env file is uploaded to an S3 bucket with values of `buildEnvironment` property. You can copy it to your local machine by running the command in the stack output. |
 | <code><a href="#deploy-time-build.NodejsBuildProps.property.workingDirectory">workingDirectory</a></code> | <code>string</code> | Relative path from the build directory to the directory where build commands run. |
 
 ---
@@ -1134,6 +1135,19 @@ public readonly nodejsVersion: number;
 - *Default:* 18
 
 The version of Node.js to use in a build environment. Available versions: 12, 14, 16, 18, 20.
+
+---
+
+##### `outputEnvFile`<sup>Optional</sup> <a name="outputEnvFile" id="deploy-time-build.NodejsBuildProps.property.outputEnvFile"></a>
+
+```typescript
+public readonly outputEnvFile: boolean;
+```
+
+- *Type:* boolean
+- *Default:* false
+
+If true, a .env file is uploaded to an S3 bucket with values of `buildEnvironment` property. You can copy it to your local machine by running the command in the stack output.
 
 ---
 

@@ -51,6 +51,7 @@ var handler = async (event, context) => {
           value: event.LogicalResourceId
         }
       ];
+      const newPhysicalId = import_crypto.default.randomBytes(16).toString("hex");
       let command;
       switch (props.type) {
         case "NodejsBuild":
@@ -76,7 +77,7 @@ var handler = async (event, context) => {
               },
               {
                 name: "destinationObjectKey",
-                value: `${import_crypto.default.randomBytes(16).toString("hex")}.zip`
+                value: `${newPhysicalId}.zip`
               },
               {
                 name: "workingDirectory",
@@ -89,6 +90,18 @@ var handler = async (event, context) => {
               {
                 name: "projectName",
                 value: props.codeBuildProjectName
+              },
+              {
+                name: "outputEnvFile",
+                value: props.outputEnvFile.toString()
+              },
+              {
+                name: "envFileKey",
+                value: `deploy-time-build/${event.StackId.split("/")[1]}/${event.LogicalResourceId}/${newPhysicalId}.env`
+              },
+              {
+                name: "envNames",
+                value: Object.keys(props.environment ?? {}).join(",")
               },
               ...Object.entries(props.environment ?? {}).map(([name, value]) => ({
                 name,
