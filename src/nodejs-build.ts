@@ -1,5 +1,5 @@
 import { posix, join, basename } from 'path';
-import { Annotations, CustomResource, Duration } from 'aws-cdk-lib';
+import { Annotations, CfnOutput, CustomResource, Duration } from 'aws-cdk-lib';
 import { IDistribution } from 'aws-cdk-lib/aws-cloudfront';
 import { BuildSpec, LinuxBuildImage, Project } from 'aws-cdk-lib/aws-codebuild';
 import { IGrantable, IPrincipal, PolicyStatement } from 'aws-cdk-lib/aws-iam';
@@ -69,6 +69,12 @@ export interface NodejsBuildProps {
    * @default 18
    */
   readonly nodejsVersion?: number;
+  /**
+   * If true, a .env file is uploaded to an S3 bucket with values of `buildEnvironment` property.
+   * You can copy it to your local machine by running the command in the stack output.
+   * @default false
+   */
+  readonly outputEnvFile?: boolean;
 }
 
 /**
@@ -110,11 +116,15 @@ export class NodejsBuild extends Construct implements IGrantable {
     }
 
     const destinationObjectKeyOutputKey = 'destinationObjectKey';
+    const envFileKeyOutputKey = 'envFileKey';
 
     const project = new Project(this, 'Project', {
       environment: { buildImage: LinuxBuildImage.fromCodeBuildImageId(buildImage) },
       buildSpec: BuildSpec.fromObject({
         version: '0.2',
+        env: {
+          shell: 'bash',
+        },
         phases: {
           install: {
             'runtime-versions': {
@@ -160,6 +170,21 @@ done
               'cd "$outputSourceDirectory"',
               'zip -r output.zip ./',
               'aws s3 cp output.zip "s3://$destinationBucketName/$destinationObjectKey"',
+              // Upload .env if required
+              `
+if [[ $outputEnvFile == "true" ]]
+then
+  # Split the comma-separated string into an array
+  for var_name in \${envNames//,/ }
+  do
+      echo "Element: $var_name"
+      var_value="\${!var_name}"
+      echo "$var_name=$var_value" >> tmp.env
+  done
+
+  aws s3 cp tmp.env "s3://$destinationBucketName/$envFileKey"
+fi
+              `,
             ],
           },
           post_build: {
@@ -182,7 +207,8 @@ cat <<EOF > payload.json
   "Status": "$STATUS",
   "Reason": "$REASON",
   "Data": {
-    "${destinationObjectKeyOutputKey}": "$destinationObjectKey"
+    "${destinationObjectKeyOutputKey}": "$destinationObjectKey",
+    "${envFileKeyOutputKey}": "$envFileKey"
   }
 }
 EOF
@@ -232,6 +258,7 @@ curl -v -i -X PUT -H 'Content-Type:' -d "@payload.json" "$responseURL"
       environment: props.buildEnvironment,
       buildCommands: props.buildCommands ?? ['npm run build'],
       codeBuildProjectName: project.projectName,
+      outputEnvFile: props.outputEnvFile ?? false,
     };
 
     const custom = new CustomResource(this, 'Resource', {
@@ -248,5 +275,9 @@ curl -v -i -X PUT -H 'Content-Type:' -d "@payload.json" "$responseURL"
     });
 
     deploy.node.addDependency(custom);
+
+    if (props.outputEnvFile) {
+      new CfnOutput(this, 'DownloadEnvFile', { value: `aws s3 cp ${bucket.s3UrlForObject(custom.getAttString(envFileKeyOutputKey))} .env.local` });
+    }
   }
 }

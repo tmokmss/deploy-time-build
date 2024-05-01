@@ -14,6 +14,7 @@ export type NodejsBuildResourceProps = {
   outputSourceDirectory: string;
   buildCommands: string[];
   codeBuildProjectName: string;
+  outputEnvFile: boolean;
 };
 
 export type SociIndexBuildResourceProps = {

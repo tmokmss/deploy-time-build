@@ -31,6 +31,7 @@ class TestStack extends Stack {
         VITE_SOME_TOKEN: dstBucket.bucketName,
       },
       nodejsVersion: 20,
+      outputEnvFile: true,
     });
   }
 }
