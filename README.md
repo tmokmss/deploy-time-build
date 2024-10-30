@@ -181,7 +181,7 @@ Commands for maintainers:
 
 ```sh
 # run test locally
-yarn tsc -p tsconfig.dev.json
-yarn integ-runner
-yarn integ-runner --update-on-failed
+npx tsc -p tsconfig.dev.json
+npx integ-runner
+npx integ-runner --update-on-failed
 ```
