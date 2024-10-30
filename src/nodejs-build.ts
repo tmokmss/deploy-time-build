@@ -75,6 +75,12 @@ export interface NodejsBuildProps {
    * @default false
    */
   readonly outputEnvFile?: boolean;
+  /**
+   * If true, common unnecessary files/directories such as .DS_Store, .git, node_modules, etc are excluded
+   * from the assets by default.
+   * @default true
+   */
+  readonly excludeCommonFiles?: boolean;
 }
 
 /**
@@ -229,9 +235,11 @@ curl -v -i -X PUT -H 'Content-Type:' -d "@payload.json" "$responseURL"
 
     this.grantPrincipal = project.grantPrincipal;
 
+    const commonExclude = ['.DS_Store', '.git', 'node_modules'];
     const assets = props.assets.map((assetProps) => {
       const asset = new Asset(this, `Source-${assetProps.path.replace('/', '')}`, {
         ...assetProps,
+        ...(props.excludeCommonFiles ?? true ? { exclude: [...commonExclude, ...(assetProps.exclude ?? [])] } : {}),
       });
       asset.grantRead(project);
       return asset;
