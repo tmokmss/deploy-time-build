@@ -1,4 +1,5 @@
 import { awscdk } from 'projen';
+import { NodePackageManager } from 'projen/lib/javascript';
 
 const project = new awscdk.AwsCdkConstructLibrary({
   projenrcTs: true,
@@ -6,7 +7,7 @@ const project = new awscdk.AwsCdkConstructLibrary({
   authorAddress: 'tomookam@live.jp',
   cdkVersion: '2.38.0', // For using @aws-cdk/integ-runner
   defaultReleaseBranch: 'main',
-  jsiiVersion: '~5.3.0',
+  jsiiVersion: '~5.5.0',
   name: 'deploy-time-build',
   license: 'MIT',
   repositoryUrl: 'https://github.com/tmokmss/deploy-time-build.git',
@@ -14,6 +15,7 @@ const project = new awscdk.AwsCdkConstructLibrary({
     distName: 'deploy-time-build',
     module: 'deploy_time_build',
   },
+  packageManager: NodePackageManager.NPM,
   eslintOptions: {
     dirs: [],
     ignorePatterns: ['example/**/*', 'lambda/**/*', 'test/assets/**/*', 'test/*.snapshot/**/*', '*.d.ts'],
@@ -32,5 +34,5 @@ project.projectBuild.compileTask.prependExec('npm ci && npm run build', {
   cwd: 'lambda/trigger-codebuild',
 });
 // Run integ-test
-project.projectBuild.testTask.exec('yarn tsc -p tsconfig.dev.json && yarn integ-runner');
+project.projectBuild.testTask.exec('npx tsc -p tsconfig.dev.json && npx integ-runner');
 project.synth();
