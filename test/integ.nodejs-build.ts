@@ -20,7 +20,7 @@ class TestStack extends Stack {
       assets: [
         {
           path: '../example/example-app',
-          exclude: ['dist', 'node_modules'],
+          exclude: ['dist'],
         },
       ],
       destinationBucket: dstBucket,
