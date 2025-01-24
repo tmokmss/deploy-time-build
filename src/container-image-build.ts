@@ -3,6 +3,7 @@ import { existsSync, readFileSync } from 'fs';
 import { join } from 'path';
 import { CfnResource, CustomResource, Duration, RemovalPolicy } from 'aws-cdk-lib';
 import { BuildSpec, LinuxBuildImage } from 'aws-cdk-lib/aws-codebuild';
+import { IVpc } from 'aws-cdk-lib/aws-ec2';
 import { IRepository, Repository } from 'aws-cdk-lib/aws-ecr';
 import { DockerImageAssetProps } from 'aws-cdk-lib/aws-ecr-assets';
 import { ContainerImage } from 'aws-cdk-lib/aws-ecs';
@@ -31,6 +32,15 @@ export interface ContainerImageBuildProps extends DockerImageAssetProps {
    * @default false
    */
   readonly zstdCompression?: boolean;
+
+  /**
+   * The VPC where your build job will be deployed.
+   * This VPC must have private subnets with NAT Gateways.
+   *
+   * Use this property when you want to control the outbound IP addresses that base images are pulled from.
+   * @default No VPC used.
+   */
+  readonly vpc?: IVpc;
 }
 
 /**
@@ -74,6 +84,7 @@ export class ContainerImageBuild extends Construct implements IGrantable {
         buildImage: buildImage,
         privileged: true,
       },
+      vpc: props.vpc,
       buildSpec: BuildSpec.fromObject({
         version: '0.2',
         phases: {

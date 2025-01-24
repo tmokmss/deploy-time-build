@@ -620,6 +620,7 @@ const containerImageBuildProps: ContainerImageBuildProps = { ... }
 | <code><a href="#deploy-time-build.ContainerImageBuildProps.property.directory">directory</a></code> | <code>string</code> | The directory where the Dockerfile is stored. |
 | <code><a href="#deploy-time-build.ContainerImageBuildProps.property.repository">repository</a></code> | <code>aws-cdk-lib.aws_ecr.IRepository</code> | The ECR repository to push the image. |
 | <code><a href="#deploy-time-build.ContainerImageBuildProps.property.tag">tag</a></code> | <code>string</code> | The tag when to push the image. |
+| <code><a href="#deploy-time-build.ContainerImageBuildProps.property.vpc">vpc</a></code> | <code>aws-cdk-lib.aws_ec2.IVpc</code> | The VPC where your build job will be deployed. This VPC must have private subnets with NAT Gateways. |
 | <code><a href="#deploy-time-build.ContainerImageBuildProps.property.zstdCompression">zstdCompression</a></code> | <code>boolean</code> | Use zstd for compressing a container image. |
 
 ---
@@ -802,6 +803,21 @@ public readonly tag: string;
 - *Default:* use assetHash as tag
 
 The tag when to push the image.
+
+---
+
+##### `vpc`<sup>Optional</sup> <a name="vpc" id="deploy-time-build.ContainerImageBuildProps.property.vpc"></a>
+
+```typescript
+public readonly vpc: IVpc;
+```
+
+- *Type:* aws-cdk-lib.aws_ec2.IVpc
+- *Default:* No VPC used.
+
+The VPC where your build job will be deployed. This VPC must have private subnets with NAT Gateways.
+
+Use this property when you want to control the outbound IP addresses that base images are pulled from.
 
 ---
 
