@@ -32,7 +32,7 @@ export class SingletonProject extends Construct {
   }
 
   private ensureProject(props: SingletonProjectProps): Project {
-    const constructName = (props.projectPurpose ?? 'SingletonProject') + this.slugify(props.uuid);
+    const constructName = (props.projectPurpose ?? 'SingletonProject') + this.slugify(props.uuid, this.propsToAdditionalString(props));
     const existing = Stack.of(this).node.tryFindChild(constructName);
     if (existing) {
       return existing as Project;
@@ -41,7 +41,18 @@ export class SingletonProject extends Construct {
     return new Project(Stack.of(this), constructName, props);
   }
 
-  private slugify(x: string): string {
-    return x.replace(/[^a-zA-Z0-9]/g, '');
+  private propsToAdditionalString(props: SingletonProjectProps) {
+    // This string must be stable to avoid from replacement.
+    // Things that can be added to the slug later (we have to create a new project per these properties):
+    //   * vpc addr
+    //   * instance type
+    // But actually, replacement will not cause any disruption because of its stateless nature.
+    let slug = '';
+    slug += props.vpc?.node.addr ?? '';
+    return slug;
+  }
+
+  private slugify(x: string, additionalString?: string): string {
+    return `${x}${additionalString ?? ''}`.replace(/[^a-zA-Z0-9]/g, '');
   }
 }
