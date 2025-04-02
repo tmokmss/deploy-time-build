@@ -43,7 +43,7 @@
                     },
                     "tags": [
                       {
-                        "key": "aws-cdk:cr-owned:/:8aab14f9",
+                        "key": "aws-cdk:cr-owned:/:7e638b4c",
                         "value": "true"
                       }
                     ]
@@ -471,13 +471,13 @@
                       "version": "2.38.0"
                     }
                   },
-                  "CustomResource": {
-                    "id": "CustomResource",
-                    "path": "NodejsBuildIntegTest/ExampleBuild/Deploy/CustomResource",
+                  "CustomResource-512MiB": {
+                    "id": "CustomResource-512MiB",
+                    "path": "NodejsBuildIntegTest/ExampleBuild/Deploy/CustomResource-512MiB",
                     "children": {
                       "Default": {
                         "id": "Default",
-                        "path": "NodejsBuildIntegTest/ExampleBuild/Deploy/CustomResource/Default",
+                        "path": "NodejsBuildIntegTest/ExampleBuild/Deploy/CustomResource-512MiB/Default",
                         "constructInfo": {
                           "fqn": "aws-cdk-lib.CfnResource",
                           "version": "2.38.0"
@@ -844,17 +844,17 @@
               "version": "10.0.5"
             }
           },
-          "Custom::CDKBucketDeployment8693BB64968944B69AAFB0CC9EB8756C": {
-            "id": "Custom::CDKBucketDeployment8693BB64968944B69AAFB0CC9EB8756C",
-            "path": "NodejsBuildIntegTest/Custom::CDKBucketDeployment8693BB64968944B69AAFB0CC9EB8756C",
+          "Custom::CDKBucketDeployment8693BB64968944B69AAFB0CC9EB8756C512MiB": {
+            "id": "Custom::CDKBucketDeployment8693BB64968944B69AAFB0CC9EB8756C512MiB",
+            "path": "NodejsBuildIntegTest/Custom::CDKBucketDeployment8693BB64968944B69AAFB0CC9EB8756C512MiB",
             "children": {
               "ServiceRole": {
                 "id": "ServiceRole",
-                "path": "NodejsBuildIntegTest/Custom::CDKBucketDeployment8693BB64968944B69AAFB0CC9EB8756C/ServiceRole",
+                "path": "NodejsBuildIntegTest/Custom::CDKBucketDeployment8693BB64968944B69AAFB0CC9EB8756C512MiB/ServiceRole",
                 "children": {
                   "Resource": {
                     "id": "Resource",
-                    "path": "NodejsBuildIntegTest/Custom::CDKBucketDeployment8693BB64968944B69AAFB0CC9EB8756C/ServiceRole/Resource",
+                    "path": "NodejsBuildIntegTest/Custom::CDKBucketDeployment8693BB64968944B69AAFB0CC9EB8756C512MiB/ServiceRole/Resource",
                     "attributes": {
                       "aws:cdk:cloudformation:type": "AWS::IAM::Role",
                       "aws:cdk:cloudformation:props": {
@@ -893,11 +893,11 @@
                   },
                   "DefaultPolicy": {
                     "id": "DefaultPolicy",
-                    "path": "NodejsBuildIntegTest/Custom::CDKBucketDeployment8693BB64968944B69AAFB0CC9EB8756C/ServiceRole/DefaultPolicy",
+                    "path": "NodejsBuildIntegTest/Custom::CDKBucketDeployment8693BB64968944B69AAFB0CC9EB8756C512MiB/ServiceRole/DefaultPolicy",
                     "children": {
                       "Resource": {
                         "id": "Resource",
-                        "path": "NodejsBuildIntegTest/Custom::CDKBucketDeployment8693BB64968944B69AAFB0CC9EB8756C/ServiceRole/DefaultPolicy/Resource",
+                        "path": "NodejsBuildIntegTest/Custom::CDKBucketDeployment8693BB64968944B69AAFB0CC9EB8756C512MiB/ServiceRole/DefaultPolicy/Resource",
                         "attributes": {
                           "aws:cdk:cloudformation:type": "AWS::IAM::Policy",
                           "aws:cdk:cloudformation:props": {
@@ -984,10 +984,10 @@
                               ],
                               "Version": "2012-10-17"
                             },
-                            "policyName": "CustomCDKBucketDeployment8693BB64968944B69AAFB0CC9EB8756CServiceRoleDefaultPolicy88902FDF",
+                            "policyName": "CustomCDKBucketDeployment8693BB64968944B69AAFB0CC9EB8756C512MiBServiceRoleDefaultPolicy96C3E726",
                             "roles": [
                               {
-                                "Ref": "CustomCDKBucketDeployment8693BB64968944B69AAFB0CC9EB8756CServiceRole89A01265"
+                                "Ref": "CustomCDKBucketDeployment8693BB64968944B69AAFB0CC9EB8756C512MiBServiceRoleBA21DBC1"
                               }
                             ]
                           }
@@ -1011,11 +1011,11 @@
               },
               "Code": {
                 "id": "Code",
-                "path": "NodejsBuildIntegTest/Custom::CDKBucketDeployment8693BB64968944B69AAFB0CC9EB8756C/Code",
+                "path": "NodejsBuildIntegTest/Custom::CDKBucketDeployment8693BB64968944B69AAFB0CC9EB8756C512MiB/Code",
                 "children": {
                   "Stage": {
                     "id": "Stage",
-                    "path": "NodejsBuildIntegTest/Custom::CDKBucketDeployment8693BB64968944B69AAFB0CC9EB8756C/Code/Stage",
+                    "path": "NodejsBuildIntegTest/Custom::CDKBucketDeployment8693BB64968944B69AAFB0CC9EB8756C512MiB/Code/Stage",
                     "constructInfo": {
                       "fqn": "aws-cdk-lib.AssetStaging",
                       "version": "2.38.0"
@@ -1023,7 +1023,7 @@
                   },
                   "AssetBucket": {
                     "id": "AssetBucket",
-                    "path": "NodejsBuildIntegTest/Custom::CDKBucketDeployment8693BB64968944B69AAFB0CC9EB8756C/Code/AssetBucket",
+                    "path": "NodejsBuildIntegTest/Custom::CDKBucketDeployment8693BB64968944B69AAFB0CC9EB8756C512MiB/Code/AssetBucket",
                     "constructInfo": {
                       "fqn": "aws-cdk-lib.aws_s3.BucketBase",
                       "version": "2.38.0"
@@ -1037,7 +1037,7 @@
               },
               "Resource": {
                 "id": "Resource",
-                "path": "NodejsBuildIntegTest/Custom::CDKBucketDeployment8693BB64968944B69AAFB0CC9EB8756C/Resource",
+                "path": "NodejsBuildIntegTest/Custom::CDKBucketDeployment8693BB64968944B69AAFB0CC9EB8756C512MiB/Resource",
                 "attributes": {
                   "aws:cdk:cloudformation:type": "AWS::Lambda::Function",
                   "aws:cdk:cloudformation:props": {
@@ -1081,7 +1081,7 @@
                     },
                     "role": {
                       "Fn::GetAtt": [
-                        "CustomCDKBucketDeployment8693BB64968944B69AAFB0CC9EB8756CServiceRole89A01265",
+                        "CustomCDKBucketDeployment8693BB64968944B69AAFB0CC9EB8756C512MiBServiceRoleBA21DBC1",
                         "Arn"
                       ]
                     },
@@ -1091,6 +1091,7 @@
                         "Ref": "ExampleBuildDeployAwsCliLayerF15CA413"
                       }
                     ],
+                    "memorySize": 512,
                     "runtime": "python3.9",
                     "timeout": 900
                   }
