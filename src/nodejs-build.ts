@@ -280,6 +280,7 @@ curl -v -i -X PUT -H 'Content-Type:' -d "@payload.json" "$responseURL"
       destinationBucket: props.destinationBucket,
       destinationKeyPrefix: props.destinationKeyPrefix,
       distribution: props.distribution,
+      memoryLimit: 512, // sometimes timeout on default (128MB) memory
     });
 
     deploy.node.addDependency(custom);
