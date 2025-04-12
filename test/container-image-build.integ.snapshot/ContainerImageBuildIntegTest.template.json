@@ -485,7 +485,7 @@
     },
     "imageTag": "0cb4b8f0df7fe44ecbf1d4d1bb949c3c",
     "codeBuildProjectName": {
-     "Ref": "ContainerImageBuildAmd64e83729feb1564e709bec452b15847a30F1D2BABB"
+     "Ref": "ContainerImageBuildAmd64e83729feb1564e709bec452b15847a30amd6491AAA9B2"
     },
     "sourceS3Url": {
      "Fn::Join": [
@@ -571,13 +571,19 @@
        "Resource": [
         {
          "Fn::GetAtt": [
-          "ContainerImageBuildAmd64e83729feb1564e709bec452b15847a30F1D2BABB",
+          "ContainerImageBuildAmd64e83729feb1564e709bec452b15847a30amd6491AAA9B2",
           "Arn"
          ]
         },
         {
          "Fn::GetAtt": [
-          "ContainerImageBuildAmd64e83729feb1564e709bec452b15847a30c8a085f75ccbc05f5149859bcf147b49eadd8ac37d703E47BD",
+          "ContainerImageBuildAmd64e83729feb1564e709bec452b15847a30c8a085f75ccbc05f5149859bcf147b49eadd8ac37damd64C6D1C187",
+          "Arn"
+         ]
+        },
+        {
+         "Fn::GetAtt": [
+          "ContainerImageBuildArm64e83729feb1564e709bec452b15847a30amd64C13E3549",
           "Arn"
          ]
         }
@@ -650,7 +656,7 @@
     "DeployTimeBuildCustomResourceHandlerdb740fd554364a848a09e6dfcd01f4f3ServiceRoleB008BAA4"
    ]
   },
-  "ContainerImageBuildAmd64e83729feb1564e709bec452b15847a30RoleB1437276": {
+  "ContainerImageBuildAmd64e83729feb1564e709bec452b15847a30amd64RoleD95F32B9": {
    "Type": "AWS::IAM::Role",
    "Properties": {
     "AssumeRolePolicyDocument": {
@@ -681,7 +687,7 @@
     ]
    }
   },
-  "ContainerImageBuildAmd64e83729feb1564e709bec452b15847a30RoleDefaultPolicy9F1BA63A": {
+  "ContainerImageBuildAmd64e83729feb1564e709bec452b15847a30amd64RoleDefaultPolicyBD233B55": {
    "Type": "AWS::IAM::Policy",
    "Properties": {
     "PolicyDocument": {
@@ -712,7 +718,7 @@
            },
            ":log-group:/aws/codebuild/",
            {
-            "Ref": "ContainerImageBuildAmd64e83729feb1564e709bec452b15847a30F1D2BABB"
+            "Ref": "ContainerImageBuildAmd64e83729feb1564e709bec452b15847a30amd6491AAA9B2"
            },
            ":*"
           ]
@@ -736,7 +742,7 @@
            },
            ":log-group:/aws/codebuild/",
            {
-            "Ref": "ContainerImageBuildAmd64e83729feb1564e709bec452b15847a30F1D2BABB"
+            "Ref": "ContainerImageBuildAmd64e83729feb1564e709bec452b15847a30amd6491AAA9B2"
            }
           ]
          ]
@@ -770,7 +776,7 @@
           },
           ":report-group/",
           {
-           "Ref": "ContainerImageBuildAmd64e83729feb1564e709bec452b15847a30F1D2BABB"
+           "Ref": "ContainerImageBuildAmd64e83729feb1564e709bec452b15847a30amd6491AAA9B2"
           },
           "-*"
          ]
@@ -845,15 +851,15 @@
      ],
      "Version": "2012-10-17"
     },
-    "PolicyName": "ContainerImageBuildAmd64e83729feb1564e709bec452b15847a30RoleDefaultPolicy9F1BA63A",
+    "PolicyName": "ContainerImageBuildAmd64e83729feb1564e709bec452b15847a30amd64RoleDefaultPolicyBD233B55",
     "Roles": [
      {
-      "Ref": "ContainerImageBuildAmd64e83729feb1564e709bec452b15847a30RoleB1437276"
+      "Ref": "ContainerImageBuildAmd64e83729feb1564e709bec452b15847a30amd64RoleD95F32B9"
      }
     ]
    }
   },
-  "ContainerImageBuildAmd64e83729feb1564e709bec452b15847a30F1D2BABB": {
+  "ContainerImageBuildAmd64e83729feb1564e709bec452b15847a30amd6491AAA9B2": {
    "Type": "AWS::CodeBuild::Project",
    "Properties": {
     "Artifacts": {
@@ -868,7 +874,7 @@
     },
     "ServiceRole": {
      "Fn::GetAtt": [
-      "ContainerImageBuildAmd64e83729feb1564e709bec452b15847a30RoleB1437276",
+      "ContainerImageBuildAmd64e83729feb1564e709bec452b15847a30amd64RoleD95F32B9",
       "Arn"
      ]
     },
@@ -992,7 +998,7 @@
     },
     "imageTag": "ca38901771f07ed68abee97d650d90e0",
     "codeBuildProjectName": {
-     "Ref": "ContainerImageBuildAmd64e83729feb1564e709bec452b15847a30F1D2BABB"
+     "Ref": "ContainerImageBuildArm64e83729feb1564e709bec452b15847a30amd64C13E3549"
     },
     "sourceS3Url": {
      "Fn::Join": [
@@ -1035,6 +1041,238 @@
    },
    "UpdateReplacePolicy": "Delete",
    "DeletionPolicy": "Delete"
+  },
+  "ContainerImageBuildArm64e83729feb1564e709bec452b15847a30amd64RoleC5F7BBFE": {
+   "Type": "AWS::IAM::Role",
+   "Properties": {
+    "AssumeRolePolicyDocument": {
+     "Statement": [
+      {
+       "Action": "sts:AssumeRole",
+       "Effect": "Allow",
+       "Principal": {
+        "Service": "codebuild.amazonaws.com"
+       }
+      }
+     ],
+     "Version": "2012-10-17"
+    },
+    "ManagedPolicyArns": [
+     {
+      "Fn::Join": [
+       "",
+       [
+        "arn:",
+        {
+         "Ref": "AWS::Partition"
+        },
+        ":iam::aws:policy/AmazonElasticContainerRegistryPublicReadOnly"
+       ]
+      ]
+     }
+    ]
+   }
+  },
+  "ContainerImageBuildArm64e83729feb1564e709bec452b15847a30amd64RoleDefaultPolicy2316728F": {
+   "Type": "AWS::IAM::Policy",
+   "Properties": {
+    "PolicyDocument": {
+     "Statement": [
+      {
+       "Action": [
+        "logs:CreateLogGroup",
+        "logs:CreateLogStream",
+        "logs:PutLogEvents"
+       ],
+       "Effect": "Allow",
+       "Resource": [
+        {
+         "Fn::Join": [
+          "",
+          [
+           "arn:",
+           {
+            "Ref": "AWS::Partition"
+           },
+           ":logs:",
+           {
+            "Ref": "AWS::Region"
+           },
+           ":",
+           {
+            "Ref": "AWS::AccountId"
+           },
+           ":log-group:/aws/codebuild/",
+           {
+            "Ref": "ContainerImageBuildArm64e83729feb1564e709bec452b15847a30amd64C13E3549"
+           },
+           ":*"
+          ]
+         ]
+        },
+        {
+         "Fn::Join": [
+          "",
+          [
+           "arn:",
+           {
+            "Ref": "AWS::Partition"
+           },
+           ":logs:",
+           {
+            "Ref": "AWS::Region"
+           },
+           ":",
+           {
+            "Ref": "AWS::AccountId"
+           },
+           ":log-group:/aws/codebuild/",
+           {
+            "Ref": "ContainerImageBuildArm64e83729feb1564e709bec452b15847a30amd64C13E3549"
+           }
+          ]
+         ]
+        }
+       ]
+      },
+      {
+       "Action": [
+        "codebuild:BatchPutCodeCoverages",
+        "codebuild:BatchPutTestCases",
+        "codebuild:CreateReport",
+        "codebuild:CreateReportGroup",
+        "codebuild:UpdateReport"
+       ],
+       "Effect": "Allow",
+       "Resource": {
+        "Fn::Join": [
+         "",
+         [
+          "arn:",
+          {
+           "Ref": "AWS::Partition"
+          },
+          ":codebuild:",
+          {
+           "Ref": "AWS::Region"
+          },
+          ":",
+          {
+           "Ref": "AWS::AccountId"
+          },
+          ":report-group/",
+          {
+           "Ref": "ContainerImageBuildArm64e83729feb1564e709bec452b15847a30amd64C13E3549"
+          },
+          "-*"
+         ]
+        ]
+       }
+      },
+      {
+       "Action": [
+        "ecr:BatchCheckLayerAvailability",
+        "ecr:BatchGetImage",
+        "ecr:CompleteLayerUpload",
+        "ecr:DescribeImages",
+        "ecr:GetDownloadUrlForLayer",
+        "ecr:InitiateLayerUpload",
+        "ecr:PutImage",
+        "ecr:UploadLayerPart"
+       ],
+       "Effect": "Allow",
+       "Resource": {
+        "Fn::GetAtt": [
+         "BuildRepository4E6D17C2",
+         "Arn"
+        ]
+       }
+      },
+      {
+       "Action": "ecr:GetAuthorizationToken",
+       "Effect": "Allow",
+       "Resource": "*"
+      },
+      {
+       "Action": [
+        "s3:GetBucket*",
+        "s3:GetObject*",
+        "s3:List*"
+       ],
+       "Effect": "Allow",
+       "Resource": [
+        {
+         "Fn::Join": [
+          "",
+          [
+           "arn:",
+           {
+            "Ref": "AWS::Partition"
+           },
+           ":s3:::",
+           {
+            "Ref": "AssetParametersf7fa10e7cd7b9b27f49a4a335f4aa9795fb7e68a665c34ca8bf5711f0aa6aeabS3Bucket1FF22598"
+           },
+           "/*"
+          ]
+         ]
+        },
+        {
+         "Fn::Join": [
+          "",
+          [
+           "arn:",
+           {
+            "Ref": "AWS::Partition"
+           },
+           ":s3:::",
+           {
+            "Ref": "AssetParametersf7fa10e7cd7b9b27f49a4a335f4aa9795fb7e68a665c34ca8bf5711f0aa6aeabS3Bucket1FF22598"
+           }
+          ]
+         ]
+        }
+       ]
+      }
+     ],
+     "Version": "2012-10-17"
+    },
+    "PolicyName": "ContainerImageBuildArm64e83729feb1564e709bec452b15847a30amd64RoleDefaultPolicy2316728F",
+    "Roles": [
+     {
+      "Ref": "ContainerImageBuildArm64e83729feb1564e709bec452b15847a30amd64RoleC5F7BBFE"
+     }
+    ]
+   }
+  },
+  "ContainerImageBuildArm64e83729feb1564e709bec452b15847a30amd64C13E3549": {
+   "Type": "AWS::CodeBuild::Project",
+   "Properties": {
+    "Artifacts": {
+     "Type": "NO_ARTIFACTS"
+    },
+    "Environment": {
+     "ComputeType": "BUILD_GENERAL1_SMALL",
+     "Image": "aws/codebuild/amazonlinux2-aarch64-standard:3.0",
+     "ImagePullCredentialsType": "CODEBUILD",
+     "PrivilegedMode": true,
+     "Type": "ARM_CONTAINER"
+    },
+    "ServiceRole": {
+     "Fn::GetAtt": [
+      "ContainerImageBuildArm64e83729feb1564e709bec452b15847a30amd64RoleC5F7BBFE",
+      "Arn"
+     ]
+    },
+    "Source": {
+     "BuildSpec": "{\n  \"version\": \"0.2\",\n  \"phases\": {\n    \"build\": {\n      \"commands\": [\n        \"current_dir=$(pwd)\",\n        \"echo \\\"$input\\\"\",\n        \"mkdir workdir\",\n        \"cd workdir\",\n        \"aws s3 cp \\\"$sourceS3Url\\\" temp.zip\",\n        \"unzip temp.zip\",\n        \"ls -la\",\n        \"aws ecr get-login-password | docker login --username AWS --password-stdin $repositoryAuthUri\",\n        \"aws ecr-public get-login-password --region us-east-1 | docker login --username AWS --password-stdin public.ecr.aws\",\n        \"docker buildx create --use\",\n        \"docker buildx ls\",\n        \"eval \\\"$buildCommand\\\"\"\n      ]\n    },\n    \"post_build\": {\n      \"commands\": [\n        \"echo Build completed on `date`\",\n        \"\\nSTATUS='SUCCESS'\\nif [ $CODEBUILD_BUILD_SUCCEEDING -ne 1 ] # Test if the build is failing\\nthen\\nSTATUS='FAILED'\\nREASON=\\\"ContainerImageBuild failed. See CloudWatch Log stream for the detailed reason: \\nhttps://$AWS_REGION.console.aws.amazon.com/cloudwatch/home?region=$AWS_REGION#logsV2:log-groups/log-group/\\\\$252Faws\\\\$252Fcodebuild\\\\$252F$projectName/log-events/$CODEBUILD_LOG_PATH\\\"\\nfi\\ncat <<EOF > payload.json\\n{\\n  \\\"StackId\\\": \\\"$stackId\\\",\\n  \\\"RequestId\\\": \\\"$requestId\\\",\\n  \\\"LogicalResourceId\\\":\\\"$logicalResourceId\\\",\\n  \\\"PhysicalResourceId\\\": \\\"$imageTag\\\",\\n  \\\"Status\\\": \\\"$STATUS\\\",\\n  \\\"Reason\\\": \\\"$REASON\\\",\\n  \\\"Data\\\": {\\n    \\\"ImageTag\\\": \\\"$imageTag\\\"\\n  }\\n}\\nEOF\\ncurl -v -i -X PUT -H 'Content-Type:' -d \\\"@payload.json\\\" \\\"$responseURL\\\"\\n              \"\n      ]\n    }\n  }\n}",
+     "Type": "NO_SOURCE"
+    },
+    "Cache": {
+     "Type": "NO_CACHE"
+    },
+    "EncryptionKey": "alias/aws/s3"
+   }
   },
   "FunctionServiceRole675BB04A": {
    "Type": "AWS::IAM::Role",
@@ -1447,7 +1685,7 @@
     },
     "imageTag": "0935d471547c278ca8652335f6d474db",
     "codeBuildProjectName": {
-     "Ref": "ContainerImageBuildAmd64e83729feb1564e709bec452b15847a30c8a085f75ccbc05f5149859bcf147b49eadd8ac37d703E47BD"
+     "Ref": "ContainerImageBuildAmd64e83729feb1564e709bec452b15847a30c8a085f75ccbc05f5149859bcf147b49eadd8ac37damd64C6D1C187"
     },
     "sourceS3Url": {
      "Fn::Join": [
@@ -1491,7 +1729,7 @@
    "UpdateReplacePolicy": "Delete",
    "DeletionPolicy": "Delete"
   },
-  "ContainerImageBuildAmd64e83729feb1564e709bec452b15847a30c8a085f75ccbc05f5149859bcf147b49eadd8ac37dRole5BED91FC": {
+  "ContainerImageBuildAmd64e83729feb1564e709bec452b15847a30c8a085f75ccbc05f5149859bcf147b49eadd8ac37damd64Role7FBDDED1": {
    "Type": "AWS::IAM::Role",
    "Properties": {
     "AssumeRolePolicyDocument": {
@@ -1522,7 +1760,7 @@
     ]
    }
   },
-  "ContainerImageBuildAmd64e83729feb1564e709bec452b15847a30c8a085f75ccbc05f5149859bcf147b49eadd8ac37dRoleDefaultPolicyBD1A2120": {
+  "ContainerImageBuildAmd64e83729feb1564e709bec452b15847a30c8a085f75ccbc05f5149859bcf147b49eadd8ac37damd64RoleDefaultPolicyF7E07B6C": {
    "Type": "AWS::IAM::Policy",
    "Properties": {
     "PolicyDocument": {
@@ -1630,7 +1868,7 @@
            },
            ":log-group:/aws/codebuild/",
            {
-            "Ref": "ContainerImageBuildAmd64e83729feb1564e709bec452b15847a30c8a085f75ccbc05f5149859bcf147b49eadd8ac37d703E47BD"
+            "Ref": "ContainerImageBuildAmd64e83729feb1564e709bec452b15847a30c8a085f75ccbc05f5149859bcf147b49eadd8ac37damd64C6D1C187"
            },
            ":*"
           ]
@@ -1654,7 +1892,7 @@
            },
            ":log-group:/aws/codebuild/",
            {
-            "Ref": "ContainerImageBuildAmd64e83729feb1564e709bec452b15847a30c8a085f75ccbc05f5149859bcf147b49eadd8ac37d703E47BD"
+            "Ref": "ContainerImageBuildAmd64e83729feb1564e709bec452b15847a30c8a085f75ccbc05f5149859bcf147b49eadd8ac37damd64C6D1C187"
            }
           ]
          ]
@@ -1688,7 +1926,7 @@
           },
           ":report-group/",
           {
-           "Ref": "ContainerImageBuildAmd64e83729feb1564e709bec452b15847a30c8a085f75ccbc05f5149859bcf147b49eadd8ac37d703E47BD"
+           "Ref": "ContainerImageBuildAmd64e83729feb1564e709bec452b15847a30c8a085f75ccbc05f5149859bcf147b49eadd8ac37damd64C6D1C187"
           },
           "-*"
          ]
@@ -1763,18 +2001,18 @@
      ],
      "Version": "2012-10-17"
     },
-    "PolicyName": "ContainerImageBuildAmd64e83729feb1564e709bec452b15847a30c8a085f75ccbc05f5149859bcf147b49eadd8ac37dRoleDefaultPolicyBD1A2120",
+    "PolicyName": "ContainerImageBuildAmd64e83729feb1564e709bec452b15847a30c8a085f75ccbc05f5149859bcf147b49eadd8ac37damd64RoleDefaultPolicyF7E07B6C",
     "Roles": [
      {
-      "Ref": "ContainerImageBuildAmd64e83729feb1564e709bec452b15847a30c8a085f75ccbc05f5149859bcf147b49eadd8ac37dRole5BED91FC"
+      "Ref": "ContainerImageBuildAmd64e83729feb1564e709bec452b15847a30c8a085f75ccbc05f5149859bcf147b49eadd8ac37damd64Role7FBDDED1"
      }
     ]
    }
   },
-  "ContainerImageBuildAmd64e83729feb1564e709bec452b15847a30c8a085f75ccbc05f5149859bcf147b49eadd8ac37dSecurityGroup0214D6FC": {
+  "ContainerImageBuildAmd64e83729feb1564e709bec452b15847a30c8a085f75ccbc05f5149859bcf147b49eadd8ac37damd64SecurityGroup48FE16CC": {
    "Type": "AWS::EC2::SecurityGroup",
    "Properties": {
-    "GroupDescription": "Automatic generated security group for CodeBuild ContainerImageBuildIntegTestContainerImageBuildAmd64e83729feb1564e709bec452b15847a30c8a085f75ccbc05f5149859bcf147b49eadd8ac37dC6E6E137",
+    "GroupDescription": "Automatic generated security group for CodeBuild ContainerImageBuildIntegTestContainerImageBuildAmd64e83729feb1564e709bec452b15847a30c8a085f75ccbc05f5149859bcf147b49eadd8ac37damd64A2A27E6C",
     "SecurityGroupEgress": [
      {
       "CidrIp": "0.0.0.0/0",
@@ -1787,7 +2025,7 @@
     }
    }
   },
-  "ContainerImageBuildAmd64e83729feb1564e709bec452b15847a30c8a085f75ccbc05f5149859bcf147b49eadd8ac37d703E47BD": {
+  "ContainerImageBuildAmd64e83729feb1564e709bec452b15847a30c8a085f75ccbc05f5149859bcf147b49eadd8ac37damd64C6D1C187": {
    "Type": "AWS::CodeBuild::Project",
    "Properties": {
     "Artifacts": {
@@ -1802,7 +2040,7 @@
     },
     "ServiceRole": {
      "Fn::GetAtt": [
-      "ContainerImageBuildAmd64e83729feb1564e709bec452b15847a30c8a085f75ccbc05f5149859bcf147b49eadd8ac37dRole5BED91FC",
+      "ContainerImageBuildAmd64e83729feb1564e709bec452b15847a30c8a085f75ccbc05f5149859bcf147b49eadd8ac37damd64Role7FBDDED1",
       "Arn"
      ]
     },
@@ -1818,7 +2056,7 @@
      "SecurityGroupIds": [
       {
        "Fn::GetAtt": [
-        "ContainerImageBuildAmd64e83729feb1564e709bec452b15847a30c8a085f75ccbc05f5149859bcf147b49eadd8ac37dSecurityGroup0214D6FC",
+        "ContainerImageBuildAmd64e83729feb1564e709bec452b15847a30c8a085f75ccbc05f5149859bcf147b49eadd8ac37damd64SecurityGroup48FE16CC",
         "GroupId"
        ]
       }
@@ -1837,10 +2075,10 @@
     }
    },
    "DependsOn": [
-    "ContainerImageBuildAmd64e83729feb1564e709bec452b15847a30c8a085f75ccbc05f5149859bcf147b49eadd8ac37dPolicyDocumentE28495DA"
+    "ContainerImageBuildAmd64e83729feb1564e709bec452b15847a30c8a085f75ccbc05f5149859bcf147b49eadd8ac37damd64PolicyDocument194E3D91"
    ]
   },
-  "ContainerImageBuildAmd64e83729feb1564e709bec452b15847a30c8a085f75ccbc05f5149859bcf147b49eadd8ac37dPolicyDocumentE28495DA": {
+  "ContainerImageBuildAmd64e83729feb1564e709bec452b15847a30c8a085f75ccbc05f5149859bcf147b49eadd8ac37damd64PolicyDocument194E3D91": {
    "Type": "AWS::IAM::Policy",
    "Properties": {
     "PolicyDocument": {
@@ -1861,10 +2099,10 @@
      ],
      "Version": "2012-10-17"
     },
-    "PolicyName": "ContainerImageBuildAmd64e83729feb1564e709bec452b15847a30c8a085f75ccbc05f5149859bcf147b49eadd8ac37dPolicyDocumentE28495DA",
+    "PolicyName": "ContainerImageBuildAmd64e83729feb1564e709bec452b15847a30c8a085f75ccbc05f5149859bcf147b49eadd8ac37damd64PolicyDocument194E3D91",
     "Roles": [
      {
-      "Ref": "ContainerImageBuildAmd64e83729feb1564e709bec452b15847a30c8a085f75ccbc05f5149859bcf147b49eadd8ac37dRole5BED91FC"
+      "Ref": "ContainerImageBuildAmd64e83729feb1564e709bec452b15847a30c8a085f75ccbc05f5149859bcf147b49eadd8ac37damd64Role7FBDDED1"
      }
     ]
    }

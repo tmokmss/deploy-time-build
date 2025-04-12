@@ -13,7 +13,7 @@
     "imageTag": "a8bbd8136347d097316685416937f7ad1e2612d23493dcc4e0ef33d290c09b05",
     "repositoryName": "aws-cdk/assets",
     "codeBuildProjectName": {
-     "Ref": "SociIndexBuild024cf76a10034aa4aa4b12c32c09ca3cFF24E8AD"
+     "Ref": "SociIndexBuild024cf76a10034aa4aa4b12c32c09ca3camd642F4A8EFA"
     }
    },
    "UpdateReplacePolicy": "Delete",
@@ -60,7 +60,7 @@
        "Effect": "Allow",
        "Resource": {
         "Fn::GetAtt": [
-         "SociIndexBuild024cf76a10034aa4aa4b12c32c09ca3cFF24E8AD",
+         "SociIndexBuild024cf76a10034aa4aa4b12c32c09ca3camd642F4A8EFA",
          "Arn"
         ]
        }
@@ -132,7 +132,7 @@
     "DeployTimeBuildCustomResourceHandlerdb740fd554364a848a09e6dfcd01f4f3ServiceRoleB008BAA4"
    ]
   },
-  "SociIndexBuild024cf76a10034aa4aa4b12c32c09ca3cRole33DABF16": {
+  "SociIndexBuild024cf76a10034aa4aa4b12c32c09ca3camd64RoleBDD942DA": {
    "Type": "AWS::IAM::Role",
    "Properties": {
     "AssumeRolePolicyDocument": {
@@ -149,7 +149,7 @@
     }
    }
   },
-  "SociIndexBuild024cf76a10034aa4aa4b12c32c09ca3cRoleDefaultPolicyC13902A7": {
+  "SociIndexBuild024cf76a10034aa4aa4b12c32c09ca3camd64RoleDefaultPolicy93E560B4": {
    "Type": "AWS::IAM::Policy",
    "Properties": {
     "PolicyDocument": {
@@ -180,7 +180,7 @@
            },
            ":log-group:/aws/codebuild/",
            {
-            "Ref": "SociIndexBuild024cf76a10034aa4aa4b12c32c09ca3cFF24E8AD"
+            "Ref": "SociIndexBuild024cf76a10034aa4aa4b12c32c09ca3camd642F4A8EFA"
            },
            ":*"
           ]
@@ -204,7 +204,7 @@
            },
            ":log-group:/aws/codebuild/",
            {
-            "Ref": "SociIndexBuild024cf76a10034aa4aa4b12c32c09ca3cFF24E8AD"
+            "Ref": "SociIndexBuild024cf76a10034aa4aa4b12c32c09ca3camd642F4A8EFA"
            }
           ]
          ]
@@ -238,7 +238,7 @@
           },
           ":report-group/",
           {
-           "Ref": "SociIndexBuild024cf76a10034aa4aa4b12c32c09ca3cFF24E8AD"
+           "Ref": "SociIndexBuild024cf76a10034aa4aa4b12c32c09ca3camd642F4A8EFA"
           },
           "-*"
          ]
@@ -286,15 +286,15 @@
      ],
      "Version": "2012-10-17"
     },
-    "PolicyName": "SociIndexBuild024cf76a10034aa4aa4b12c32c09ca3cRoleDefaultPolicyC13902A7",
+    "PolicyName": "SociIndexBuild024cf76a10034aa4aa4b12c32c09ca3camd64RoleDefaultPolicy93E560B4",
     "Roles": [
      {
-      "Ref": "SociIndexBuild024cf76a10034aa4aa4b12c32c09ca3cRole33DABF16"
+      "Ref": "SociIndexBuild024cf76a10034aa4aa4b12c32c09ca3camd64RoleBDD942DA"
      }
     ]
    }
   },
-  "SociIndexBuild024cf76a10034aa4aa4b12c32c09ca3cFF24E8AD": {
+  "SociIndexBuild024cf76a10034aa4aa4b12c32c09ca3camd642F4A8EFA": {
    "Type": "AWS::CodeBuild::Project",
    "Properties": {
     "Artifacts": {
@@ -309,7 +309,7 @@
     },
     "ServiceRole": {
      "Fn::GetAtt": [
-      "SociIndexBuild024cf76a10034aa4aa4b12c32c09ca3cRole33DABF16",
+      "SociIndexBuild024cf76a10034aa4aa4b12c32c09ca3camd64RoleBDD942DA",
       "Arn"
      ]
     },
@@ -336,7 +336,7 @@
     "imageTag": "cf17887cc251b0d2ad6a734dbfd8c28d46168a4e632883267d3a06e454b1c3ad",
     "repositoryName": "aws-cdk/assets",
     "codeBuildProjectName": {
-     "Ref": "SociIndexBuild024cf76a10034aa4aa4b12c32c09ca3cFF24E8AD"
+     "Ref": "SociIndexBuild024cf76a10034aa4aa4b12c32c09ca3camd642F4A8EFA"
     }
    },
    "UpdateReplacePolicy": "Delete",

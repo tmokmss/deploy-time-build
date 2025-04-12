@@ -46,9 +46,14 @@ export class SingletonProject extends Construct {
     // Things that can be added to the slug later (we have to create a new project per these properties):
     //   * vpc addr
     //   * instance type
+    //   * platform (amd64/arm64)
     // But actually, replacement will not cause any disruption because of its stateless nature.
     let slug = '';
     slug += props.vpc?.node.addr ?? '';
+    // Get platform info from environment.buildImage if available
+    if (props.environment?.buildImage) {
+      slug += props.environment.buildImage.toString().includes('aarch64') ? 'arm64' : 'amd64';
+    }
     return slug;
   }
 
