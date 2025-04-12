@@ -2,7 +2,7 @@ import { createHash } from 'crypto';
 import { existsSync, readFileSync } from 'fs';
 import { join } from 'path';
 import { CfnResource, CustomResource, Duration, RemovalPolicy } from 'aws-cdk-lib';
-import { BuildSpec, LinuxBuildImage } from 'aws-cdk-lib/aws-codebuild';
+import { BuildSpec, LinuxArmBuildImage, LinuxBuildImage } from 'aws-cdk-lib/aws-codebuild';
 import { IVpc } from 'aws-cdk-lib/aws-ec2';
 import { IRepository, Repository } from 'aws-cdk-lib/aws-ecr';
 import { DockerImageAssetProps } from 'aws-cdk-lib/aws-ecr-assets';
@@ -64,12 +64,12 @@ export class ContainerImageBuild extends Construct implements IGrantable {
       timeout: Duration.minutes(5),
     });
 
-    // use buildx for cross-platform image build.
-    // because soci-snapshotter currently only supports amd64 environment.
-    // const armImage = LinuxArmBuildImage.fromCodeBuildImageId('aws/codebuild/amazonlinux2-aarch64-standard:3.0');
+    // Use buildx for cross-platform image build
+    const armImage = LinuxArmBuildImage.fromCodeBuildImageId('aws/codebuild/amazonlinux2-aarch64-standard:3.0');
     const x64Image = LinuxBuildImage.fromCodeBuildImageId('aws/codebuild/standard:7.0');
-    // const buildImage = props.platform == Platform.LINUX_ARM64 ? armImage : x64Image;
-    const buildImage = x64Image;
+    // Select the build image based on the target platform
+    const isArm64 = props.platform?.platform === 'linux/arm64';
+    const buildImage = isArm64 ? armImage : x64Image;
 
     let repository = props.repository;
     if (repository === undefined) {
@@ -79,7 +79,7 @@ export class ContainerImageBuild extends Construct implements IGrantable {
 
     const project = new SingletonProject(this, 'Project', {
       uuid: 'e83729fe-b156-4e70-9bec-452b15847a30',
-      projectPurpose: 'ContainerImageBuildAmd64',
+      projectPurpose: isArm64 ? 'ContainerImageBuildArm64' : 'ContainerImageBuildAmd64',
       environment: {
         buildImage: buildImage,
         privileged: true,
