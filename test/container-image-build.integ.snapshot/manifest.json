@@ -233,28 +233,46 @@
             "data": "AssetParametersf7fa10e7cd7b9b27f49a4a335f4aa9795fb7e68a665c34ca8bf5711f0aa6aeabArtifactHashC9CEFA00"
           }
         ],
-        "/ContainerImageBuildIntegTest/ContainerImageBuildAmd64e83729feb1564e709bec452b15847a30/Role/Resource": [
+        "/ContainerImageBuildIntegTest/ContainerImageBuildAmd64e83729feb1564e709bec452b15847a30amd64/Role/Resource": [
           {
             "type": "aws:cdk:logicalId",
-            "data": "ContainerImageBuildAmd64e83729feb1564e709bec452b15847a30RoleB1437276"
+            "data": "ContainerImageBuildAmd64e83729feb1564e709bec452b15847a30amd64RoleD95F32B9"
           }
         ],
-        "/ContainerImageBuildIntegTest/ContainerImageBuildAmd64e83729feb1564e709bec452b15847a30/Role/DefaultPolicy/Resource": [
+        "/ContainerImageBuildIntegTest/ContainerImageBuildAmd64e83729feb1564e709bec452b15847a30amd64/Role/DefaultPolicy/Resource": [
           {
             "type": "aws:cdk:logicalId",
-            "data": "ContainerImageBuildAmd64e83729feb1564e709bec452b15847a30RoleDefaultPolicy9F1BA63A"
+            "data": "ContainerImageBuildAmd64e83729feb1564e709bec452b15847a30amd64RoleDefaultPolicyBD233B55"
           }
         ],
-        "/ContainerImageBuildIntegTest/ContainerImageBuildAmd64e83729feb1564e709bec452b15847a30/Resource": [
+        "/ContainerImageBuildIntegTest/ContainerImageBuildAmd64e83729feb1564e709bec452b15847a30amd64/Resource": [
           {
             "type": "aws:cdk:logicalId",
-            "data": "ContainerImageBuildAmd64e83729feb1564e709bec452b15847a30F1D2BABB"
+            "data": "ContainerImageBuildAmd64e83729feb1564e709bec452b15847a30amd6491AAA9B2"
           }
         ],
         "/ContainerImageBuildIntegTest/BuildArm/Resource/Default": [
           {
             "type": "aws:cdk:logicalId",
             "data": "BuildArmF8ABF624"
+          }
+        ],
+        "/ContainerImageBuildIntegTest/ContainerImageBuildArm64e83729feb1564e709bec452b15847a30amd64/Role/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "ContainerImageBuildArm64e83729feb1564e709bec452b15847a30amd64RoleC5F7BBFE"
+          }
+        ],
+        "/ContainerImageBuildIntegTest/ContainerImageBuildArm64e83729feb1564e709bec452b15847a30amd64/Role/DefaultPolicy/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "ContainerImageBuildArm64e83729feb1564e709bec452b15847a30amd64RoleDefaultPolicy2316728F"
+          }
+        ],
+        "/ContainerImageBuildIntegTest/ContainerImageBuildArm64e83729feb1564e709bec452b15847a30amd64/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "ContainerImageBuildArm64e83729feb1564e709bec452b15847a30amd64C13E3549"
           }
         ],
         "/ContainerImageBuildIntegTest/Function/ServiceRole/Resource": [
@@ -317,94 +335,103 @@
             "data": "BuildVpc1895B133"
           }
         ],
-        "/ContainerImageBuildIntegTest/ContainerImageBuildAmd64e83729feb1564e709bec452b15847a30c8a085f75ccbc05f5149859bcf147b49eadd8ac37d/Role/Resource": [
+        "/ContainerImageBuildIntegTest/ContainerImageBuildAmd64e83729feb1564e709bec452b15847a30c8a085f75ccbc05f5149859bcf147b49eadd8ac37damd64/Role/Resource": [
           {
             "type": "aws:cdk:logicalId",
-            "data": "ContainerImageBuildAmd64e83729feb1564e709bec452b15847a30c8a085f75ccbc05f5149859bcf147b49eadd8ac37dRole5BED91FC"
+            "data": "ContainerImageBuildAmd64e83729feb1564e709bec452b15847a30c8a085f75ccbc05f5149859bcf147b49eadd8ac37damd64Role7FBDDED1"
           }
         ],
-        "/ContainerImageBuildIntegTest/ContainerImageBuildAmd64e83729feb1564e709bec452b15847a30c8a085f75ccbc05f5149859bcf147b49eadd8ac37d/Role/DefaultPolicy/Resource": [
+        "/ContainerImageBuildIntegTest/ContainerImageBuildAmd64e83729feb1564e709bec452b15847a30c8a085f75ccbc05f5149859bcf147b49eadd8ac37damd64/Role/DefaultPolicy/Resource": [
           {
             "type": "aws:cdk:logicalId",
-            "data": "ContainerImageBuildAmd64e83729feb1564e709bec452b15847a30c8a085f75ccbc05f5149859bcf147b49eadd8ac37dRoleDefaultPolicyBD1A2120"
+            "data": "ContainerImageBuildAmd64e83729feb1564e709bec452b15847a30c8a085f75ccbc05f5149859bcf147b49eadd8ac37damd64RoleDefaultPolicyF7E07B6C"
           }
         ],
-        "/ContainerImageBuildIntegTest/ContainerImageBuildAmd64e83729feb1564e709bec452b15847a30c8a085f75ccbc05f5149859bcf147b49eadd8ac37d/SecurityGroup/Resource": [
+        "/ContainerImageBuildIntegTest/ContainerImageBuildAmd64e83729feb1564e709bec452b15847a30c8a085f75ccbc05f5149859bcf147b49eadd8ac37damd64/SecurityGroup/Resource": [
           {
             "type": "aws:cdk:logicalId",
-            "data": "ContainerImageBuildAmd64e83729feb1564e709bec452b15847a30c8a085f75ccbc05f5149859bcf147b49eadd8ac37dSecurityGroup0214D6FC"
+            "data": "ContainerImageBuildAmd64e83729feb1564e709bec452b15847a30c8a085f75ccbc05f5149859bcf147b49eadd8ac37damd64SecurityGroup48FE16CC"
           }
         ],
-        "/ContainerImageBuildIntegTest/ContainerImageBuildAmd64e83729feb1564e709bec452b15847a30c8a085f75ccbc05f5149859bcf147b49eadd8ac37d/Resource": [
+        "/ContainerImageBuildIntegTest/ContainerImageBuildAmd64e83729feb1564e709bec452b15847a30c8a085f75ccbc05f5149859bcf147b49eadd8ac37damd64/Resource": [
           {
             "type": "aws:cdk:logicalId",
-            "data": "ContainerImageBuildAmd64e83729feb1564e709bec452b15847a30c8a085f75ccbc05f5149859bcf147b49eadd8ac37d703E47BD"
+            "data": "ContainerImageBuildAmd64e83729feb1564e709bec452b15847a30c8a085f75ccbc05f5149859bcf147b49eadd8ac37damd64C6D1C187"
           }
         ],
-        "/ContainerImageBuildIntegTest/ContainerImageBuildAmd64e83729feb1564e709bec452b15847a30c8a085f75ccbc05f5149859bcf147b49eadd8ac37d/PolicyDocument/Resource": [
+        "/ContainerImageBuildIntegTest/ContainerImageBuildAmd64e83729feb1564e709bec452b15847a30c8a085f75ccbc05f5149859bcf147b49eadd8ac37damd64/PolicyDocument/Resource": [
           {
             "type": "aws:cdk:logicalId",
-            "data": "ContainerImageBuildAmd64e83729feb1564e709bec452b15847a30c8a085f75ccbc05f5149859bcf147b49eadd8ac37dPolicyDocumentE28495DA"
+            "data": "ContainerImageBuildAmd64e83729feb1564e709bec452b15847a30c8a085f75ccbc05f5149859bcf147b49eadd8ac37damd64PolicyDocument194E3D91"
           }
         ],
-        "Vpc8378EB38": [
+        "ContainerImageBuildAmd64e83729feb1564e709bec452b15847a30RoleB1437276": [
           {
             "type": "aws:cdk:logicalId",
-            "data": "Vpc8378EB38",
+            "data": "ContainerImageBuildAmd64e83729feb1564e709bec452b15847a30RoleB1437276",
             "trace": [
               "!!DESTRUCTIVE_CHANGES: WILL_DESTROY"
             ]
           }
         ],
-        "VpcpublicSubnet1Subnet2BB74ED7": [
+        "ContainerImageBuildAmd64e83729feb1564e709bec452b15847a30RoleDefaultPolicy9F1BA63A": [
           {
             "type": "aws:cdk:logicalId",
-            "data": "VpcpublicSubnet1Subnet2BB74ED7",
+            "data": "ContainerImageBuildAmd64e83729feb1564e709bec452b15847a30RoleDefaultPolicy9F1BA63A",
             "trace": [
               "!!DESTRUCTIVE_CHANGES: WILL_DESTROY"
             ]
           }
         ],
-        "VpcpublicSubnet1RouteTable15C15F8E": [
+        "ContainerImageBuildAmd64e83729feb1564e709bec452b15847a30F1D2BABB": [
           {
             "type": "aws:cdk:logicalId",
-            "data": "VpcpublicSubnet1RouteTable15C15F8E",
+            "data": "ContainerImageBuildAmd64e83729feb1564e709bec452b15847a30F1D2BABB",
             "trace": [
               "!!DESTRUCTIVE_CHANGES: WILL_DESTROY"
             ]
           }
         ],
-        "VpcpublicSubnet1RouteTableAssociation4E83B6E4": [
+        "ContainerImageBuildAmd64e83729feb1564e709bec452b15847a30c8a085f75ccbc05f5149859bcf147b49eadd8ac37dRole5BED91FC": [
           {
             "type": "aws:cdk:logicalId",
-            "data": "VpcpublicSubnet1RouteTableAssociation4E83B6E4",
+            "data": "ContainerImageBuildAmd64e83729feb1564e709bec452b15847a30c8a085f75ccbc05f5149859bcf147b49eadd8ac37dRole5BED91FC",
             "trace": [
               "!!DESTRUCTIVE_CHANGES: WILL_DESTROY"
             ]
           }
         ],
-        "VpcpublicSubnet1DefaultRouteB88F9E93": [
+        "ContainerImageBuildAmd64e83729feb1564e709bec452b15847a30c8a085f75ccbc05f5149859bcf147b49eadd8ac37dRoleDefaultPolicyBD1A2120": [
           {
             "type": "aws:cdk:logicalId",
-            "data": "VpcpublicSubnet1DefaultRouteB88F9E93",
+            "data": "ContainerImageBuildAmd64e83729feb1564e709bec452b15847a30c8a085f75ccbc05f5149859bcf147b49eadd8ac37dRoleDefaultPolicyBD1A2120",
             "trace": [
               "!!DESTRUCTIVE_CHANGES: WILL_DESTROY"
             ]
           }
         ],
-        "VpcIGWD7BA715C": [
+        "ContainerImageBuildAmd64e83729feb1564e709bec452b15847a30c8a085f75ccbc05f5149859bcf147b49eadd8ac37dSecurityGroup0214D6FC": [
           {
             "type": "aws:cdk:logicalId",
-            "data": "VpcIGWD7BA715C",
+            "data": "ContainerImageBuildAmd64e83729feb1564e709bec452b15847a30c8a085f75ccbc05f5149859bcf147b49eadd8ac37dSecurityGroup0214D6FC",
             "trace": [
               "!!DESTRUCTIVE_CHANGES: WILL_DESTROY"
             ]
           }
         ],
-        "VpcVPCGWBF912B6E": [
+        "ContainerImageBuildAmd64e83729feb1564e709bec452b15847a30c8a085f75ccbc05f5149859bcf147b49eadd8ac37d703E47BD": [
           {
             "type": "aws:cdk:logicalId",
-            "data": "VpcVPCGWBF912B6E",
+            "data": "ContainerImageBuildAmd64e83729feb1564e709bec452b15847a30c8a085f75ccbc05f5149859bcf147b49eadd8ac37d703E47BD",
+            "trace": [
+              "!!DESTRUCTIVE_CHANGES: WILL_DESTROY"
+            ]
+          }
+        ],
+        "ContainerImageBuildAmd64e83729feb1564e709bec452b15847a30c8a085f75ccbc05f5149859bcf147b49eadd8ac37dPolicyDocumentE28495DA": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "ContainerImageBuildAmd64e83729feb1564e709bec452b15847a30c8a085f75ccbc05f5149859bcf147b49eadd8ac37dPolicyDocumentE28495DA",
             "trace": [
               "!!DESTRUCTIVE_CHANGES: WILL_DESTROY"
             ]

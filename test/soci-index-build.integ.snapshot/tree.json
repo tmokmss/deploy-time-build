@@ -160,7 +160,7 @@
                                   "Effect": "Allow",
                                   "Resource": {
                                     "Fn::GetAtt": [
-                                      "SociIndexBuild024cf76a10034aa4aa4b12c32c09ca3cFF24E8AD",
+                                      "SociIndexBuild024cf76a10034aa4aa4b12c32c09ca3camd642F4A8EFA",
                                       "Arn"
                                     ]
                                   }
@@ -329,17 +329,17 @@
               "version": "10.0.5"
             }
           },
-          "SociIndexBuild024cf76a10034aa4aa4b12c32c09ca3c": {
-            "id": "SociIndexBuild024cf76a10034aa4aa4b12c32c09ca3c",
-            "path": "SociIndexBuildIntegTest/SociIndexBuild024cf76a10034aa4aa4b12c32c09ca3c",
+          "SociIndexBuild024cf76a10034aa4aa4b12c32c09ca3camd64": {
+            "id": "SociIndexBuild024cf76a10034aa4aa4b12c32c09ca3camd64",
+            "path": "SociIndexBuildIntegTest/SociIndexBuild024cf76a10034aa4aa4b12c32c09ca3camd64",
             "children": {
               "Role": {
                 "id": "Role",
-                "path": "SociIndexBuildIntegTest/SociIndexBuild024cf76a10034aa4aa4b12c32c09ca3c/Role",
+                "path": "SociIndexBuildIntegTest/SociIndexBuild024cf76a10034aa4aa4b12c32c09ca3camd64/Role",
                 "children": {
                   "Resource": {
                     "id": "Resource",
-                    "path": "SociIndexBuildIntegTest/SociIndexBuild024cf76a10034aa4aa4b12c32c09ca3c/Role/Resource",
+                    "path": "SociIndexBuildIntegTest/SociIndexBuild024cf76a10034aa4aa4b12c32c09ca3camd64/Role/Resource",
                     "attributes": {
                       "aws:cdk:cloudformation:type": "AWS::IAM::Role",
                       "aws:cdk:cloudformation:props": {
@@ -364,11 +364,11 @@
                   },
                   "DefaultPolicy": {
                     "id": "DefaultPolicy",
-                    "path": "SociIndexBuildIntegTest/SociIndexBuild024cf76a10034aa4aa4b12c32c09ca3c/Role/DefaultPolicy",
+                    "path": "SociIndexBuildIntegTest/SociIndexBuild024cf76a10034aa4aa4b12c32c09ca3camd64/Role/DefaultPolicy",
                     "children": {
                       "Resource": {
                         "id": "Resource",
-                        "path": "SociIndexBuildIntegTest/SociIndexBuild024cf76a10034aa4aa4b12c32c09ca3c/Role/DefaultPolicy/Resource",
+                        "path": "SociIndexBuildIntegTest/SociIndexBuild024cf76a10034aa4aa4b12c32c09ca3camd64/Role/DefaultPolicy/Resource",
                         "attributes": {
                           "aws:cdk:cloudformation:type": "AWS::IAM::Policy",
                           "aws:cdk:cloudformation:props": {
@@ -400,7 +400,7 @@
                                           },
                                           ":log-group:/aws/codebuild/",
                                           {
-                                            "Ref": "SociIndexBuild024cf76a10034aa4aa4b12c32c09ca3cFF24E8AD"
+                                            "Ref": "SociIndexBuild024cf76a10034aa4aa4b12c32c09ca3camd642F4A8EFA"
                                           },
                                           ":*"
                                         ]
@@ -424,7 +424,7 @@
                                           },
                                           ":log-group:/aws/codebuild/",
                                           {
-                                            "Ref": "SociIndexBuild024cf76a10034aa4aa4b12c32c09ca3cFF24E8AD"
+                                            "Ref": "SociIndexBuild024cf76a10034aa4aa4b12c32c09ca3camd642F4A8EFA"
                                           }
                                         ]
                                       ]
@@ -458,7 +458,7 @@
                                         },
                                         ":report-group/",
                                         {
-                                          "Ref": "SociIndexBuild024cf76a10034aa4aa4b12c32c09ca3cFF24E8AD"
+                                          "Ref": "SociIndexBuild024cf76a10034aa4aa4b12c32c09ca3camd642F4A8EFA"
                                         },
                                         "-*"
                                       ]
@@ -506,10 +506,10 @@
                               ],
                               "Version": "2012-10-17"
                             },
-                            "policyName": "SociIndexBuild024cf76a10034aa4aa4b12c32c09ca3cRoleDefaultPolicyC13902A7",
+                            "policyName": "SociIndexBuild024cf76a10034aa4aa4b12c32c09ca3camd64RoleDefaultPolicy93E560B4",
                             "roles": [
                               {
-                                "Ref": "SociIndexBuild024cf76a10034aa4aa4b12c32c09ca3cRole33DABF16"
+                                "Ref": "SociIndexBuild024cf76a10034aa4aa4b12c32c09ca3camd64RoleBDD942DA"
                               }
                             ]
                           }
@@ -533,7 +533,7 @@
               },
               "Resource": {
                 "id": "Resource",
-                "path": "SociIndexBuildIntegTest/SociIndexBuild024cf76a10034aa4aa4b12c32c09ca3c/Resource",
+                "path": "SociIndexBuildIntegTest/SociIndexBuild024cf76a10034aa4aa4b12c32c09ca3camd64/Resource",
                 "attributes": {
                   "aws:cdk:cloudformation:type": "AWS::CodeBuild::Project",
                   "aws:cdk:cloudformation:props": {
@@ -549,7 +549,7 @@
                     },
                     "serviceRole": {
                       "Fn::GetAtt": [
-                        "SociIndexBuild024cf76a10034aa4aa4b12c32c09ca3cRole33DABF16",
+                        "SociIndexBuild024cf76a10034aa4aa4b12c32c09ca3camd64RoleBDD942DA",
                         "Arn"
                       ]
                     },

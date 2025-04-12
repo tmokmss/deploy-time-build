@@ -99,28 +99,55 @@
             "data": "AssetParametersaa47254059d94cff79a1f8a5a97c4e8a0e14a3f105d2b089464c0beeeb6cfe8dArtifactHashC99F560F"
           }
         ],
-        "/SociIndexBuildIntegTest/SociIndexBuild024cf76a10034aa4aa4b12c32c09ca3c/Role/Resource": [
+        "/SociIndexBuildIntegTest/SociIndexBuild024cf76a10034aa4aa4b12c32c09ca3camd64/Role/Resource": [
           {
             "type": "aws:cdk:logicalId",
-            "data": "SociIndexBuild024cf76a10034aa4aa4b12c32c09ca3cRole33DABF16"
+            "data": "SociIndexBuild024cf76a10034aa4aa4b12c32c09ca3camd64RoleBDD942DA"
           }
         ],
-        "/SociIndexBuildIntegTest/SociIndexBuild024cf76a10034aa4aa4b12c32c09ca3c/Role/DefaultPolicy/Resource": [
+        "/SociIndexBuildIntegTest/SociIndexBuild024cf76a10034aa4aa4b12c32c09ca3camd64/Role/DefaultPolicy/Resource": [
           {
             "type": "aws:cdk:logicalId",
-            "data": "SociIndexBuild024cf76a10034aa4aa4b12c32c09ca3cRoleDefaultPolicyC13902A7"
+            "data": "SociIndexBuild024cf76a10034aa4aa4b12c32c09ca3camd64RoleDefaultPolicy93E560B4"
           }
         ],
-        "/SociIndexBuildIntegTest/SociIndexBuild024cf76a10034aa4aa4b12c32c09ca3c/Resource": [
+        "/SociIndexBuildIntegTest/SociIndexBuild024cf76a10034aa4aa4b12c32c09ca3camd64/Resource": [
           {
             "type": "aws:cdk:logicalId",
-            "data": "SociIndexBuild024cf76a10034aa4aa4b12c32c09ca3cFF24E8AD"
+            "data": "SociIndexBuild024cf76a10034aa4aa4b12c32c09ca3camd642F4A8EFA"
           }
         ],
         "/SociIndexBuildIntegTest/Image2/Index/Resource/Default": [
           {
             "type": "aws:cdk:logicalId",
             "data": "Image2Index42EE498C"
+          }
+        ],
+        "SociIndexBuild024cf76a10034aa4aa4b12c32c09ca3cRole33DABF16": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "SociIndexBuild024cf76a10034aa4aa4b12c32c09ca3cRole33DABF16",
+            "trace": [
+              "!!DESTRUCTIVE_CHANGES: WILL_DESTROY"
+            ]
+          }
+        ],
+        "SociIndexBuild024cf76a10034aa4aa4b12c32c09ca3cRoleDefaultPolicyC13902A7": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "SociIndexBuild024cf76a10034aa4aa4b12c32c09ca3cRoleDefaultPolicyC13902A7",
+            "trace": [
+              "!!DESTRUCTIVE_CHANGES: WILL_DESTROY"
+            ]
+          }
+        ],
+        "SociIndexBuild024cf76a10034aa4aa4b12c32c09ca3cFF24E8AD": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "SociIndexBuild024cf76a10034aa4aa4b12c32c09ca3cFF24E8AD",
+            "trace": [
+              "!!DESTRUCTIVE_CHANGES: WILL_DESTROY"
+            ]
           }
         ]
       },
