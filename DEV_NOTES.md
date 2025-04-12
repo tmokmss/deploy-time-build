@@ -2,6 +2,23 @@
 
 This document contains helpful information for developers working on the `deploy-time-build` project.
 
+## Pull Request Guidelines
+
+### PR Title Format
+
+Pull request titles must follow the [Conventional Commits](https://www.conventionalcommits.org/) format. Only the following prefixes are allowed:
+
+- `feat:` - For new features
+- `fix:` - For bug fixes
+- `chore:` - For maintenance tasks, dependencies updates, etc.
+
+Examples:
+- `feat: add support for arm64 instances`
+- `fix: resolve build failure on Windows`
+- `chore: update dependency versions`
+
+PRs with titles not following this format will fail validation checks.
+
 ## Project Structure
 
 - `src/` - Main source code
