@@ -1614,7 +1614,7 @@
                       "image": "aws/codebuild/amazonlinux2-aarch64-standard:3.0",
                       "imagePullCredentialsType": "CODEBUILD",
                       "privilegedMode": true,
-                      "computeType": "BUILD_GENERAL1_LARGE"
+                      "computeType": "BUILD_GENERAL1_SMALL"
                     },
                     "serviceRole": {
                       "Fn::GetAtt": [

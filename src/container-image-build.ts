@@ -2,7 +2,7 @@ import { createHash } from 'crypto';
 import { existsSync, readFileSync } from 'fs';
 import { join } from 'path';
 import { CfnResource, CustomResource, Duration, RemovalPolicy } from 'aws-cdk-lib';
-import { BuildSpec, LinuxArmBuildImage, LinuxBuildImage } from 'aws-cdk-lib/aws-codebuild';
+import { BuildSpec, ComputeType, LinuxArmBuildImage, LinuxBuildImage } from 'aws-cdk-lib/aws-codebuild';
 import { IVpc } from 'aws-cdk-lib/aws-ec2';
 import { IRepository, Repository } from 'aws-cdk-lib/aws-ecr';
 import { DockerImageAssetProps } from 'aws-cdk-lib/aws-ecr-assets';
@@ -81,6 +81,7 @@ export class ContainerImageBuild extends Construct implements IGrantable {
       uuid: 'e83729fe-b156-4e70-9bec-452b15847a30',
       projectPurpose: isArm64 ? 'ContainerImageBuildArm64' : 'ContainerImageBuildAmd64',
       environment: {
+        computeType: ComputeType.SMALL,
         buildImage: buildImage,
         privileged: true,
       },

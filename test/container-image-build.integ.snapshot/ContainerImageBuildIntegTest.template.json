@@ -1252,7 +1252,7 @@
      "Type": "NO_ARTIFACTS"
     },
     "Environment": {
-     "ComputeType": "BUILD_GENERAL1_LARGE",
+     "ComputeType": "BUILD_GENERAL1_SMALL",
      "Image": "aws/codebuild/amazonlinux2-aarch64-standard:3.0",
      "ImagePullCredentialsType": "CODEBUILD",
      "PrivilegedMode": true,
