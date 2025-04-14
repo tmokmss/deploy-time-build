@@ -620,6 +620,7 @@ const containerImageBuildProps: ContainerImageBuildProps = { ... }
 | <code><a href="#deploy-time-build.ContainerImageBuildProps.property.directory">directory</a></code> | <code>string</code> | The directory where the Dockerfile is stored. |
 | <code><a href="#deploy-time-build.ContainerImageBuildProps.property.repository">repository</a></code> | <code>aws-cdk-lib.aws_ecr.IRepository</code> | The ECR repository to push the image. |
 | <code><a href="#deploy-time-build.ContainerImageBuildProps.property.tag">tag</a></code> | <code>string</code> | The tag when to push the image. |
+| <code><a href="#deploy-time-build.ContainerImageBuildProps.property.tagPrefix">tagPrefix</a></code> | <code>string</code> | Prefix to add to the image tag. |
 | <code><a href="#deploy-time-build.ContainerImageBuildProps.property.vpc">vpc</a></code> | <code>aws-cdk-lib.aws_ec2.IVpc</code> | The VPC where your build job will be deployed. This VPC must have private subnets with NAT Gateways. |
 | <code><a href="#deploy-time-build.ContainerImageBuildProps.property.zstdCompression">zstdCompression</a></code> | <code>boolean</code> | Use zstd for compressing a container image. |
 
@@ -803,6 +804,19 @@ public readonly tag: string;
 - *Default:* use assetHash as tag
 
 The tag when to push the image.
+
+---
+
+##### `tagPrefix`<sup>Optional</sup> <a name="tagPrefix" id="deploy-time-build.ContainerImageBuildProps.property.tagPrefix"></a>
+
+```typescript
+public readonly tagPrefix: string;
+```
+
+- *Type:* string
+- *Default:* no prefix
+
+Prefix to add to the image tag.
 
 ---
 

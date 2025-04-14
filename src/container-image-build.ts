@@ -168,10 +168,7 @@ curl -v -i -X PUT -H 'Content-Type:' -d "@payload.json" "$responseURL"
     });
     asset.grantRead(project);
 
-    let imageTag = props.tag ?? this.getImageHash(asset.assetHash, props);
-    if (props.tagPrefix) {
-      imageTag = `${props.tagPrefix}${imageTag}`;
-    }
+    let imageTag = `${props.tagPrefix ?? ''}${props.tag ?? this.getImageHash(asset.assetHash, props)}`;
     const buildCommandOptions = { ...props, tag: imageTag, platform: props.platform?.platform } as any;
     buildCommandOptions.outputs ??= [];
     // to enable zstd compression, buildx directly pushes the artifact image to a registry
