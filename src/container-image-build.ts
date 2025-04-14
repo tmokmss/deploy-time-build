@@ -22,6 +22,12 @@ export interface ContainerImageBuildProps extends DockerImageAssetProps {
   readonly tag?: string;
 
   /**
+   * Prefix to add to the image tag
+   * @default no prefix
+   */
+  readonly tagPrefix?: string;
+
+  /**
    * The ECR repository to push the image.
    * @default create a new ECR repository
    */
@@ -162,7 +168,10 @@ curl -v -i -X PUT -H 'Content-Type:' -d "@payload.json" "$responseURL"
     });
     asset.grantRead(project);
 
-    const imageTag = props.tag ?? this.getImageHash(asset.assetHash, props);
+    let imageTag = props.tag ?? this.getImageHash(asset.assetHash, props);
+    if (props.tagPrefix) {
+      imageTag = `${props.tagPrefix}${imageTag}`;
+    }
     const buildCommandOptions = { ...props, tag: imageTag, platform: props.platform?.platform } as any;
     buildCommandOptions.outputs ??= [];
     // to enable zstd compression, buildx directly pushes the artifact image to a registry
