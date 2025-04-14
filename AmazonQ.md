@@ -6,6 +6,8 @@ This document contains helpful information for developers working on the `deploy
 
 ### PR Title Format
 
+All text in PR title or description must be written in English.
+
 Pull request titles must follow the [Conventional Commits](https://www.conventionalcommits.org/) format. Only the following prefixes are allowed:
 
 - `feat:` - For new features
@@ -33,8 +35,10 @@ PRs with titles not following this format will fail validation checks.
 You should make sure the build succeeds by the following command before commiting a change:
 
 ```bash
-yarn build
+npm run build
 ```
+
+After a successful build, several files such as API.md might be updated. Please check git status and commit them if there are any changes.
 
 ## Testing
 
@@ -47,7 +51,7 @@ When you make changes that intentionally alter the infrastructure (like adding n
 After your changes are approved and merged, update the snapshot tests by running:
 
 ```bash
-yarn integ-runner --update-on-failed
+npx integ-runner --update-on-failed
 ```
 
 ## Common Issues
