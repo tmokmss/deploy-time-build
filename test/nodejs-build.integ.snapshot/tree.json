@@ -683,7 +683,7 @@
                       ]
                     },
                     "handler": "index.handler",
-                    "runtime": "nodejs18.x",
+                    "runtime": "nodejs20.x",
                     "timeout": 300
                   }
                 },

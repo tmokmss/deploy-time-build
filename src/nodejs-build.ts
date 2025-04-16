@@ -94,7 +94,7 @@ export class NodejsBuild extends Construct implements IGrantable {
 
     const handler = new SingletonFunction(this, 'CustomResourceHandler', {
       // Use raw string to avoid from tightening CDK version requirement
-      runtime: new Runtime('nodejs18.x', RuntimeFamily.NODEJS),
+      runtime: new Runtime('nodejs20.x', RuntimeFamily.NODEJS),
       code: Code.fromAsset(join(__dirname, '../lambda/trigger-codebuild/dist')),
       handler: 'index.handler',
       uuid: '25648b21-2c40-4f09-aa65-b6bbb0c44659', // generated for this construct

@@ -122,33 +122,6 @@
             "type": "aws:cdk:logicalId",
             "data": "Image2Index42EE498C"
           }
-        ],
-        "SociIndexBuild024cf76a10034aa4aa4b12c32c09ca3cRole33DABF16": [
-          {
-            "type": "aws:cdk:logicalId",
-            "data": "SociIndexBuild024cf76a10034aa4aa4b12c32c09ca3cRole33DABF16",
-            "trace": [
-              "!!DESTRUCTIVE_CHANGES: WILL_DESTROY"
-            ]
-          }
-        ],
-        "SociIndexBuild024cf76a10034aa4aa4b12c32c09ca3cRoleDefaultPolicyC13902A7": [
-          {
-            "type": "aws:cdk:logicalId",
-            "data": "SociIndexBuild024cf76a10034aa4aa4b12c32c09ca3cRoleDefaultPolicyC13902A7",
-            "trace": [
-              "!!DESTRUCTIVE_CHANGES: WILL_DESTROY"
-            ]
-          }
-        ],
-        "SociIndexBuild024cf76a10034aa4aa4b12c32c09ca3cFF24E8AD": [
-          {
-            "type": "aws:cdk:logicalId",
-            "data": "SociIndexBuild024cf76a10034aa4aa4b12c32c09ca3cFF24E8AD",
-            "trace": [
-              "!!DESTRUCTIVE_CHANGES: WILL_DESTROY"
-            ]
-          }
         ]
       },
       "displayName": "SociIndexBuildIntegTest"
