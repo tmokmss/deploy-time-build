@@ -7,7 +7,7 @@ const project = new awscdk.AwsCdkConstructLibrary({
   authorAddress: 'tomookam@live.jp',
   cdkVersion: '2.38.0', // For using @aws-cdk/integ-runner
   defaultReleaseBranch: 'main',
-  jsiiVersion: '~5.5.0',
+  jsiiVersion: '~5.8.0',
   name: 'deploy-time-build',
   license: 'MIT',
   repositoryUrl: 'https://github.com/tmokmss/deploy-time-build.git',
