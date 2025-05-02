@@ -220,9 +220,11 @@ curl -v -i -X PUT -H 'Content-Type:' -d "@payload.json" "$responseURL"
     if (props.invalidation?.extraHash !== false && props.extraHash) {
       extraHash.user = props.extraHash;
     }
-    if (props.invalidation?.buildArgs !== false && props.buildArgs) {
-      extraHash.buildArgs = props.buildArgs;
-    }
+    // buildArgs often contains tokens, so must be omitted from here.
+    // custom resource properties contain buildArgs, so the build runs anyway.
+    // if (props.invalidation?.buildArgs !== false && props.buildArgs) {
+    //   extraHash.buildArgs = props.buildArgs;
+    // }
     if (props.invalidation?.buildSecrets !== false && props.buildSecrets) {
       extraHash.buildSecrets = props.buildSecrets;
     }
