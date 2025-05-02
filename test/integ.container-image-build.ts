@@ -35,10 +35,12 @@ class TestStack extends Stack {
       logging: new AwsLogDriver({ streamPrefix: 'main' }),
     });
 
-    new ContainerImageBuild(this, 'BuildVpc', {
+    const build = new ContainerImageBuild(this, 'BuildVpc', {
       directory: '../example/example-image',
       vpc,
     });
+    // build must run after NAT gateways are configured
+    build.node.addDependency(vpc);
   }
 }
 

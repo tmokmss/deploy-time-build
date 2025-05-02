@@ -431,7 +431,7 @@
        {
         "Ref": "BuildRepository4E6D17C2"
        },
-       ":0cb4b8f0df7fe44ecbf1d4d1bb949c3c,push=true --provenance=false ."
+       ":0935d471547c278ca8652335f6d474db,push=true --provenance=false ."
       ]
      ]
     },
@@ -483,7 +483,7 @@
       ]
      ]
     },
-    "imageTag": "0cb4b8f0df7fe44ecbf1d4d1bb949c3c",
+    "imageTag": "0935d471547c278ca8652335f6d474db",
     "codeBuildProjectName": {
      "Ref": "ContainerImageBuildAmd64e83729feb1564e709bec452b15847a30amd6491AAA9B2"
     },
@@ -1569,6 +1569,29 @@
   },
   "BuildVpcRepositoryC4EB5D59": {
    "Type": "AWS::ECR::Repository",
+   "DependsOn": [
+    "VpcV2IGWD1C41C9C",
+    "VpcV2PrivateSubnet1DefaultRoute5D002E26",
+    "VpcV2PrivateSubnet1RouteTable7476B1CF",
+    "VpcV2PrivateSubnet1RouteTableAssociation52F79D41",
+    "VpcV2PrivateSubnet1Subnet10A485FB",
+    "VpcV2PrivateSubnet2DefaultRouteA0C8D70C",
+    "VpcV2PrivateSubnet2RouteTable7B419F52",
+    "VpcV2PrivateSubnet2RouteTableAssociationAA17A176",
+    "VpcV2PrivateSubnet2Subnet038DDA50",
+    "VpcV2PublicSubnet1DefaultRoute00753B94",
+    "VpcV2PublicSubnet1EIPCB084C48",
+    "VpcV2PublicSubnet1NATGatewayD04F745E",
+    "VpcV2PublicSubnet1RouteTable6094F526",
+    "VpcV2PublicSubnet1RouteTableAssociation7CEECFFF",
+    "VpcV2PublicSubnet1SubnetD67FC535",
+    "VpcV2PublicSubnet2DefaultRoute9078EB37",
+    "VpcV2PublicSubnet2RouteTable4FB96B9F",
+    "VpcV2PublicSubnet2RouteTableAssociationE75A579E",
+    "VpcV2PublicSubnet2Subnet63F50919",
+    "VpcV257066EE3",
+    "VpcV2VPCGW167F37E8"
+   ],
    "UpdateReplacePolicy": "Delete",
    "DeletionPolicy": "Delete",
    "Properties": {
@@ -1726,6 +1749,29 @@
      ]
     }
    },
+   "DependsOn": [
+    "VpcV2IGWD1C41C9C",
+    "VpcV2PrivateSubnet1DefaultRoute5D002E26",
+    "VpcV2PrivateSubnet1RouteTable7476B1CF",
+    "VpcV2PrivateSubnet1RouteTableAssociation52F79D41",
+    "VpcV2PrivateSubnet1Subnet10A485FB",
+    "VpcV2PrivateSubnet2DefaultRouteA0C8D70C",
+    "VpcV2PrivateSubnet2RouteTable7B419F52",
+    "VpcV2PrivateSubnet2RouteTableAssociationAA17A176",
+    "VpcV2PrivateSubnet2Subnet038DDA50",
+    "VpcV2PublicSubnet1DefaultRoute00753B94",
+    "VpcV2PublicSubnet1EIPCB084C48",
+    "VpcV2PublicSubnet1NATGatewayD04F745E",
+    "VpcV2PublicSubnet1RouteTable6094F526",
+    "VpcV2PublicSubnet1RouteTableAssociation7CEECFFF",
+    "VpcV2PublicSubnet1SubnetD67FC535",
+    "VpcV2PublicSubnet2DefaultRoute9078EB37",
+    "VpcV2PublicSubnet2RouteTable4FB96B9F",
+    "VpcV2PublicSubnet2RouteTableAssociationE75A579E",
+    "VpcV2PublicSubnet2Subnet63F50919",
+    "VpcV257066EE3",
+    "VpcV2VPCGW167F37E8"
+   ],
    "UpdateReplacePolicy": "Delete",
    "DeletionPolicy": "Delete"
   },
