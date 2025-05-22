@@ -131,6 +131,8 @@ var handler = async (event, context) => {
           });
           break;
         case "ContainerImageBuild": {
+          const imageTag = props.imageTag ?? `${props.tagPrefix ?? ""}${newPhysicalId}`;
+          const buildCommand = props.buildCommand.replaceAll("<IMAGE_TAG>", imageTag);
           command = new import_client_codebuild.StartBuildCommand({
             projectName: props.codeBuildProjectName,
             environmentVariablesOverride: [
@@ -145,11 +147,11 @@ var handler = async (event, context) => {
               },
               {
                 name: "buildCommand",
-                value: props.buildCommand
+                value: buildCommand
               },
               {
                 name: "imageTag",
-                value: props.imageTag
+                value: imageTag
               },
               {
                 name: "projectName",
