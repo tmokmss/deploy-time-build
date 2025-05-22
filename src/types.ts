@@ -28,7 +28,8 @@ export type ContainerImageBuildResourceProps = {
   type: 'ContainerImageBuild';
   buildCommand: string;
   repositoryUri: string;
-  imageTag: string;
+  imageTag?: string;
+  tagPrefix?: string;
   codeBuildProjectName: string;
   sourceS3Url: string;
 };

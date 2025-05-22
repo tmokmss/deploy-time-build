@@ -1,4 +1,3 @@
-import { createHash } from 'crypto';
 import { existsSync, readFileSync } from 'fs';
 import { join } from 'path';
 import { CfnResource, CustomResource, Duration, RemovalPolicy } from 'aws-cdk-lib';
@@ -168,12 +167,12 @@ curl -v -i -X PUT -H 'Content-Type:' -d "@payload.json" "$responseURL"
     });
     asset.grantRead(project);
 
-    const imageTag = `${props.tagPrefix ?? ''}${props.tag ?? this.getImageHash(asset.assetHash, props)}`;
-    const buildCommandOptions = { ...props, tag: imageTag, platform: props.platform?.platform } as any;
+    const buildCommandOptions = { ...props, platform: props.platform?.platform } as any;
     buildCommandOptions.outputs ??= [];
+    // <IMAGE_TAG> will be replaced in the trigger Lambda
     // to enable zstd compression, buildx directly pushes the artifact image to a registry
     // https://aws.amazon.com/blogs/containers/reducing-aws-fargate-startup-times-with-zstd-compressed-container-images/
-    buildCommandOptions.outputs.push('type=image', `name=${repository.repositoryUri}:${imageTag}`, 'push=true');
+    buildCommandOptions.outputs.push('type=image', `name=${repository.repositoryUri}:<IMAGE_TAG>`, 'push=true');
     if (props.zstdCompression) {
       buildCommandOptions.outputs.push('oci-mediatypes=true', 'compression=zstd', 'force-compression=true', 'compression-level=3');
     }
@@ -183,7 +182,8 @@ curl -v -i -X PUT -H 'Content-Type:' -d "@payload.json" "$responseURL"
       type: 'ContainerImageBuild',
       buildCommand: buildCommand,
       repositoryUri: repository.repositoryUri,
-      imageTag,
+      imageTag: props.tag,
+      tagPrefix: props.tagPrefix,
       codeBuildProjectName: project.projectName,
       sourceS3Url: asset.s3ObjectUrl,
     };
@@ -193,6 +193,7 @@ curl -v -i -X PUT -H 'Content-Type:' -d "@payload.json" "$responseURL"
       resourceType: 'Custom::CDKContainerImageBuild',
       properties,
     });
+    custom.node.addDependency(project);
 
     this.repository = repository;
     this.imageTag = custom.getAttString('ImageTag');
@@ -213,48 +214,6 @@ curl -v -i -X PUT -H 'Content-Type:' -d "@payload.json" "$responseURL"
    */
   public toEcsDockerImageCode() {
     return ContainerImage.fromEcrRepository(this.repository, this.imageTag);
-  }
-
-  private getImageHash(assetHash: string, props: any) {
-    const extraHash: { [field: string]: any } = {};
-    if (props.invalidation?.extraHash !== false && props.extraHash) {
-      extraHash.user = props.extraHash;
-    }
-    // buildArgs often contains tokens, so must be omitted from here.
-    // custom resource properties contain buildArgs, so the build runs anyway.
-    // if (props.invalidation?.buildArgs !== false && props.buildArgs) {
-    //   extraHash.buildArgs = props.buildArgs;
-    // }
-    if (props.invalidation?.buildSecrets !== false && props.buildSecrets) {
-      extraHash.buildSecrets = props.buildSecrets;
-    }
-    if (props.invalidation?.buildSsh !== false && props.buildSsh) {
-      extraHash.buildSsh = props.buildSsh;
-    }
-    if (props.invalidation?.target !== false && props.target) {
-      extraHash.target = props.target;
-    }
-    if (props.invalidation?.file !== false && props.file) {
-      extraHash.file = props.file;
-    }
-    if (props.invalidation?.repositoryName !== false && props.repositoryName) {
-      extraHash.repositoryName = props.repositoryName;
-    }
-    if (props.invalidation?.networkMode !== false && props.networkMode) {
-      extraHash.networkMode = props.networkMode;
-    }
-    if (props.invalidation?.platform !== false && props.platform) {
-      extraHash.platform = props.platform.platform;
-    }
-    if (props.invalidation?.outputs !== false && props.outputs) {
-      extraHash.outputs = props.outputs;
-    }
-    if (props.zstdCompression) {
-      extraHash.zstdCompression = props.zstdCompression;
-    }
-    return createHash('md5')
-      .update(assetHash + JSON.stringify(extraHash))
-      .digest('hex');
   }
 
   private getDockerBuildCommand(options: any) {
