@@ -42,7 +42,7 @@ export class SociIndexBuild extends Construct {
   constructor(scope: Construct, id: string, props: SociIndexBuildProps) {
     super(scope, id);
 
-    const sociWrapperVersion = 'v0.1.2';
+    const sociWrapperVersion = 'v0.2.0';
 
     const binaryUrl = `https://github.com/tmokmss/soci-wrapper/releases/download/${sociWrapperVersion}/soci-wrapper-${sociWrapperVersion}-linux-amd64.tar.gz`;
 
@@ -77,7 +77,7 @@ export class SociIndexBuild extends Construct {
               'REPO_NAME=$repositoryName',
               'IMAGE_TAG=$imageTag',
               'DIGEST=$(aws ecr describe-images --repository-name $REPO_NAME --image-ids imageTag=$IMAGE_TAG --query imageDetails[0].imageDigest --output text)',
-              './soci-wrapper $REPO_NAME $DIGEST $AWS_REGION $AWS_ACCOUNT',
+              './soci-wrapper --repo $REPO_NAME --digest $DIGEST --region $AWS_REGION --account $AWS_ACCOUNT',
             ],
           },
           post_build: {
