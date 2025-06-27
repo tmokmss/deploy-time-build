@@ -333,7 +333,7 @@
      ]
     },
     "type": "SociIndexBuild",
-    "imageTag": "cf17887cc251b0d2ad6a734dbfd8c28d46168a4e632883267d3a06e454b1c3ad",
+    "imageTag": "ee67e8501ce0da550e5e99a322b5cc7b0981a2a5d46fee5459c401759efa4b7d",
     "repositoryName": "aws-cdk/assets",
     "codeBuildProjectName": {
      "Ref": "SociIndexBuild024cf76a10034aa4aa4b12c32c09ca3camd642F4A8EFA"

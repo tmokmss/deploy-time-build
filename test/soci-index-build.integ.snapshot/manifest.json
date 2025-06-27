@@ -46,13 +46,13 @@
             "type": "aws:cdk:asset",
             "data": {
               "repositoryName": "aws-cdk/assets",
-              "imageTag": "cf17887cc251b0d2ad6a734dbfd8c28d46168a4e632883267d3a06e454b1c3ad",
-              "id": "cf17887cc251b0d2ad6a734dbfd8c28d46168a4e632883267d3a06e454b1c3ad",
+              "imageTag": "ee67e8501ce0da550e5e99a322b5cc7b0981a2a5d46fee5459c401759efa4b7d",
+              "id": "ee67e8501ce0da550e5e99a322b5cc7b0981a2a5d46fee5459c401759efa4b7d",
               "packaging": "container-image",
-              "path": "asset.cf17887cc251b0d2ad6a734dbfd8c28d46168a4e632883267d3a06e454b1c3ad",
-              "sourceHash": "cf17887cc251b0d2ad6a734dbfd8c28d46168a4e632883267d3a06e454b1c3ad",
+              "path": "asset.ee67e8501ce0da550e5e99a322b5cc7b0981a2a5d46fee5459c401759efa4b7d",
+              "sourceHash": "ee67e8501ce0da550e5e99a322b5cc7b0981a2a5d46fee5459c401759efa4b7d",
               "buildArgs": {
-                "DUMMY_FILE_SIZE_MB": "500"
+                "DUMMY_FILE_SIZE_MB": "50"
               }
             }
           }
