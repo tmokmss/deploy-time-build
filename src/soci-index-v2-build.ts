@@ -52,7 +52,7 @@ export class SociIndexV2Build extends Construct {
   constructor(scope: Construct, id: string, props: SociIndexV2BuildProps) {
     super(scope, id);
 
-    const sociWrapperVersion = 'v0.2.0';
+    const sociWrapperVersion = 'v0.2.3';
     const outputImageTagKey = 'outputImageTag';
 
     const binaryUrl = `https://github.com/tmokmss/soci-wrapper/releases/download/${sociWrapperVersion}/soci-wrapper-${sociWrapperVersion}-linux-amd64.tar.gz`;
