@@ -160,7 +160,7 @@
                                   "Effect": "Allow",
                                   "Resource": {
                                     "Fn::GetAtt": [
-                                      "SociIndexBuild024cf76a10034aa4aa4b12c32c09ca3camd642F4A8EFA",
+                                      "SociIndexV2Builde7e8a038e0e44f558114cdd6523ad08famd6470130487",
                                       "Arn"
                                     ]
                                   }
@@ -329,17 +329,17 @@
               "version": "10.0.5"
             }
           },
-          "SociIndexBuild024cf76a10034aa4aa4b12c32c09ca3camd64": {
-            "id": "SociIndexBuild024cf76a10034aa4aa4b12c32c09ca3camd64",
-            "path": "SociIndexBuildIntegTest/SociIndexBuild024cf76a10034aa4aa4b12c32c09ca3camd64",
+          "SociIndexV2Builde7e8a038e0e44f558114cdd6523ad08famd64": {
+            "id": "SociIndexV2Builde7e8a038e0e44f558114cdd6523ad08famd64",
+            "path": "SociIndexBuildIntegTest/SociIndexV2Builde7e8a038e0e44f558114cdd6523ad08famd64",
             "children": {
               "Role": {
                 "id": "Role",
-                "path": "SociIndexBuildIntegTest/SociIndexBuild024cf76a10034aa4aa4b12c32c09ca3camd64/Role",
+                "path": "SociIndexBuildIntegTest/SociIndexV2Builde7e8a038e0e44f558114cdd6523ad08famd64/Role",
                 "children": {
                   "Resource": {
                     "id": "Resource",
-                    "path": "SociIndexBuildIntegTest/SociIndexBuild024cf76a10034aa4aa4b12c32c09ca3camd64/Role/Resource",
+                    "path": "SociIndexBuildIntegTest/SociIndexV2Builde7e8a038e0e44f558114cdd6523ad08famd64/Role/Resource",
                     "attributes": {
                       "aws:cdk:cloudformation:type": "AWS::IAM::Role",
                       "aws:cdk:cloudformation:props": {
@@ -364,11 +364,11 @@
                   },
                   "DefaultPolicy": {
                     "id": "DefaultPolicy",
-                    "path": "SociIndexBuildIntegTest/SociIndexBuild024cf76a10034aa4aa4b12c32c09ca3camd64/Role/DefaultPolicy",
+                    "path": "SociIndexBuildIntegTest/SociIndexV2Builde7e8a038e0e44f558114cdd6523ad08famd64/Role/DefaultPolicy",
                     "children": {
                       "Resource": {
                         "id": "Resource",
-                        "path": "SociIndexBuildIntegTest/SociIndexBuild024cf76a10034aa4aa4b12c32c09ca3camd64/Role/DefaultPolicy/Resource",
+                        "path": "SociIndexBuildIntegTest/SociIndexV2Builde7e8a038e0e44f558114cdd6523ad08famd64/Role/DefaultPolicy/Resource",
                         "attributes": {
                           "aws:cdk:cloudformation:type": "AWS::IAM::Policy",
                           "aws:cdk:cloudformation:props": {
@@ -400,7 +400,7 @@
                                           },
                                           ":log-group:/aws/codebuild/",
                                           {
-                                            "Ref": "SociIndexBuild024cf76a10034aa4aa4b12c32c09ca3camd642F4A8EFA"
+                                            "Ref": "SociIndexV2Builde7e8a038e0e44f558114cdd6523ad08famd6470130487"
                                           },
                                           ":*"
                                         ]
@@ -424,7 +424,7 @@
                                           },
                                           ":log-group:/aws/codebuild/",
                                           {
-                                            "Ref": "SociIndexBuild024cf76a10034aa4aa4b12c32c09ca3camd642F4A8EFA"
+                                            "Ref": "SociIndexV2Builde7e8a038e0e44f558114cdd6523ad08famd6470130487"
                                           }
                                         ]
                                       ]
@@ -458,7 +458,7 @@
                                         },
                                         ":report-group/",
                                         {
-                                          "Ref": "SociIndexBuild024cf76a10034aa4aa4b12c32c09ca3camd642F4A8EFA"
+                                          "Ref": "SociIndexV2Builde7e8a038e0e44f558114cdd6523ad08famd6470130487"
                                         },
                                         "-*"
                                       ]
@@ -506,10 +506,10 @@
                               ],
                               "Version": "2012-10-17"
                             },
-                            "policyName": "SociIndexBuild024cf76a10034aa4aa4b12c32c09ca3camd64RoleDefaultPolicy93E560B4",
+                            "policyName": "SociIndexV2Builde7e8a038e0e44f558114cdd6523ad08famd64RoleDefaultPolicyFDEF3662",
                             "roles": [
                               {
-                                "Ref": "SociIndexBuild024cf76a10034aa4aa4b12c32c09ca3camd64RoleBDD942DA"
+                                "Ref": "SociIndexV2Builde7e8a038e0e44f558114cdd6523ad08famd64Role01AC76E9"
                               }
                             ]
                           }
@@ -533,7 +533,7 @@
               },
               "Resource": {
                 "id": "Resource",
-                "path": "SociIndexBuildIntegTest/SociIndexBuild024cf76a10034aa4aa4b12c32c09ca3camd64/Resource",
+                "path": "SociIndexBuildIntegTest/SociIndexV2Builde7e8a038e0e44f558114cdd6523ad08famd64/Resource",
                 "attributes": {
                   "aws:cdk:cloudformation:type": "AWS::CodeBuild::Project",
                   "aws:cdk:cloudformation:props": {
@@ -549,13 +549,13 @@
                     },
                     "serviceRole": {
                       "Fn::GetAtt": [
-                        "SociIndexBuild024cf76a10034aa4aa4b12c32c09ca3camd64RoleBDD942DA",
+                        "SociIndexV2Builde7e8a038e0e44f558114cdd6523ad08famd64Role01AC76E9",
                         "Arn"
                       ]
                     },
                     "source": {
                       "type": "NO_SOURCE",
-                      "buildSpec": "{\n  \"version\": \"0.2\",\n  \"phases\": {\n    \"build\": {\n      \"commands\": [\n        \"current_dir=$(pwd)\",\n        \"wget --quiet -O soci-wrapper.tar.gz https://github.com/tmokmss/soci-wrapper/releases/download/v0.2.3/soci-wrapper-v0.2.3-linux-amd64.tar.gz\",\n        \"tar -xvzf soci-wrapper.tar.gz\",\n        \"\",\n        \"export AWS_ACCOUNT=$(aws sts get-caller-identity --query \\\"Account\\\" --output text)\",\n        \"export REGISTRY_USER=AWS\",\n        \"export REGISTRY_PASSWORD=$(aws ecr get-login-password --region $AWS_REGION)\",\n        \"export REGISTRY=$AWS_ACCOUNT.dkr.ecr.$AWS_REGION.amazonaws.com\",\n        \"aws ecr get-login-password --region $AWS_REGION | docker login --username AWS --password-stdin $REGISTRY\",\n        \"REPO_NAME=$repositoryName\",\n        \"IMAGE_TAG=$imageTag\",\n        \"DIGEST=$(aws ecr describe-images --repository-name $REPO_NAME --image-ids imageTag=$IMAGE_TAG --query imageDetails[0].imageDigest --output text)\",\n        \"./soci-wrapper --repo $REPO_NAME --digest $DIGEST --region $AWS_REGION --account $AWS_ACCOUNT\"\n      ]\n    },\n    \"post_build\": {\n      \"commands\": [\n        \"echo Build completed on `date`\",\n        \"\\nSTATUS='SUCCESS'\\nif [ $CODEBUILD_BUILD_SUCCEEDING -ne 1 ] # Test if the build is failing\\nthen\\nSTATUS='FAILED'\\nREASON=\\\"deploy-time-build failed. See CloudWatch Log stream for the detailed reason: \\nhttps://$AWS_REGION.console.aws.amazon.com/cloudwatch/home?region=$AWS_REGION#logsV2:log-groups/log-group/\\\\$252Faws\\\\$252Fcodebuild\\\\$252F$projectName/log-events/$CODEBUILD_LOG_PATH\\\"\\nfi\\ncat <<EOF > payload.json\\n{\\n  \\\"StackId\\\": \\\"$stackId\\\",\\n  \\\"RequestId\\\": \\\"$requestId\\\",\\n  \\\"LogicalResourceId\\\":\\\"$logicalResourceId\\\",\\n  \\\"PhysicalResourceId\\\": \\\"$imageTag\\\",\\n  \\\"Status\\\": \\\"$STATUS\\\",\\n  \\\"Reason\\\": \\\"$REASON\\\"\\n}\\nEOF\\ncurl -vv -i -X PUT -H 'Content-Type:' -d \\\"@payload.json\\\" \\\"$responseURL\\\"\\n              \"\n      ]\n    }\n  }\n}"
+                      "buildSpec": "{\n  \"version\": \"0.2\",\n  \"phases\": {\n    \"build\": {\n      \"commands\": [\n        \"current_dir=$(pwd)\",\n        \"wget --quiet -O soci-wrapper.tar.gz https://github.com/tmokmss/soci-wrapper/releases/download/v0.2.3/soci-wrapper-v0.2.3-linux-amd64.tar.gz\",\n        \"tar -xvzf soci-wrapper.tar.gz\",\n        \"\",\n        \"export AWS_ACCOUNT=$(aws sts get-caller-identity --query \\\"Account\\\" --output text)\",\n        \"export REGISTRY_USER=AWS\",\n        \"export REGISTRY_PASSWORD=$(aws ecr get-login-password --region $AWS_REGION)\",\n        \"export REGISTRY=$AWS_ACCOUNT.dkr.ecr.$AWS_REGION.amazonaws.com\",\n        \"aws ecr get-login-password --region $AWS_REGION | docker login --username AWS --password-stdin $REGISTRY\",\n        \"REPO_NAME=$repositoryName\",\n        \"IMAGE_TAG=$inputImageTag\",\n        \"DIGEST=$(aws ecr describe-images --repository-name $REPO_NAME --image-ids imageTag=$IMAGE_TAG --query imageDetails[0].imageDigest --output text)\",\n        \"./soci-wrapper --repo $REPO_NAME --digest $DIGEST --region $AWS_REGION --account $AWS_ACCOUNT --soci-version V2 --output-tag $outputImageTag\"\n      ]\n    },\n    \"post_build\": {\n      \"commands\": [\n        \"echo Build completed on `date`\",\n        \"\\nSTATUS='SUCCESS'\\nif [ $CODEBUILD_BUILD_SUCCEEDING -ne 1 ] # Test if the build is failing\\nthen\\nSTATUS='FAILED'\\nREASON=\\\"deploy-time-build failed. See CloudWatch Log stream for the detailed reason: \\nhttps://$AWS_REGION.console.aws.amazon.com/cloudwatch/home?region=$AWS_REGION#logsV2:log-groups/log-group/\\\\$252Faws\\\\$252Fcodebuild\\\\$252F$projectName/log-events/$CODEBUILD_LOG_PATH\\\"\\nfi\\ncat <<EOF > payload.json\\n{\\n  \\\"StackId\\\": \\\"$stackId\\\",\\n  \\\"RequestId\\\": \\\"$requestId\\\",\\n  \\\"LogicalResourceId\\\":\\\"$logicalResourceId\\\",\\n  \\\"PhysicalResourceId\\\": \\\"$outputImageTag\\\",\\n  \\\"Status\\\": \\\"$STATUS\\\",\\n  \\\"Reason\\\": \\\"$REASON\\\",\\n  \\\"Data\\\": {\\n    \\\"outputImageTag\\\": \\\"$outputImageTag\\\"\\n  }\\n}\\nEOF\\ncurl -vv -i -X PUT -H 'Content-Type:' -d \\\"@payload.json\\\" \\\"$responseURL\\\"\\n              \"\n      ]\n    }\n  }\n}"
                     },
                     "cache": {
                       "type": "NO_CACHE"

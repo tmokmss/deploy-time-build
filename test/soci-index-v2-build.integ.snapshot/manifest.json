@@ -99,22 +99,22 @@
             "data": "AssetParametersbc6d4c22c56d048bc2dec2983afb4735165d9ba92c92a0075fb04a1401e2153cArtifactHash980C5C30"
           }
         ],
-        "/SociIndexBuildIntegTest/SociIndexBuild024cf76a10034aa4aa4b12c32c09ca3camd64/Role/Resource": [
+        "/SociIndexBuildIntegTest/SociIndexV2Builde7e8a038e0e44f558114cdd6523ad08famd64/Role/Resource": [
           {
             "type": "aws:cdk:logicalId",
-            "data": "SociIndexBuild024cf76a10034aa4aa4b12c32c09ca3camd64RoleBDD942DA"
+            "data": "SociIndexV2Builde7e8a038e0e44f558114cdd6523ad08famd64Role01AC76E9"
           }
         ],
-        "/SociIndexBuildIntegTest/SociIndexBuild024cf76a10034aa4aa4b12c32c09ca3camd64/Role/DefaultPolicy/Resource": [
+        "/SociIndexBuildIntegTest/SociIndexV2Builde7e8a038e0e44f558114cdd6523ad08famd64/Role/DefaultPolicy/Resource": [
           {
             "type": "aws:cdk:logicalId",
-            "data": "SociIndexBuild024cf76a10034aa4aa4b12c32c09ca3camd64RoleDefaultPolicy93E560B4"
+            "data": "SociIndexV2Builde7e8a038e0e44f558114cdd6523ad08famd64RoleDefaultPolicyFDEF3662"
           }
         ],
-        "/SociIndexBuildIntegTest/SociIndexBuild024cf76a10034aa4aa4b12c32c09ca3camd64/Resource": [
+        "/SociIndexBuildIntegTest/SociIndexV2Builde7e8a038e0e44f558114cdd6523ad08famd64/Resource": [
           {
             "type": "aws:cdk:logicalId",
-            "data": "SociIndexBuild024cf76a10034aa4aa4b12c32c09ca3camd642F4A8EFA"
+            "data": "SociIndexV2Builde7e8a038e0e44f558114cdd6523ad08famd6470130487"
           }
         ],
         "/SociIndexBuildIntegTest/Image2/Index/Resource/Default": [

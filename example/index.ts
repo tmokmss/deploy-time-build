@@ -1,11 +1,11 @@
 import { Stack, StackProps, App, CfnOutput } from 'aws-cdk-lib';
 import { Construct } from 'constructs';
 import { MockIntegration, RestApi } from 'aws-cdk-lib/aws-apigateway';
-import { ContainerImageBuild, NodejsBuild, SociIndexBuild } from '../src/';
+import { ContainerImageBuild, NodejsBuild, SociIndexBuild, SociIndexV2Build } from '../src/';
 import { BlockPublicAccess, Bucket, BucketEncryption } from 'aws-cdk-lib/aws-s3';
 import { DockerImageAsset, Platform } from 'aws-cdk-lib/aws-ecr-assets';
 import { DockerImageFunction } from 'aws-cdk-lib/aws-lambda';
-import { AwsLogDriver, Cluster, CpuArchitecture, FargateTaskDefinition } from 'aws-cdk-lib/aws-ecs';
+import { AwsLogDriver, Cluster, ContainerImage, CpuArchitecture, FargateTaskDefinition } from 'aws-cdk-lib/aws-ecs';
 import { SubnetType, Vpc } from 'aws-cdk-lib/aws-ec2';
 import { OriginAccessIdentity, CloudFrontWebDistribution } from 'aws-cdk-lib/aws-cloudfront';
 
@@ -78,7 +78,6 @@ class NodejsTestStack extends Stack {
       nodejsVersion: 20,
       outputEnvFile: true,
     });
-
   }
 }
 
@@ -86,9 +85,34 @@ class SociIndexTestStack extends Stack {
   constructor(scope: Construct, id: string, props: StackProps = {}) {
     super(scope, id, props);
 
-    const asset = new DockerImageAsset(this, 'Image', { directory: 'example-image' });
+    const asset = new DockerImageAsset(this, 'Image', { directory: 'example-image', platform: Platform.LINUX_AMD64 });
 
     new SociIndexBuild(this, 'Index', { imageTag: asset.assetHash, repository: asset.repository });
+
+    new Cluster(this, 'Cluster', {
+      vpc: new Vpc(this, 'Vpc', {
+        maxAzs: 1,
+        subnetConfiguration: [
+          {
+            cidrMask: 24,
+            name: 'public',
+            subnetType: SubnetType.PUBLIC,
+          },
+        ],
+      }),
+    });
+    new FargateTaskDefinition(this, 'TaskDefinition', {}).addContainer('main', {
+      image: ContainerImage.fromEcrRepository(asset.repository, asset.assetHash),
+
+      logging: new AwsLogDriver({ streamPrefix: 'main' }),
+    });
+
+    const v2 = SociIndexV2Build.fromDockerImageAsset(this, 'IndexV2', asset);
+
+    new FargateTaskDefinition(this, 'TaskDefinitionV2', {}).addContainer('main', {
+      image: v2.toEcsDockerImageCode(),
+      logging: new AwsLogDriver({ streamPrefix: 'main' }),
+    });
   }
 }
 

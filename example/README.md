@@ -1,11 +1,13 @@
 ## How to Deploy
 ```sh
 # Assume current directory is the example directory
-cd ../lambda/nodejs-build
+cd ../lambda/trigger-codebuild
 npm ci
 npm run build
 cd -
 npx cdk deploy NodejsTestStack
+npx cdk deploy SociIndexTestStack
+npx cdk deploy ContainerImageTestStack
 ```
 
 ## Description

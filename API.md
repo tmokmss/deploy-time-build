@@ -407,6 +407,170 @@ The tree node.
 ---
 
 
+### SociIndexV2Build <a name="SociIndexV2Build" id="deploy-time-build.SociIndexV2Build"></a>
+
+Build and publish a SOCI index for a container image.
+
+A SOCI index helps start Fargate tasks faster in some cases.
+Please read the following document for more details: https://docs.aws.amazon.com/AmazonECS/latest/userguide/container-considerations.html
+
+#### Initializers <a name="Initializers" id="deploy-time-build.SociIndexV2Build.Initializer"></a>
+
+```typescript
+import { SociIndexV2Build } from 'deploy-time-build'
+
+new SociIndexV2Build(scope: Construct, id: string, props: SociIndexV2BuildProps)
+```
+
+| **Name** | **Type** | **Description** |
+| --- | --- | --- |
+| <code><a href="#deploy-time-build.SociIndexV2Build.Initializer.parameter.scope">scope</a></code> | <code>constructs.Construct</code> | *No description.* |
+| <code><a href="#deploy-time-build.SociIndexV2Build.Initializer.parameter.id">id</a></code> | <code>string</code> | *No description.* |
+| <code><a href="#deploy-time-build.SociIndexV2Build.Initializer.parameter.props">props</a></code> | <code><a href="#deploy-time-build.SociIndexV2BuildProps">SociIndexV2BuildProps</a></code> | *No description.* |
+
+---
+
+##### `scope`<sup>Required</sup> <a name="scope" id="deploy-time-build.SociIndexV2Build.Initializer.parameter.scope"></a>
+
+- *Type:* constructs.Construct
+
+---
+
+##### `id`<sup>Required</sup> <a name="id" id="deploy-time-build.SociIndexV2Build.Initializer.parameter.id"></a>
+
+- *Type:* string
+
+---
+
+##### `props`<sup>Required</sup> <a name="props" id="deploy-time-build.SociIndexV2Build.Initializer.parameter.props"></a>
+
+- *Type:* <a href="#deploy-time-build.SociIndexV2BuildProps">SociIndexV2BuildProps</a>
+
+---
+
+#### Methods <a name="Methods" id="Methods"></a>
+
+| **Name** | **Description** |
+| --- | --- |
+| <code><a href="#deploy-time-build.SociIndexV2Build.toString">toString</a></code> | Returns a string representation of this construct. |
+| <code><a href="#deploy-time-build.SociIndexV2Build.toEcsDockerImageCode">toEcsDockerImageCode</a></code> | Get the instance of image embedded with SOCI v2 index for an ECS task definition. |
+
+---
+
+##### `toString` <a name="toString" id="deploy-time-build.SociIndexV2Build.toString"></a>
+
+```typescript
+public toString(): string
+```
+
+Returns a string representation of this construct.
+
+##### `toEcsDockerImageCode` <a name="toEcsDockerImageCode" id="deploy-time-build.SociIndexV2Build.toEcsDockerImageCode"></a>
+
+```typescript
+public toEcsDockerImageCode(): EcrImage
+```
+
+Get the instance of image embedded with SOCI v2 index for an ECS task definition.
+
+#### Static Functions <a name="Static Functions" id="Static Functions"></a>
+
+| **Name** | **Description** |
+| --- | --- |
+| <code><a href="#deploy-time-build.SociIndexV2Build.isConstruct">isConstruct</a></code> | Checks if `x` is a construct. |
+| <code><a href="#deploy-time-build.SociIndexV2Build.fromDockerImageAsset">fromDockerImageAsset</a></code> | A utility method to create a SociIndexBuild construct from a DockerImageAsset instance. |
+
+---
+
+##### ~~`isConstruct`~~ <a name="isConstruct" id="deploy-time-build.SociIndexV2Build.isConstruct"></a>
+
+```typescript
+import { SociIndexV2Build } from 'deploy-time-build'
+
+SociIndexV2Build.isConstruct(x: any)
+```
+
+Checks if `x` is a construct.
+
+###### `x`<sup>Required</sup> <a name="x" id="deploy-time-build.SociIndexV2Build.isConstruct.parameter.x"></a>
+
+- *Type:* any
+
+Any object.
+
+---
+
+##### `fromDockerImageAsset` <a name="fromDockerImageAsset" id="deploy-time-build.SociIndexV2Build.fromDockerImageAsset"></a>
+
+```typescript
+import { SociIndexV2Build } from 'deploy-time-build'
+
+SociIndexV2Build.fromDockerImageAsset(scope: Construct, id: string, imageAsset: DockerImageAsset)
+```
+
+A utility method to create a SociIndexBuild construct from a DockerImageAsset instance.
+
+###### `scope`<sup>Required</sup> <a name="scope" id="deploy-time-build.SociIndexV2Build.fromDockerImageAsset.parameter.scope"></a>
+
+- *Type:* constructs.Construct
+
+---
+
+###### `id`<sup>Required</sup> <a name="id" id="deploy-time-build.SociIndexV2Build.fromDockerImageAsset.parameter.id"></a>
+
+- *Type:* string
+
+---
+
+###### `imageAsset`<sup>Required</sup> <a name="imageAsset" id="deploy-time-build.SociIndexV2Build.fromDockerImageAsset.parameter.imageAsset"></a>
+
+- *Type:* aws-cdk-lib.aws_ecr_assets.DockerImageAsset
+
+---
+
+#### Properties <a name="Properties" id="Properties"></a>
+
+| **Name** | **Type** | **Description** |
+| --- | --- | --- |
+| <code><a href="#deploy-time-build.SociIndexV2Build.property.node">node</a></code> | <code>constructs.Node</code> | The tree node. |
+| <code><a href="#deploy-time-build.SociIndexV2Build.property.outputImageTag">outputImageTag</a></code> | <code>string</code> | *No description.* |
+| <code><a href="#deploy-time-build.SociIndexV2Build.property.repository">repository</a></code> | <code>aws-cdk-lib.aws_ecr.IRepository</code> | *No description.* |
+
+---
+
+##### `node`<sup>Required</sup> <a name="node" id="deploy-time-build.SociIndexV2Build.property.node"></a>
+
+```typescript
+public readonly node: Node;
+```
+
+- *Type:* constructs.Node
+
+The tree node.
+
+---
+
+##### `outputImageTag`<sup>Required</sup> <a name="outputImageTag" id="deploy-time-build.SociIndexV2Build.property.outputImageTag"></a>
+
+```typescript
+public readonly outputImageTag: string;
+```
+
+- *Type:* string
+
+---
+
+##### `repository`<sup>Required</sup> <a name="repository" id="deploy-time-build.SociIndexV2Build.property.repository"></a>
+
+```typescript
+public readonly repository: IRepository;
+```
+
+- *Type:* aws-cdk-lib.aws_ecr.IRepository
+
+---
+
+
 ## Structs <a name="Structs" id="Structs"></a>
 
 ### AssetConfig <a name="AssetConfig" id="deploy-time-build.AssetConfig"></a>
@@ -1054,6 +1218,65 @@ The tag of the container image you want to build index for.
 ---
 
 ##### `repository`<sup>Required</sup> <a name="repository" id="deploy-time-build.SociIndexBuildProps.property.repository"></a>
+
+```typescript
+public readonly repository: IRepository;
+```
+
+- *Type:* aws-cdk-lib.aws_ecr.IRepository
+
+The ECR repository your container image is stored.
+
+You can only specify a repository in the same environment (account/region).
+The index artifact will be uploaded to this repository.
+
+---
+
+### SociIndexV2BuildProps <a name="SociIndexV2BuildProps" id="deploy-time-build.SociIndexV2BuildProps"></a>
+
+#### Initializer <a name="Initializer" id="deploy-time-build.SociIndexV2BuildProps.Initializer"></a>
+
+```typescript
+import { SociIndexV2BuildProps } from 'deploy-time-build'
+
+const sociIndexV2BuildProps: SociIndexV2BuildProps = { ... }
+```
+
+#### Properties <a name="Properties" id="Properties"></a>
+
+| **Name** | **Type** | **Description** |
+| --- | --- | --- |
+| <code><a href="#deploy-time-build.SociIndexV2BuildProps.property.inputImageTag">inputImageTag</a></code> | <code>string</code> | The tag of the container image you want to build index for. |
+| <code><a href="#deploy-time-build.SociIndexV2BuildProps.property.outputImageTag">outputImageTag</a></code> | <code>string</code> | The tag of the output container image embedded with SOCI index. |
+| <code><a href="#deploy-time-build.SociIndexV2BuildProps.property.repository">repository</a></code> | <code>aws-cdk-lib.aws_ecr.IRepository</code> | The ECR repository your container image is stored. |
+
+---
+
+##### `inputImageTag`<sup>Required</sup> <a name="inputImageTag" id="deploy-time-build.SociIndexV2BuildProps.property.inputImageTag"></a>
+
+```typescript
+public readonly inputImageTag: string;
+```
+
+- *Type:* string
+
+The tag of the container image you want to build index for.
+
+---
+
+##### `outputImageTag`<sup>Required</sup> <a name="outputImageTag" id="deploy-time-build.SociIndexV2BuildProps.property.outputImageTag"></a>
+
+```typescript
+public readonly outputImageTag: string;
+```
+
+- *Type:* string
+
+The tag of the output container image embedded with SOCI index.
+
+---
+
+##### `repository`<sup>Required</sup> <a name="repository" id="deploy-time-build.SociIndexV2BuildProps.property.repository"></a>
 
 ```typescript
 public readonly repository: IRepository;

@@ -3,13 +3,14 @@ import { CustomResource, Duration } from 'aws-cdk-lib';
 import { BuildSpec, LinuxBuildImage } from 'aws-cdk-lib/aws-codebuild';
 import { IRepository } from 'aws-cdk-lib/aws-ecr';
 import { DockerImageAsset } from 'aws-cdk-lib/aws-ecr-assets';
+import { ContainerImage } from 'aws-cdk-lib/aws-ecs';
 import { PolicyStatement } from 'aws-cdk-lib/aws-iam';
 import { Code, Runtime, RuntimeFamily, SingletonFunction } from 'aws-cdk-lib/aws-lambda';
 import { Construct } from 'constructs';
 import { SingletonProject } from './singleton-project';
-import { SociIndexBuildResourceProps } from './types';
+import { SociIndexV2BuildResourceProps } from './types';
 
-export interface SociIndexBuildProps {
+export interface SociIndexV2BuildProps {
   /**
    * The ECR repository your container image is stored.
    * You can only specify a repository in the same environment (account/region).
@@ -20,7 +21,12 @@ export interface SociIndexBuildProps {
   /**
    * The tag of the container image you want to build index for.
    */
-  readonly imageTag: string;
+  readonly inputImageTag: string;
+
+  /**
+   * The tag of the output container image embedded with SOCI index.
+   */
+  readonly outputImageTag: string;
 }
 
 /**
@@ -28,21 +34,26 @@ export interface SociIndexBuildProps {
  * A SOCI index helps start Fargate tasks faster in some cases.
  * Please read the following document for more details: https://docs.aws.amazon.com/AmazonECS/latest/userguide/container-considerations.html
  */
-export class SociIndexBuild extends Construct {
+export class SociIndexV2Build extends Construct {
   /**
    * A utility method to create a SociIndexBuild construct from a DockerImageAsset instance.
    */
   public static fromDockerImageAsset(scope: Construct, id: string, imageAsset: DockerImageAsset) {
-    return new SociIndexBuild(scope, id, {
+    return new SociIndexV2Build(scope, id, {
       repository: imageAsset.repository,
-      imageTag: imageAsset.assetHash,
+      inputImageTag: imageAsset.assetHash,
+      outputImageTag: `${imageAsset.assetHash}-soci`,
     });
   }
 
-  constructor(scope: Construct, id: string, props: SociIndexBuildProps) {
+  public readonly repository: IRepository;
+  public readonly outputImageTag: string;
+
+  constructor(scope: Construct, id: string, props: SociIndexV2BuildProps) {
     super(scope, id);
 
     const sociWrapperVersion = 'v0.2.3';
+    const outputImageTagKey = 'outputImageTag';
 
     const binaryUrl = `https://github.com/tmokmss/soci-wrapper/releases/download/${sociWrapperVersion}/soci-wrapper-${sociWrapperVersion}-linux-amd64.tar.gz`;
 
@@ -57,8 +68,8 @@ export class SociIndexBuild extends Construct {
     });
 
     const project = new SingletonProject(this, 'Project', {
-      uuid: '024cf76a-1003-4aa4-aa4b-12c32c09ca3c', // generated for this construct
-      projectPurpose: 'SociIndexBuild',
+      uuid: 'e7e8a038-e0e4-4f55-8114-cdd6523ad08f', // generated for this construct
+      projectPurpose: 'SociIndexV2Build',
       environment: { buildImage: LinuxBuildImage.fromCodeBuildImageId('aws/codebuild/standard:7.0') },
       buildSpec: BuildSpec.fromObject({
         version: '0.2',
@@ -75,9 +86,9 @@ export class SociIndexBuild extends Construct {
               'export REGISTRY=$AWS_ACCOUNT.dkr.ecr.$AWS_REGION.amazonaws.com',
               'aws ecr get-login-password --region $AWS_REGION | docker login --username AWS --password-stdin $REGISTRY',
               'REPO_NAME=$repositoryName',
-              'IMAGE_TAG=$imageTag',
+              'IMAGE_TAG=$inputImageTag',
               'DIGEST=$(aws ecr describe-images --repository-name $REPO_NAME --image-ids imageTag=$IMAGE_TAG --query imageDetails[0].imageDigest --output text)',
-              './soci-wrapper --repo $REPO_NAME --digest $DIGEST --region $AWS_REGION --account $AWS_ACCOUNT',
+              './soci-wrapper --repo $REPO_NAME --digest $DIGEST --region $AWS_REGION --account $AWS_ACCOUNT --soci-version V2 --output-tag $outputImageTag',
             ],
           },
           post_build: {
@@ -96,9 +107,12 @@ cat <<EOF > payload.json
   "StackId": "$stackId",
   "RequestId": "$requestId",
   "LogicalResourceId":"$logicalResourceId",
-  "PhysicalResourceId": "$imageTag",
+  "PhysicalResourceId": "$outputImageTag",
   "Status": "$STATUS",
-  "Reason": "$REASON"
+  "Reason": "$REASON",
+  "Data": {
+    "${outputImageTagKey}": "$outputImageTag"
+  }
 }
 EOF
 curl -vv -i -X PUT -H 'Content-Type:' -d "@payload.json" "$responseURL"
@@ -119,17 +133,28 @@ curl -vv -i -X PUT -H 'Content-Type:' -d "@payload.json" "$responseURL"
     props.repository.grantPullPush(project);
     props.repository.grant(project, 'ecr:DescribeImages');
 
-    const properties: SociIndexBuildResourceProps = {
-      type: 'SociIndexBuild',
-      imageTag: props.imageTag,
+    const properties: SociIndexV2BuildResourceProps = {
+      type: 'SociIndexV2Build',
+      inputImageTag: props.inputImageTag,
+      outputImageTag: props.outputImageTag,
       repositoryName: props.repository.repositoryName,
       codeBuildProjectName: project.projectName,
     };
 
-    new CustomResource(this, 'Resource', {
+    const custom = new CustomResource(this, 'Resource', {
       serviceToken: handler.functionArn,
       resourceType: 'Custom::CDKSociIndexBuild',
       properties,
     });
+
+    this.repository = props.repository;
+    this.outputImageTag = custom.getAttString(outputImageTagKey);
+  }
+
+  /**
+   * Get the instance of image embedded with SOCI v2 index for an ECS task definition.
+   */
+  public toEcsDockerImageCode() {
+    return ContainerImage.fromEcrRepository(this.repository, this.outputImageTag);
   }
 }

@@ -121,6 +121,30 @@ export const handler = async (event: Event, context: any) => {
             ],
           });
           break;
+        case 'SociIndexV2Build':
+          command = new StartBuildCommand({
+            projectName: props.codeBuildProjectName,
+            environmentVariablesOverride: [
+              ...commonEnvironments,
+              {
+                name: 'repositoryName',
+                value: props.repositoryName,
+              },
+              {
+                name: 'inputImageTag',
+                value: props.inputImageTag,
+              },
+              {
+                name: 'outputImageTag',
+                value: props.outputImageTag,
+              },
+              {
+                name: 'projectName',
+                value: props.codeBuildProjectName,
+              },
+            ],
+          });
+          break;
         case 'ContainerImageBuild': {
           const imageTag = props.imageTag ?? `${props.tagPrefix ?? ''}${newPhysicalId}`;
           const buildCommand = props.buildCommand.replaceAll('<IMAGE_TAG>', imageTag);
