@@ -9,11 +9,12 @@
       "Arn"
      ]
     },
-    "type": "SociIndexBuild",
-    "imageTag": "a8bbd8136347d097316685416937f7ad1e2612d23493dcc4e0ef33d290c09b05",
+    "type": "SociIndexV2Build",
+    "inputImageTag": "a8bbd8136347d097316685416937f7ad1e2612d23493dcc4e0ef33d290c09b05",
+    "outputImageTag": "a8bbd8136347d097316685416937f7ad1e2612d23493dcc4e0ef33d290c09b05-soci",
     "repositoryName": "aws-cdk/assets",
     "codeBuildProjectName": {
-     "Ref": "SociIndexBuild024cf76a10034aa4aa4b12c32c09ca3camd642F4A8EFA"
+     "Ref": "SociIndexV2Builde7e8a038e0e44f558114cdd6523ad08famd6470130487"
     }
    },
    "UpdateReplacePolicy": "Delete",
@@ -60,7 +61,7 @@
        "Effect": "Allow",
        "Resource": {
         "Fn::GetAtt": [
-         "SociIndexBuild024cf76a10034aa4aa4b12c32c09ca3camd642F4A8EFA",
+         "SociIndexV2Builde7e8a038e0e44f558114cdd6523ad08famd6470130487",
          "Arn"
         ]
        }
@@ -132,7 +133,7 @@
     "DeployTimeBuildCustomResourceHandlerdb740fd554364a848a09e6dfcd01f4f3ServiceRoleB008BAA4"
    ]
   },
-  "SociIndexBuild024cf76a10034aa4aa4b12c32c09ca3camd64RoleBDD942DA": {
+  "SociIndexV2Builde7e8a038e0e44f558114cdd6523ad08famd64Role01AC76E9": {
    "Type": "AWS::IAM::Role",
    "Properties": {
     "AssumeRolePolicyDocument": {
@@ -149,7 +150,7 @@
     }
    }
   },
-  "SociIndexBuild024cf76a10034aa4aa4b12c32c09ca3camd64RoleDefaultPolicy93E560B4": {
+  "SociIndexV2Builde7e8a038e0e44f558114cdd6523ad08famd64RoleDefaultPolicyFDEF3662": {
    "Type": "AWS::IAM::Policy",
    "Properties": {
     "PolicyDocument": {
@@ -180,7 +181,7 @@
            },
            ":log-group:/aws/codebuild/",
            {
-            "Ref": "SociIndexBuild024cf76a10034aa4aa4b12c32c09ca3camd642F4A8EFA"
+            "Ref": "SociIndexV2Builde7e8a038e0e44f558114cdd6523ad08famd6470130487"
            },
            ":*"
           ]
@@ -204,7 +205,7 @@
            },
            ":log-group:/aws/codebuild/",
            {
-            "Ref": "SociIndexBuild024cf76a10034aa4aa4b12c32c09ca3camd642F4A8EFA"
+            "Ref": "SociIndexV2Builde7e8a038e0e44f558114cdd6523ad08famd6470130487"
            }
           ]
          ]
@@ -238,7 +239,7 @@
           },
           ":report-group/",
           {
-           "Ref": "SociIndexBuild024cf76a10034aa4aa4b12c32c09ca3camd642F4A8EFA"
+           "Ref": "SociIndexV2Builde7e8a038e0e44f558114cdd6523ad08famd6470130487"
           },
           "-*"
          ]
@@ -286,15 +287,15 @@
      ],
      "Version": "2012-10-17"
     },
-    "PolicyName": "SociIndexBuild024cf76a10034aa4aa4b12c32c09ca3camd64RoleDefaultPolicy93E560B4",
+    "PolicyName": "SociIndexV2Builde7e8a038e0e44f558114cdd6523ad08famd64RoleDefaultPolicyFDEF3662",
     "Roles": [
      {
-      "Ref": "SociIndexBuild024cf76a10034aa4aa4b12c32c09ca3camd64RoleBDD942DA"
+      "Ref": "SociIndexV2Builde7e8a038e0e44f558114cdd6523ad08famd64Role01AC76E9"
      }
     ]
    }
   },
-  "SociIndexBuild024cf76a10034aa4aa4b12c32c09ca3camd642F4A8EFA": {
+  "SociIndexV2Builde7e8a038e0e44f558114cdd6523ad08famd6470130487": {
    "Type": "AWS::CodeBuild::Project",
    "Properties": {
     "Artifacts": {
@@ -309,12 +310,12 @@
     },
     "ServiceRole": {
      "Fn::GetAtt": [
-      "SociIndexBuild024cf76a10034aa4aa4b12c32c09ca3camd64RoleBDD942DA",
+      "SociIndexV2Builde7e8a038e0e44f558114cdd6523ad08famd64Role01AC76E9",
       "Arn"
      ]
     },
     "Source": {
-     "BuildSpec": "{\n  \"version\": \"0.2\",\n  \"phases\": {\n    \"build\": {\n      \"commands\": [\n        \"current_dir=$(pwd)\",\n        \"wget --quiet -O soci-wrapper.tar.gz https://github.com/tmokmss/soci-wrapper/releases/download/v0.2.0/soci-wrapper-v0.2.0-linux-amd64.tar.gz\",\n        \"tar -xvzf soci-wrapper.tar.gz\",\n        \"\",\n        \"export AWS_ACCOUNT=$(aws sts get-caller-identity --query \\\"Account\\\" --output text)\",\n        \"export REGISTRY_USER=AWS\",\n        \"export REGISTRY_PASSWORD=$(aws ecr get-login-password --region $AWS_REGION)\",\n        \"export REGISTRY=$AWS_ACCOUNT.dkr.ecr.$AWS_REGION.amazonaws.com\",\n        \"aws ecr get-login-password --region $AWS_REGION | docker login --username AWS --password-stdin $REGISTRY\",\n        \"REPO_NAME=$repositoryName\",\n        \"IMAGE_TAG=$imageTag\",\n        \"DIGEST=$(aws ecr describe-images --repository-name $REPO_NAME --image-ids imageTag=$IMAGE_TAG --query imageDetails[0].imageDigest --output text)\",\n        \"./soci-wrapper --repo $REPO_NAME --digest $DIGEST --region $AWS_REGION --account $AWS_ACCOUNT\"\n      ]\n    },\n    \"post_build\": {\n      \"commands\": [\n        \"echo Build completed on `date`\",\n        \"\\nSTATUS='SUCCESS'\\nif [ $CODEBUILD_BUILD_SUCCEEDING -ne 1 ] # Test if the build is failing\\nthen\\nSTATUS='FAILED'\\nREASON=\\\"deploy-time-build failed. See CloudWatch Log stream for the detailed reason: \\nhttps://$AWS_REGION.console.aws.amazon.com/cloudwatch/home?region=$AWS_REGION#logsV2:log-groups/log-group/\\\\$252Faws\\\\$252Fcodebuild\\\\$252F$projectName/log-events/$CODEBUILD_LOG_PATH\\\"\\nfi\\ncat <<EOF > payload.json\\n{\\n  \\\"StackId\\\": \\\"$stackId\\\",\\n  \\\"RequestId\\\": \\\"$requestId\\\",\\n  \\\"LogicalResourceId\\\":\\\"$logicalResourceId\\\",\\n  \\\"PhysicalResourceId\\\": \\\"$imageTag\\\",\\n  \\\"Status\\\": \\\"$STATUS\\\",\\n  \\\"Reason\\\": \\\"$REASON\\\"\\n}\\nEOF\\ncurl -vv -i -X PUT -H 'Content-Type:' -d \\\"@payload.json\\\" \\\"$responseURL\\\"\\n              \"\n      ]\n    }\n  }\n}",
+     "BuildSpec": "{\n  \"version\": \"0.2\",\n  \"phases\": {\n    \"build\": {\n      \"commands\": [\n        \"current_dir=$(pwd)\",\n        \"wget --quiet -O soci-wrapper.tar.gz https://github.com/tmokmss/soci-wrapper/releases/download/v0.2.0/soci-wrapper-v0.2.0-linux-amd64.tar.gz\",\n        \"tar -xvzf soci-wrapper.tar.gz\",\n        \"\",\n        \"export AWS_ACCOUNT=$(aws sts get-caller-identity --query \\\"Account\\\" --output text)\",\n        \"export REGISTRY_USER=AWS\",\n        \"export REGISTRY_PASSWORD=$(aws ecr get-login-password --region $AWS_REGION)\",\n        \"export REGISTRY=$AWS_ACCOUNT.dkr.ecr.$AWS_REGION.amazonaws.com\",\n        \"aws ecr get-login-password --region $AWS_REGION | docker login --username AWS --password-stdin $REGISTRY\",\n        \"REPO_NAME=$repositoryName\",\n        \"IMAGE_TAG=$inputImageTag\",\n        \"DIGEST=$(aws ecr describe-images --repository-name $REPO_NAME --image-ids imageTag=$IMAGE_TAG --query imageDetails[0].imageDigest --output text)\",\n        \"./soci-wrapper --repo $REPO_NAME --digest $DIGEST --region $AWS_REGION --account $AWS_ACCOUNT --soci-version V2 --output-tag $outputImageTag\"\n      ]\n    },\n    \"post_build\": {\n      \"commands\": [\n        \"echo Build completed on `date`\",\n        \"\\nSTATUS='SUCCESS'\\nif [ $CODEBUILD_BUILD_SUCCEEDING -ne 1 ] # Test if the build is failing\\nthen\\nSTATUS='FAILED'\\nREASON=\\\"deploy-time-build failed. See CloudWatch Log stream for the detailed reason: \\nhttps://$AWS_REGION.console.aws.amazon.com/cloudwatch/home?region=$AWS_REGION#logsV2:log-groups/log-group/\\\\$252Faws\\\\$252Fcodebuild\\\\$252F$projectName/log-events/$CODEBUILD_LOG_PATH\\\"\\nfi\\ncat <<EOF > payload.json\\n{\\n  \\\"StackId\\\": \\\"$stackId\\\",\\n  \\\"RequestId\\\": \\\"$requestId\\\",\\n  \\\"LogicalResourceId\\\":\\\"$logicalResourceId\\\",\\n  \\\"PhysicalResourceId\\\": \\\"$outputImageTag\\\",\\n  \\\"Status\\\": \\\"$STATUS\\\",\\n  \\\"Reason\\\": \\\"$REASON\\\",\\n  \\\"Data\\\": {\\n    \\\"outputImageTag\\\": \\\"$outputImageTag\\\"\\n  }\\n}\\nEOF\\ncurl -vv -i -X PUT -H 'Content-Type:' -d \\\"@payload.json\\\" \\\"$responseURL\\\"\\n              \"\n      ]\n    }\n  }\n}",
      "Type": "NO_SOURCE"
     },
     "Cache": {
@@ -332,11 +333,12 @@
       "Arn"
      ]
     },
-    "type": "SociIndexBuild",
-    "imageTag": "ee67e8501ce0da550e5e99a322b5cc7b0981a2a5d46fee5459c401759efa4b7d",
+    "type": "SociIndexV2Build",
+    "inputImageTag": "ee67e8501ce0da550e5e99a322b5cc7b0981a2a5d46fee5459c401759efa4b7d",
+    "outputImageTag": "ee67e8501ce0da550e5e99a322b5cc7b0981a2a5d46fee5459c401759efa4b7d-soci",
     "repositoryName": "aws-cdk/assets",
     "codeBuildProjectName": {
-     "Ref": "SociIndexBuild024cf76a10034aa4aa4b12c32c09ca3camd642F4A8EFA"
+     "Ref": "SociIndexV2Builde7e8a038e0e44f558114cdd6523ad08famd6470130487"
     }
    },
    "UpdateReplacePolicy": "Delete",
