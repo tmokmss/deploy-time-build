@@ -5,6 +5,8 @@ AWS CDK L3 construct that allows you to run a build job for specific purposes. C
 * Build a container image
 * Build Seekable OCI (SOCI) indices for container images
 
+[![View on Construct Hub](https://constructs.dev/badge?package=deploy-time-build)](https://constructs.dev/packages/deploy-time-build)
+
 ## Usage
 Install from npm:
 
