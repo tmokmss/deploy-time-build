@@ -473,6 +473,9 @@ public toEcsDockerImageCode(): EcrImage
 
 Get the instance of image embedded with SOCI v2 index for an ECS task definition.
 
+When using this image returned from this function, your deployment waits until
+the index build complete and then start deploying after the image with index ready.
+
 #### Static Functions <a name="Static Functions" id="Static Functions"></a>
 
 | **Name** | **Description** |
@@ -1247,8 +1250,8 @@ const sociIndexV2BuildProps: SociIndexV2BuildProps = { ... }
 | **Name** | **Type** | **Description** |
 | --- | --- | --- |
 | <code><a href="#deploy-time-build.SociIndexV2BuildProps.property.inputImageTag">inputImageTag</a></code> | <code>string</code> | The tag of the container image you want to build index for. |
-| <code><a href="#deploy-time-build.SociIndexV2BuildProps.property.outputImageTag">outputImageTag</a></code> | <code>string</code> | The tag of the output container image embedded with SOCI index. |
 | <code><a href="#deploy-time-build.SociIndexV2BuildProps.property.repository">repository</a></code> | <code>aws-cdk-lib.aws_ecr.IRepository</code> | The ECR repository your container image is stored. |
+| <code><a href="#deploy-time-build.SociIndexV2BuildProps.property.outputImageTag">outputImageTag</a></code> | <code>string</code> | The tag of the output container image embedded with SOCI index. |
 
 ---
 
@@ -1264,18 +1267,6 @@ The tag of the container image you want to build index for.
 
 ---
 
-##### `outputImageTag`<sup>Required</sup> <a name="outputImageTag" id="deploy-time-build.SociIndexV2BuildProps.property.outputImageTag"></a>
-
-```typescript
-public readonly outputImageTag: string;
-```
-
-- *Type:* string
-
-The tag of the output container image embedded with SOCI index.
-
----
-
 ##### `repository`<sup>Required</sup> <a name="repository" id="deploy-time-build.SociIndexV2BuildProps.property.repository"></a>
 
 ```typescript
@@ -1288,6 +1279,19 @@ The ECR repository your container image is stored.
 
 You can only specify a repository in the same environment (account/region).
 The index artifact will be uploaded to this repository.
+
+---
+
+##### `outputImageTag`<sup>Optional</sup> <a name="outputImageTag" id="deploy-time-build.SociIndexV2BuildProps.property.outputImageTag"></a>
+
+```typescript
+public readonly outputImageTag: string;
+```
+
+- *Type:* string
+- *Default:* `${inputImageTag}-soci`
+
+The tag of the output container image embedded with SOCI index.
 
 ---
 

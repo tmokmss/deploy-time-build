@@ -25,8 +25,10 @@ export interface SociIndexV2BuildProps {
 
   /**
    * The tag of the output container image embedded with SOCI index.
+   *
+   * @default `${inputImageTag}-soci`
    */
-  readonly outputImageTag: string;
+  readonly outputImageTag?: string;
 }
 
 /**
@@ -42,7 +44,6 @@ export class SociIndexV2Build extends Construct {
     return new SociIndexV2Build(scope, id, {
       repository: imageAsset.repository,
       inputImageTag: imageAsset.assetHash,
-      outputImageTag: `${imageAsset.assetHash}-soci`,
     });
   }
 
@@ -136,7 +137,7 @@ curl -vv -i -X PUT -H 'Content-Type:' -d "@payload.json" "$responseURL"
     const properties: SociIndexV2BuildResourceProps = {
       type: 'SociIndexV2Build',
       inputImageTag: props.inputImageTag,
-      outputImageTag: props.outputImageTag,
+      outputImageTag: props.outputImageTag ?? `${props.inputImageTag}-soci`,
       repositoryName: props.repository.repositoryName,
       codeBuildProjectName: project.projectName,
     };
@@ -153,6 +154,8 @@ curl -vv -i -X PUT -H 'Content-Type:' -d "@payload.json" "$responseURL"
 
   /**
    * Get the instance of image embedded with SOCI v2 index for an ECS task definition.
+   * When using this image returned from this function, your deployment waits until
+   * the index build complete and then start deploying after the image with index ready.
    */
   public toEcsDockerImageCode() {
     return ContainerImage.fromEcrRepository(this.repository, this.outputImageTag);
