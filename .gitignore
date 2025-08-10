@@ -32,7 +32,7 @@ jspm_packages/
 .cache
 *.js
 *.d.ts
-!test/*.integ.snapshot/**/*
+!test/*.snapshot/**/*
 /test-reports/
 junit.xml
 /coverage/

@@ -84,7 +84,7 @@ Get the instance of {@link DockerImageCode} for a Lambda function image.
 
 ---
 
-##### ~~`isConstruct`~~ <a name="isConstruct" id="deploy-time-build.ContainerImageBuild.isConstruct"></a>
+##### `isConstruct` <a name="isConstruct" id="deploy-time-build.ContainerImageBuild.isConstruct"></a>
 
 ```typescript
 import { ContainerImageBuild } from 'deploy-time-build'
@@ -93,6 +93,20 @@ ContainerImageBuild.isConstruct(x: any)
 ```
 
 Checks if `x` is a construct.
+
+Use this method instead of `instanceof` to properly detect `Construct`
+instances, even when the construct library is symlinked.
+
+Explanation: in JavaScript, multiple copies of the `constructs` library on
+disk are seen as independent, completely different libraries. As a
+consequence, the class `Construct` in each copy of the `constructs` library
+is seen as a different class, and an instance of one class will not test as
+`instanceof` the other class. `npm install` will not create installations
+like this, but users may manually symlink construct libraries together or
+use a monorepo tool: in those cases, multiple copies of the `constructs`
+library can be accidentally installed, and `instanceof` will behave
+unpredictably. It is safest to avoid using `instanceof`, and using
+this type-testing method instead.
 
 ###### `x`<sup>Required</sup> <a name="x" id="deploy-time-build.ContainerImageBuild.isConstruct.parameter.x"></a>
 
@@ -222,7 +236,7 @@ Returns a string representation of this construct.
 
 ---
 
-##### ~~`isConstruct`~~ <a name="isConstruct" id="deploy-time-build.NodejsBuild.isConstruct"></a>
+##### `isConstruct` <a name="isConstruct" id="deploy-time-build.NodejsBuild.isConstruct"></a>
 
 ```typescript
 import { NodejsBuild } from 'deploy-time-build'
@@ -231,6 +245,20 @@ NodejsBuild.isConstruct(x: any)
 ```
 
 Checks if `x` is a construct.
+
+Use this method instead of `instanceof` to properly detect `Construct`
+instances, even when the construct library is symlinked.
+
+Explanation: in JavaScript, multiple copies of the `constructs` library on
+disk are seen as independent, completely different libraries. As a
+consequence, the class `Construct` in each copy of the `constructs` library
+is seen as a different class, and an instance of one class will not test as
+`instanceof` the other class. `npm install` will not create installations
+like this, but users may manually symlink construct libraries together or
+use a monorepo tool: in those cases, multiple copies of the `constructs`
+library can be accidentally installed, and `instanceof` will behave
+unpredictably. It is safest to avoid using `instanceof`, and using
+this type-testing method instead.
 
 ###### `x`<sup>Required</sup> <a name="x" id="deploy-time-build.NodejsBuild.isConstruct.parameter.x"></a>
 
@@ -340,7 +368,7 @@ Returns a string representation of this construct.
 
 ---
 
-##### ~~`isConstruct`~~ <a name="isConstruct" id="deploy-time-build.SociIndexBuild.isConstruct"></a>
+##### `isConstruct` <a name="isConstruct" id="deploy-time-build.SociIndexBuild.isConstruct"></a>
 
 ```typescript
 import { SociIndexBuild } from 'deploy-time-build'
@@ -349,6 +377,20 @@ SociIndexBuild.isConstruct(x: any)
 ```
 
 Checks if `x` is a construct.
+
+Use this method instead of `instanceof` to properly detect `Construct`
+instances, even when the construct library is symlinked.
+
+Explanation: in JavaScript, multiple copies of the `constructs` library on
+disk are seen as independent, completely different libraries. As a
+consequence, the class `Construct` in each copy of the `constructs` library
+is seen as a different class, and an instance of one class will not test as
+`instanceof` the other class. `npm install` will not create installations
+like this, but users may manually symlink construct libraries together or
+use a monorepo tool: in those cases, multiple copies of the `constructs`
+library can be accidentally installed, and `instanceof` will behave
+unpredictably. It is safest to avoid using `instanceof`, and using
+this type-testing method instead.
 
 ###### `x`<sup>Required</sup> <a name="x" id="deploy-time-build.SociIndexBuild.isConstruct.parameter.x"></a>
 
@@ -485,7 +527,7 @@ the index build complete and then start deploying after the image with index rea
 
 ---
 
-##### ~~`isConstruct`~~ <a name="isConstruct" id="deploy-time-build.SociIndexV2Build.isConstruct"></a>
+##### `isConstruct` <a name="isConstruct" id="deploy-time-build.SociIndexV2Build.isConstruct"></a>
 
 ```typescript
 import { SociIndexV2Build } from 'deploy-time-build'
@@ -494,6 +536,20 @@ SociIndexV2Build.isConstruct(x: any)
 ```
 
 Checks if `x` is a construct.
+
+Use this method instead of `instanceof` to properly detect `Construct`
+instances, even when the construct library is symlinked.
+
+Explanation: in JavaScript, multiple copies of the `constructs` library on
+disk are seen as independent, completely different libraries. As a
+consequence, the class `Construct` in each copy of the `constructs` library
+is seen as a different class, and an instance of one class will not test as
+`instanceof` the other class. `npm install` will not create installations
+like this, but users may manually symlink construct libraries together or
+use a monorepo tool: in those cases, multiple copies of the `constructs`
+library can be accidentally installed, and `instanceof` will behave
+unpredictably. It is safest to avoid using `instanceof`, and using
+this type-testing method instead.
 
 ###### `x`<sup>Required</sup> <a name="x" id="deploy-time-build.SociIndexV2Build.isConstruct.parameter.x"></a>
 
@@ -596,7 +652,10 @@ const assetConfig: AssetConfig = { ... }
 | <code><a href="#deploy-time-build.AssetConfig.property.exclude">exclude</a></code> | <code>string[]</code> | File paths matching the patterns will be excluded. |
 | <code><a href="#deploy-time-build.AssetConfig.property.followSymlinks">followSymlinks</a></code> | <code>aws-cdk-lib.SymlinkFollowMode</code> | A strategy for how to handle symlinks. |
 | <code><a href="#deploy-time-build.AssetConfig.property.ignoreMode">ignoreMode</a></code> | <code>aws-cdk-lib.IgnoreMode</code> | The ignore behavior to use for `exclude` patterns. |
+| <code><a href="#deploy-time-build.AssetConfig.property.deployTime">deployTime</a></code> | <code>boolean</code> | Whether or not the asset needs to exist beyond deployment time; |
+| <code><a href="#deploy-time-build.AssetConfig.property.displayName">displayName</a></code> | <code>string</code> | A display name for this asset. |
 | <code><a href="#deploy-time-build.AssetConfig.property.readers">readers</a></code> | <code>aws-cdk-lib.aws_iam.IGrantable[]</code> | A list of principals that should be able to read this asset from S3. |
+| <code><a href="#deploy-time-build.AssetConfig.property.sourceKMSKey">sourceKMSKey</a></code> | <code>aws-cdk-lib.aws_kms.IKey</code> | The ARN of the KMS key used to encrypt the handler code. |
 | <code><a href="#deploy-time-build.AssetConfig.property.path">path</a></code> | <code>string</code> | The disk location of the asset. |
 | <code><a href="#deploy-time-build.AssetConfig.property.commands">commands</a></code> | <code>string[]</code> | Shell commands executed right after the asset zip is extracted to the build environment. |
 | <code><a href="#deploy-time-build.AssetConfig.property.extractPath">extractPath</a></code> | <code>string</code> | Relative path from a build directory to the directory where the asset is extracted. |
@@ -703,6 +762,57 @@ The ignore behavior to use for `exclude` patterns.
 
 ---
 
+##### `deployTime`<sup>Optional</sup> <a name="deployTime" id="deploy-time-build.AssetConfig.property.deployTime"></a>
+
+```typescript
+public readonly deployTime: boolean;
+```
+
+- *Type:* boolean
+- *Default:* false
+
+Whether or not the asset needs to exist beyond deployment time;
+
+i.e.
+are copied over to a different location and not needed afterwards.
+Setting this property to true has an impact on the lifecycle of the asset,
+because we will assume that it is safe to delete after the CloudFormation
+deployment succeeds.
+
+For example, Lambda Function assets are copied over to Lambda during
+deployment. Therefore, it is not necessary to store the asset in S3, so
+we consider those deployTime assets.
+
+---
+
+##### `displayName`<sup>Optional</sup> <a name="displayName" id="deploy-time-build.AssetConfig.property.displayName"></a>
+
+```typescript
+public readonly displayName: string;
+```
+
+- *Type:* string
+- *Default:* Stack-relative construct path
+
+A display name for this asset.
+
+If supplied, the display name will be used in locations where the asset
+identifier is printed, like in the CLI progress information. If the same
+asset is added multiple times, the display name of the first occurrence is
+used.
+
+The default is the construct path of the Asset construct, with respect to
+the enclosing stack. If the asset is produced by a construct helper
+function (such as `lambda.Code.fromAsset()`), this will look like
+`MyFunction/Code`.
+
+We use the stack-relative construct path so that in the common case where
+you have multiple stacks with the same asset, we won't show something like
+`/MyBetaStack/MyFunction/Code` when you are actually deploying to
+production.
+
+---
+
 ##### `readers`<sup>Optional</sup> <a name="readers" id="deploy-time-build.AssetConfig.property.readers"></a>
 
 ```typescript
@@ -715,6 +825,19 @@ public readonly readers: IGrantable[];
 A list of principals that should be able to read this asset from S3.
 
 You can use `asset.grantRead(principal)` to grant read permissions later.
+
+---
+
+##### `sourceKMSKey`<sup>Optional</sup> <a name="sourceKMSKey" id="deploy-time-build.AssetConfig.property.sourceKMSKey"></a>
+
+```typescript
+public readonly sourceKMSKey: IKey;
+```
+
+- *Type:* aws-cdk-lib.aws_kms.IKey
+- *Default:* the default server-side encryption with Amazon S3 managed keys(SSE-S3) key will be used.
+
+The ARN of the KMS key used to encrypt the handler code.
 
 ---
 
@@ -778,10 +901,18 @@ const containerImageBuildProps: ContainerImageBuildProps = { ... }
 | <code><a href="#deploy-time-build.ContainerImageBuildProps.property.followSymlinks">followSymlinks</a></code> | <code>aws-cdk-lib.SymlinkFollowMode</code> | A strategy for how to handle symlinks. |
 | <code><a href="#deploy-time-build.ContainerImageBuildProps.property.ignoreMode">ignoreMode</a></code> | <code>aws-cdk-lib.IgnoreMode</code> | The ignore behavior to use for `exclude` patterns. |
 | <code><a href="#deploy-time-build.ContainerImageBuildProps.property.extraHash">extraHash</a></code> | <code>string</code> | Extra information to encode into the fingerprint (e.g. build instructions and other inputs). |
+| <code><a href="#deploy-time-build.ContainerImageBuildProps.property.assetName">assetName</a></code> | <code>string</code> | Unique identifier of the docker image asset and its potential revisions. |
 | <code><a href="#deploy-time-build.ContainerImageBuildProps.property.buildArgs">buildArgs</a></code> | <code>{[ key: string ]: string}</code> | Build args to pass to the `docker build` command. |
+| <code><a href="#deploy-time-build.ContainerImageBuildProps.property.buildSecrets">buildSecrets</a></code> | <code>{[ key: string ]: string}</code> | Build secrets. |
+| <code><a href="#deploy-time-build.ContainerImageBuildProps.property.buildSsh">buildSsh</a></code> | <code>string</code> | SSH agent socket or keys to pass to the `docker build` command. |
+| <code><a href="#deploy-time-build.ContainerImageBuildProps.property.cacheDisabled">cacheDisabled</a></code> | <code>boolean</code> | Disable the cache and pass `--no-cache` to the `docker build` command. |
+| <code><a href="#deploy-time-build.ContainerImageBuildProps.property.cacheFrom">cacheFrom</a></code> | <code>aws-cdk-lib.aws_ecr_assets.DockerCacheOption[]</code> | Cache from options to pass to the `docker build` command. |
+| <code><a href="#deploy-time-build.ContainerImageBuildProps.property.cacheTo">cacheTo</a></code> | <code>aws-cdk-lib.aws_ecr_assets.DockerCacheOption</code> | Cache to options to pass to the `docker build` command. |
+| <code><a href="#deploy-time-build.ContainerImageBuildProps.property.displayName">displayName</a></code> | <code>string</code> | A display name for this asset. |
 | <code><a href="#deploy-time-build.ContainerImageBuildProps.property.file">file</a></code> | <code>string</code> | Path to the Dockerfile (relative to the directory). |
 | <code><a href="#deploy-time-build.ContainerImageBuildProps.property.invalidation">invalidation</a></code> | <code>aws-cdk-lib.aws_ecr_assets.DockerImageAssetInvalidationOptions</code> | Options to control which parameters are used to invalidate the asset hash. |
 | <code><a href="#deploy-time-build.ContainerImageBuildProps.property.networkMode">networkMode</a></code> | <code>aws-cdk-lib.aws_ecr_assets.NetworkMode</code> | Networking mode for the RUN commands during build. |
+| <code><a href="#deploy-time-build.ContainerImageBuildProps.property.outputs">outputs</a></code> | <code>string[]</code> | Outputs to pass to the `docker build` command. |
 | <code><a href="#deploy-time-build.ContainerImageBuildProps.property.platform">platform</a></code> | <code>aws-cdk-lib.aws_ecr_assets.Platform</code> | Platform to build for. |
 | <code><a href="#deploy-time-build.ContainerImageBuildProps.property.target">target</a></code> | <code>string</code> | Docker target to build to. |
 | <code><a href="#deploy-time-build.ContainerImageBuildProps.property.directory">directory</a></code> | <code>string</code> | The directory where the Dockerfile is stored. |
@@ -848,6 +979,21 @@ Extra information to encode into the fingerprint (e.g. build instructions and ot
 
 ---
 
+##### `assetName`<sup>Optional</sup> <a name="assetName" id="deploy-time-build.ContainerImageBuildProps.property.assetName"></a>
+
+```typescript
+public readonly assetName: string;
+```
+
+- *Type:* string
+- *Default:* no asset name
+
+Unique identifier of the docker image asset and its potential revisions.
+
+Required if using AppScopedStagingSynthesizer.
+
+---
+
 ##### `buildArgs`<sup>Optional</sup> <a name="buildArgs" id="deploy-time-build.ContainerImageBuildProps.property.buildArgs"></a>
 
 ```typescript
@@ -862,6 +1008,123 @@ Build args to pass to the `docker build` command.
 Since Docker build arguments are resolved before deployment, keys and
 values cannot refer to unresolved tokens (such as `lambda.functionArn` or
 `queue.queueUrl`).
+
+---
+
+##### `buildSecrets`<sup>Optional</sup> <a name="buildSecrets" id="deploy-time-build.ContainerImageBuildProps.property.buildSecrets"></a>
+
+```typescript
+public readonly buildSecrets: {[ key: string ]: string};
+```
+
+- *Type:* {[ key: string ]: string}
+- *Default:* no build secrets
+
+Build secrets.
+
+Docker BuildKit must be enabled to use build secrets.
+
+> [https://docs.docker.com/build/buildkit/](https://docs.docker.com/build/buildkit/)
+
+---
+
+*Example*
+
+```typescript
+import { DockerBuildSecret } from 'aws-cdk-lib';
+
+const buildSecrets = {
+  'MY_SECRET': DockerBuildSecret.fromSrc('file.txt')
+};
+```
+
+
+##### `buildSsh`<sup>Optional</sup> <a name="buildSsh" id="deploy-time-build.ContainerImageBuildProps.property.buildSsh"></a>
+
+```typescript
+public readonly buildSsh: string;
+```
+
+- *Type:* string
+- *Default:* no --ssh flag
+
+SSH agent socket or keys to pass to the `docker build` command.
+
+Docker BuildKit must be enabled to use the ssh flag
+
+> [https://docs.docker.com/build/buildkit/](https://docs.docker.com/build/buildkit/)
+
+---
+
+##### `cacheDisabled`<sup>Optional</sup> <a name="cacheDisabled" id="deploy-time-build.ContainerImageBuildProps.property.cacheDisabled"></a>
+
+```typescript
+public readonly cacheDisabled: boolean;
+```
+
+- *Type:* boolean
+- *Default:* cache is used
+
+Disable the cache and pass `--no-cache` to the `docker build` command.
+
+---
+
+##### `cacheFrom`<sup>Optional</sup> <a name="cacheFrom" id="deploy-time-build.ContainerImageBuildProps.property.cacheFrom"></a>
+
+```typescript
+public readonly cacheFrom: DockerCacheOption[];
+```
+
+- *Type:* aws-cdk-lib.aws_ecr_assets.DockerCacheOption[]
+- *Default:* no cache from options are passed to the build command
+
+Cache from options to pass to the `docker build` command.
+
+> [https://docs.docker.com/build/cache/backends/](https://docs.docker.com/build/cache/backends/)
+
+---
+
+##### `cacheTo`<sup>Optional</sup> <a name="cacheTo" id="deploy-time-build.ContainerImageBuildProps.property.cacheTo"></a>
+
+```typescript
+public readonly cacheTo: DockerCacheOption;
+```
+
+- *Type:* aws-cdk-lib.aws_ecr_assets.DockerCacheOption
+- *Default:* no cache to options are passed to the build command
+
+Cache to options to pass to the `docker build` command.
+
+> [https://docs.docker.com/build/cache/backends/](https://docs.docker.com/build/cache/backends/)
+
+---
+
+##### `displayName`<sup>Optional</sup> <a name="displayName" id="deploy-time-build.ContainerImageBuildProps.property.displayName"></a>
+
+```typescript
+public readonly displayName: string;
+```
+
+- *Type:* string
+- *Default:* Stack-relative construct path
+
+A display name for this asset.
+
+If supplied, the display name will be used in locations where the asset
+identifier is printed, like in the CLI progress information. If the same
+asset is added multiple times, the display name of the first occurrence is
+used.
+
+If `assetName` is given, it will also be used as the default `displayName`.
+Otherwise, the default is the construct path of the ImageAsset construct,
+with respect to the enclosing stack. If the asset is produced by a
+construct helper function (such as `lambda.Code.fromAssetImage()`), this
+will look like `MyFunction/AssetImage`.
+
+We use the stack-relative construct path so that in the common case where
+you have multiple stacks with the same asset, we won't show something like
+`/MyBetaStack/MyFunction/Code` when you are actually deploying to
+production.
 
 ---
 
@@ -903,6 +1166,21 @@ public readonly networkMode: NetworkMode;
 Networking mode for the RUN commands during build.
 
 Support docker API 1.25+.
+
+---
+
+##### `outputs`<sup>Optional</sup> <a name="outputs" id="deploy-time-build.ContainerImageBuildProps.property.outputs"></a>
+
+```typescript
+public readonly outputs: string[];
+```
+
+- *Type:* string[]
+- *Default:* no outputs are passed to the build command (default outputs are used)
+
+Outputs to pass to the `docker build` command.
+
+> [https://docs.docker.com/engine/reference/commandline/build/#custom-build-outputs](https://docs.docker.com/engine/reference/commandline/build/#custom-build-outputs)
 
 ---
 

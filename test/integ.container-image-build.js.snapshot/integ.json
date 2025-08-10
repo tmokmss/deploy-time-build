@@ -1,0 +1,14 @@
+{
+  "version": "48.0.0",
+  "testCases": {
+    "Test/DefaultTest": {
+      "stacks": [
+        "ContainerImageBuildIntegTest"
+      ],
+      "diffAssets": true,
+      "assertionStack": "Test/DefaultTest/DeployAssert",
+      "assertionStackName": "TestDefaultTestDeployAssert12909640"
+    }
+  },
+  "minimumCliVersion": "2.1024.0"
+}
