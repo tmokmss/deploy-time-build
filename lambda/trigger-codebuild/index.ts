@@ -147,7 +147,6 @@ export const handler = async (event: Event, context: any) => {
           break;
         case 'ContainerImageBuild': {
           const imageTag = props.imageTag ?? `${props.tagPrefix ?? ''}${newPhysicalId}`;
-          const buildCommand = props.buildCommand.replaceAll('<IMAGE_TAG>', imageTag);
           command = new StartBuildCommand({
             projectName: props.codeBuildProjectName,
             environmentVariablesOverride: [
@@ -162,7 +161,7 @@ export const handler = async (event: Event, context: any) => {
               },
               {
                 name: 'buildCommand',
-                value: buildCommand,
+                value: props.buildCommand,
               },
               {
                 name: 'imageTag',

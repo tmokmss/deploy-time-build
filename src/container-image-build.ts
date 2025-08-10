@@ -81,6 +81,8 @@ export class ContainerImageBuild extends Construct implements IGrantable {
       repository = new Repository(this, 'Repository', { removalPolicy: RemovalPolicy.DESTROY });
       (repository.node.defaultChild as CfnResource).addPropertyOverride('EmptyOnDelete', true);
     }
+    const repositoryUri = repository.repositoryUri;
+    const imageArtifactName = 'artifact';
 
     const project = new SingletonProject(this, 'Project', {
       uuid: 'e83729fe-b156-4e70-9bec-452b15847a30',
@@ -104,10 +106,12 @@ export class ContainerImageBuild extends Construct implements IGrantable {
               'unzip temp.zip',
               'ls -la',
               'aws ecr get-login-password | docker login --username AWS --password-stdin $repositoryAuthUri',
+              // for accessing ECR public
               'aws ecr-public get-login-password --region us-east-1 | docker login --username AWS --password-stdin public.ecr.aws',
-              'docker buildx create --use',
               'docker buildx ls',
               'eval "$buildCommand"',
+              `docker tag ${imageArtifactName}:latest ${repositoryUri}:$imageTag`,
+              `docker push ${repositoryUri}:$imageTag`,
             ],
           },
           post_build: {
@@ -169,11 +173,11 @@ curl -v -i -X PUT -H 'Content-Type:' -d "@payload.json" "$responseURL"
 
     const buildCommandOptions = { ...props, platform: props.platform?.platform } as any;
     buildCommandOptions.outputs ??= [];
-    // <IMAGE_TAG> will be replaced in the trigger Lambda
-    // to enable zstd compression, buildx directly pushes the artifact image to a registry
-    // https://aws.amazon.com/blogs/containers/reducing-aws-fargate-startup-times-with-zstd-compressed-container-images/
-    buildCommandOptions.outputs.push('type=image', `name=${repository.repositoryUri}:<IMAGE_TAG>`, 'push=true');
+    // we don't use push=true here because CodeBuild Docker server does not seem to work properly with the configuration.
+    buildCommandOptions.outputs.push('type=image', `name=${imageArtifactName}`);
     if (props.zstdCompression) {
+      // to enable zstd compression, buildx directly pushes the artifact image to a registry
+      // https://aws.amazon.com/blogs/containers/reducing-aws-fargate-startup-times-with-zstd-compressed-container-images/
       buildCommandOptions.outputs.push('oci-mediatypes=true', 'compression=zstd', 'force-compression=true', 'compression-level=3');
     }
     const buildCommand = this.getDockerBuildCommand(buildCommandOptions);
@@ -181,7 +185,7 @@ curl -v -i -X PUT -H 'Content-Type:' -d "@payload.json" "$responseURL"
     const properties: ContainerImageBuildResourceProps = {
       type: 'ContainerImageBuild',
       buildCommand: buildCommand,
-      repositoryUri: repository.repositoryUri,
+      repositoryUri,
       imageTag: props.tag,
       tagPrefix: props.tagPrefix,
       codeBuildProjectName: project.projectName,
