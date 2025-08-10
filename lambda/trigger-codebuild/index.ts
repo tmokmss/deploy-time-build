@@ -1,6 +1,7 @@
 import { BatchGetBuildsCommand, CodeBuildClient, StartBuildCommand } from '@aws-sdk/client-codebuild';
 import type { ResourceProperties } from '../../src/types';
 import Crypto from 'crypto';
+import { setTimeout } from 'timers/promises';
 
 const cb = new CodeBuildClient({});
 
@@ -183,7 +184,22 @@ export const handler = async (event: Event, context: any) => {
           throw new Error(`invalid event type ${props}}`);
       }
       // start code build project
-      const build = await cb.send(command);
+      let retries = 0;
+      while (retries < 10) {
+        try {
+          await cb.send(command);
+          break;
+        } catch (error: any) {
+          // Sometimes AccessDeniedException is thrown due to IAM propagation delay. It should be resolved with retry.
+          if (error.name === 'AccessDeniedException') {
+            retries++;
+            console.log(`AccessDeniedException encountered, retrying (${retries})...`);
+            await setTimeout(5000);
+          } else {
+            throw error;
+          }
+        }
+      }
 
       // Sometimes CodeBuild build fails before running buildspec, without calling the CFn callback.
       // We can poll the status of a build for a few minutes and sendStatus if such errors are detected.
