@@ -5,6 +5,7 @@ const project = new awscdk.AwsCdkConstructLibrary({
   projenrcTs: true,
   author: 'tmokmss',
   authorAddress: 'tomookam@live.jp',
+  // we don't strictly guarantee it works in older CDK (integ-runner runs on newer CDK), but hopefully it should.
   cdkVersion: '2.38.0', // For using @aws-cdk/integ-runner
   defaultReleaseBranch: 'main',
   jsiiVersion: '~5.8.0',
@@ -20,13 +21,22 @@ const project = new awscdk.AwsCdkConstructLibrary({
     dirs: [],
     ignorePatterns: ['example/**/*', 'lambda/**/*', 'test/assets/**/*', 'test/*.snapshot/**/*', '*.d.ts'],
   },
-  gitignore: ['*.js', '*.d.ts', '!test/*.integ.snapshot/**/*'],
+  gitignore: ['*.js', '*.d.ts', '!test/*.snapshot/**/*'],
   keywords: ['aws', 'cdk', 'lambda', 'aws-cdk', 'ecr', 'ecs'],
   tsconfigDev: {
     compilerOptions: {},
-    exclude: ['example', 'test/*.integ.snapshot'],
+    exclude: ['example', 'test/*.snapshot'],
   },
-  devDeps: ['@aws-cdk/integ-runner@2.38.0', '@aws-cdk/integ-tests-alpha@2.38.0-alpha.0'],
+  devDeps: [
+    'aws-cdk-lib@^2.159.0',
+    'aws-cdk@^2.159.0',
+    'constructs',
+    '@aws-cdk/integ-runner@^2.159.0-alpha.0',
+    '@aws-cdk/integ-tests-alpha@^2.159.0-alpha.0',
+  ],
+  peerDependencyOptions: {
+    pinnedDevDependency: false,
+  },
   description: 'Build during CDK deployment.',
 });
 // Bundle custom resource handler Lambda code
