@@ -18,7 +18,7 @@
         "validateOnSynth": false,
         "assumeRoleArn": "arn:${AWS::Partition}:iam::${AWS::AccountId}:role/cdk-hnb659fds-deploy-role-${AWS::AccountId}-${AWS::Region}",
         "cloudFormationExecutionRoleArn": "arn:${AWS::Partition}:iam::${AWS::AccountId}:role/cdk-hnb659fds-cfn-exec-role-${AWS::AccountId}-${AWS::Region}",
-        "stackTemplateAssetObjectUrl": "s3://cdk-hnb659fds-assets-${AWS::AccountId}-${AWS::Region}/f0b0b98043413405a7458025d7168bf0998723904ad08b172696c91d059caba3.json",
+        "stackTemplateAssetObjectUrl": "s3://cdk-hnb659fds-assets-${AWS::AccountId}-${AWS::Region}/e6fd24300ad04283e4a1468c1ec04121548d7934a518b5d3c26e4b1f138a3c70.json",
         "requiresBootstrapStackVersion": 6,
         "bootstrapStackVersionSsmParameter": "/cdk-bootstrap/hnb659fds/version",
         "additionalDependencies": [
@@ -39,7 +39,9 @@
             "type": "aws:cdk:analytics:construct",
             "data": {
               "blockPublicAccess": "*",
-              "encryption": "S3_MANAGED"
+              "encryption": "S3_MANAGED",
+              "removalPolicy": "destroy",
+              "autoDeleteObjects": true
             }
           }
         ],
@@ -47,6 +49,56 @@
           {
             "type": "aws:cdk:logicalId",
             "data": "Destination920A3C57"
+          }
+        ],
+        "/NodejsBuildIntegTest/Destination/Policy": [
+          {
+            "type": "aws:cdk:analytics:construct",
+            "data": {
+              "bucket": "*"
+            }
+          }
+        ],
+        "/NodejsBuildIntegTest/Destination/Policy/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "DestinationPolicy7982387E"
+          }
+        ],
+        "/NodejsBuildIntegTest/Destination/AutoDeleteObjectsCustomResource": [
+          {
+            "type": "aws:cdk:analytics:construct",
+            "data": "*"
+          }
+        ],
+        "/NodejsBuildIntegTest/Destination/AutoDeleteObjectsCustomResource/Default": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "DestinationAutoDeleteObjectsCustomResource15E926BA"
+          }
+        ],
+        "/NodejsBuildIntegTest/LatestNodeRuntimeMap": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "LatestNodeRuntimeMap"
+          }
+        ],
+        "/NodejsBuildIntegTest/Custom::S3AutoDeleteObjectsCustomResourceProvider": [
+          {
+            "type": "aws:cdk:is-custom-resource-handler-customResourceProvider",
+            "data": true
+          }
+        ],
+        "/NodejsBuildIntegTest/Custom::S3AutoDeleteObjectsCustomResourceProvider/Role": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "CustomS3AutoDeleteObjectsCustomResourceProviderRole3B1BD092"
+          }
+        ],
+        "/NodejsBuildIntegTest/Custom::S3AutoDeleteObjectsCustomResourceProvider/Handler": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "CustomS3AutoDeleteObjectsCustomResourceProviderHandler9D90184F"
           }
         ],
         "/NodejsBuildIntegTest/ExampleBuild/CustomResourceHandler": [

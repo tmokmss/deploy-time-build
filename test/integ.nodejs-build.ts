@@ -1,5 +1,5 @@
 import { IntegTest } from '@aws-cdk/integ-tests-alpha';
-import { Stack, StackProps, App } from 'aws-cdk-lib';
+import { Stack, StackProps, App, RemovalPolicy } from 'aws-cdk-lib';
 import { BlockPublicAccess, Bucket, BucketEncryption } from 'aws-cdk-lib/aws-s3';
 import { Construct } from 'constructs';
 import { NodejsBuild } from '../src/nodejs-build';
@@ -13,6 +13,8 @@ class TestStack extends Stack {
     const dstBucket = new Bucket(this, 'Destination', {
       blockPublicAccess: BlockPublicAccess.BLOCK_ALL,
       encryption: BucketEncryption.S3_MANAGED,
+      removalPolicy: RemovalPolicy.DESTROY,
+      autoDeleteObjects: true,
     });
     const dstPath = '/';
 

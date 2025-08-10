@@ -1,30 +1,30 @@
 {
   "version": "48.0.0",
   "files": {
-    "7f816cad38e86ddea93f882c21b24b668e5f52ca94627540561ddde1d2c7a9f6": {
+    "8843cc925fb0988c26999d236127cff8fc68ea75ed254cf95a8610619f16a47f": {
       "displayName": "DeployTimeBuildCustomResourceHandlerdb740fd554364a848a09e6dfcd01f4f3/Code",
       "source": {
-        "path": "asset.7f816cad38e86ddea93f882c21b24b668e5f52ca94627540561ddde1d2c7a9f6",
+        "path": "asset.8843cc925fb0988c26999d236127cff8fc68ea75ed254cf95a8610619f16a47f",
         "packaging": "zip"
       },
       "destinations": {
-        "current_account-current_region-4cdd920e": {
+        "current_account-current_region-0906d195": {
           "bucketName": "cdk-hnb659fds-assets-${AWS::AccountId}-${AWS::Region}",
-          "objectKey": "7f816cad38e86ddea93f882c21b24b668e5f52ca94627540561ddde1d2c7a9f6.zip",
+          "objectKey": "8843cc925fb0988c26999d236127cff8fc68ea75ed254cf95a8610619f16a47f.zip",
           "assumeRoleArn": "arn:${AWS::Partition}:iam::${AWS::AccountId}:role/cdk-hnb659fds-file-publishing-role-${AWS::AccountId}-${AWS::Region}"
         }
       }
     },
-    "c4d8b4cf8757c52340201ba5548fe1338c0bae0f9c4dd28ab4da462430088733": {
+    "9d859b2d1b941f44a8c0a9c7c4fb7f2585399b7cc36f927d64006c89bcd35d52": {
       "displayName": "SociIndexBuildIntegTest Template",
       "source": {
         "path": "SociIndexBuildIntegTest.template.json",
         "packaging": "file"
       },
       "destinations": {
-        "current_account-current_region-55129ba9": {
+        "current_account-current_region-de809e7d": {
           "bucketName": "cdk-hnb659fds-assets-${AWS::AccountId}-${AWS::Region}",
-          "objectKey": "c4d8b4cf8757c52340201ba5548fe1338c0bae0f9c4dd28ab4da462430088733.json",
+          "objectKey": "9d859b2d1b941f44a8c0a9c7c4fb7f2585399b7cc36f927d64006c89bcd35d52.json",
           "assumeRoleArn": "arn:${AWS::Partition}:iam::${AWS::AccountId}:role/cdk-hnb659fds-file-publishing-role-${AWS::AccountId}-${AWS::Region}"
         }
       }
