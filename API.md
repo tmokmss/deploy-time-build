@@ -84,7 +84,7 @@ Get the instance of {@link DockerImageCode} for a Lambda function image.
 
 ---
 
-##### ~~`isConstruct`~~ <a name="isConstruct" id="deploy-time-build.ContainerImageBuild.isConstruct"></a>
+##### `isConstruct` <a name="isConstruct" id="deploy-time-build.ContainerImageBuild.isConstruct"></a>
 
 ```typescript
 import { ContainerImageBuild } from 'deploy-time-build'
@@ -93,6 +93,20 @@ ContainerImageBuild.isConstruct(x: any)
 ```
 
 Checks if `x` is a construct.
+
+Use this method instead of `instanceof` to properly detect `Construct`
+instances, even when the construct library is symlinked.
+
+Explanation: in JavaScript, multiple copies of the `constructs` library on
+disk are seen as independent, completely different libraries. As a
+consequence, the class `Construct` in each copy of the `constructs` library
+is seen as a different class, and an instance of one class will not test as
+`instanceof` the other class. `npm install` will not create installations
+like this, but users may manually symlink construct libraries together or
+use a monorepo tool: in those cases, multiple copies of the `constructs`
+library can be accidentally installed, and `instanceof` will behave
+unpredictably. It is safest to avoid using `instanceof`, and using
+this type-testing method instead.
 
 ###### `x`<sup>Required</sup> <a name="x" id="deploy-time-build.ContainerImageBuild.isConstruct.parameter.x"></a>
 
@@ -222,7 +236,7 @@ Returns a string representation of this construct.
 
 ---
 
-##### ~~`isConstruct`~~ <a name="isConstruct" id="deploy-time-build.NodejsBuild.isConstruct"></a>
+##### `isConstruct` <a name="isConstruct" id="deploy-time-build.NodejsBuild.isConstruct"></a>
 
 ```typescript
 import { NodejsBuild } from 'deploy-time-build'
@@ -231,6 +245,20 @@ NodejsBuild.isConstruct(x: any)
 ```
 
 Checks if `x` is a construct.
+
+Use this method instead of `instanceof` to properly detect `Construct`
+instances, even when the construct library is symlinked.
+
+Explanation: in JavaScript, multiple copies of the `constructs` library on
+disk are seen as independent, completely different libraries. As a
+consequence, the class `Construct` in each copy of the `constructs` library
+is seen as a different class, and an instance of one class will not test as
+`instanceof` the other class. `npm install` will not create installations
+like this, but users may manually symlink construct libraries together or
+use a monorepo tool: in those cases, multiple copies of the `constructs`
+library can be accidentally installed, and `instanceof` will behave
+unpredictably. It is safest to avoid using `instanceof`, and using
+this type-testing method instead.
 
 ###### `x`<sup>Required</sup> <a name="x" id="deploy-time-build.NodejsBuild.isConstruct.parameter.x"></a>
 
@@ -340,7 +368,7 @@ Returns a string representation of this construct.
 
 ---
 
-##### ~~`isConstruct`~~ <a name="isConstruct" id="deploy-time-build.SociIndexBuild.isConstruct"></a>
+##### `isConstruct` <a name="isConstruct" id="deploy-time-build.SociIndexBuild.isConstruct"></a>
 
 ```typescript
 import { SociIndexBuild } from 'deploy-time-build'
@@ -349,6 +377,20 @@ SociIndexBuild.isConstruct(x: any)
 ```
 
 Checks if `x` is a construct.
+
+Use this method instead of `instanceof` to properly detect `Construct`
+instances, even when the construct library is symlinked.
+
+Explanation: in JavaScript, multiple copies of the `constructs` library on
+disk are seen as independent, completely different libraries. As a
+consequence, the class `Construct` in each copy of the `constructs` library
+is seen as a different class, and an instance of one class will not test as
+`instanceof` the other class. `npm install` will not create installations
+like this, but users may manually symlink construct libraries together or
+use a monorepo tool: in those cases, multiple copies of the `constructs`
+library can be accidentally installed, and `instanceof` will behave
+unpredictably. It is safest to avoid using `instanceof`, and using
+this type-testing method instead.
 
 ###### `x`<sup>Required</sup> <a name="x" id="deploy-time-build.SociIndexBuild.isConstruct.parameter.x"></a>
 
@@ -485,7 +527,7 @@ the index build complete and then start deploying after the image with index rea
 
 ---
 
-##### ~~`isConstruct`~~ <a name="isConstruct" id="deploy-time-build.SociIndexV2Build.isConstruct"></a>
+##### `isConstruct` <a name="isConstruct" id="deploy-time-build.SociIndexV2Build.isConstruct"></a>
 
 ```typescript
 import { SociIndexV2Build } from 'deploy-time-build'
@@ -494,6 +536,20 @@ SociIndexV2Build.isConstruct(x: any)
 ```
 
 Checks if `x` is a construct.
+
+Use this method instead of `instanceof` to properly detect `Construct`
+instances, even when the construct library is symlinked.
+
+Explanation: in JavaScript, multiple copies of the `constructs` library on
+disk are seen as independent, completely different libraries. As a
+consequence, the class `Construct` in each copy of the `constructs` library
+is seen as a different class, and an instance of one class will not test as
+`instanceof` the other class. `npm install` will not create installations
+like this, but users may manually symlink construct libraries together or
+use a monorepo tool: in those cases, multiple copies of the `constructs`
+library can be accidentally installed, and `instanceof` will behave
+unpredictably. It is safest to avoid using `instanceof`, and using
+this type-testing method instead.
 
 ###### `x`<sup>Required</sup> <a name="x" id="deploy-time-build.SociIndexV2Build.isConstruct.parameter.x"></a>
 
