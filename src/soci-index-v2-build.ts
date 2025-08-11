@@ -60,7 +60,7 @@ export class SociIndexV2Build extends Construct {
 
     const handler = new SingletonFunction(this, 'CustomResourceHandler', {
       // Use raw string to avoid from tightening CDK version requirement
-      runtime: new Runtime('nodejs20.x', RuntimeFamily.NODEJS),
+      runtime: new Runtime('nodejs22.x', RuntimeFamily.NODEJS),
       code: Code.fromAsset(join(__dirname, '../lambda/trigger-codebuild/dist')),
       handler: 'index.handler',
       uuid: 'db740fd5-5436-4a84-8a09-e6dfcd01f4f3', // generated for this construct

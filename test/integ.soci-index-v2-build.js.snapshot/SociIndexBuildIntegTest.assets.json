@@ -15,16 +15,16 @@
         }
       }
     },
-    "9aad3107cfd465e1cc1522e0496a8bb78d825b9d30aac2388e79a90f77b5dd7f": {
+    "6928dc2cbb9068a707cc0b3b32dcae4a27e74f63a3b2d15d53dcd820601b1367": {
       "displayName": "SociIndexBuildIntegTest Template",
       "source": {
         "path": "SociIndexBuildIntegTest.template.json",
         "packaging": "file"
       },
       "destinations": {
-        "current_account-current_region-a1d91721": {
+        "current_account-current_region-13ef2806": {
           "bucketName": "cdk-hnb659fds-assets-${AWS::AccountId}-${AWS::Region}",
-          "objectKey": "9aad3107cfd465e1cc1522e0496a8bb78d825b9d30aac2388e79a90f77b5dd7f.json",
+          "objectKey": "6928dc2cbb9068a707cc0b3b32dcae4a27e74f63a3b2d15d53dcd820601b1367.json",
           "assumeRoleArn": "arn:${AWS::Partition}:iam::${AWS::AccountId}:role/cdk-hnb659fds-file-publishing-role-${AWS::AccountId}-${AWS::Region}"
         }
       }
