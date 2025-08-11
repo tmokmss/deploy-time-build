@@ -88,10 +88,6 @@
       "description": "Only compile",
       "steps": [
         {
-          "exec": "npm ci && npm run build",
-          "cwd": "lambda/trigger-codebuild"
-        },
-        {
           "exec": "jsii --silence-warnings=reserved-word"
         }
       ]
@@ -205,6 +201,10 @@
       "name": "post-compile",
       "description": "Runs after successful compilation",
       "steps": [
+        {
+          "exec": "npm ci && npm run build",
+          "cwd": "lambda/trigger-codebuild"
+        },
         {
           "spawn": "docgen"
         }

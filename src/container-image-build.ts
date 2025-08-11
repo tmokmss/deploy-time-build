@@ -109,7 +109,9 @@ export class ContainerImageBuild extends Construct implements IGrantable {
               // for accessing ECR public
               'aws ecr-public get-login-password --region us-east-1 | docker login --username AWS --password-stdin public.ecr.aws',
               'docker buildx ls',
+              'echo "$buildCommand"',
               'eval "$buildCommand"',
+              'docker images',
               `docker tag ${imageArtifactName}:latest ${repositoryUri}:$imageTag`,
               `docker push ${repositoryUri}:$imageTag`,
             ],
@@ -174,7 +176,7 @@ curl -v -i -X PUT -H 'Content-Type:' -d "@payload.json" "$responseURL"
     const buildCommandOptions = { ...props, platform: props.platform?.platform } as any;
     buildCommandOptions.outputs ??= [];
     // we don't use push=true here because CodeBuild Docker server does not seem to work properly with the configuration.
-    buildCommandOptions.outputs.push('type=image', `name=${imageArtifactName}`);
+    buildCommandOptions.outputs.push('type=docker', `name=${imageArtifactName}`);
     if (props.zstdCompression) {
       // to enable zstd compression, buildx directly pushes the artifact image to a registry
       // https://aws.amazon.com/blogs/containers/reducing-aws-fargate-startup-times-with-zstd-compressed-container-images/
