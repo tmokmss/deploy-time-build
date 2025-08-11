@@ -1,3 +1,4 @@
+"use strict";
 var __create = Object.create;
 var __defProp = Object.defineProperty;
 var __getOwnPropDesc = Object.getOwnPropertyDescriptor;
@@ -17,17 +18,21 @@ var __copyProps = (to, from, except, desc) => {
   return to;
 };
 var __toESM = (mod, isNodeMode, target) => (target = mod != null ? __create(__getProtoOf(mod)) : {}, __copyProps(
+  // If the importer is in node compatibility mode or this is not an ESM
+  // file that has been converted to a CommonJS file using a Babel-
+  // compatible transform (i.e. "__esModule" has not been set), then set
+  // "default" to the CommonJS "module.exports" for node compatibility.
   isNodeMode || !mod || !mod.__esModule ? __defProp(target, "default", { value: mod, enumerable: true }) : target,
   mod
 ));
 var __toCommonJS = (mod) => __copyProps(__defProp({}, "__esModule", { value: true }), mod);
 
 // index.ts
-var trigger_codebuild_exports = {};
-__export(trigger_codebuild_exports, {
+var index_exports = {};
+__export(index_exports, {
   handler: () => handler
 });
-module.exports = __toCommonJS(trigger_codebuild_exports);
+module.exports = __toCommonJS(index_exports);
 var import_client_codebuild = require("@aws-sdk/client-codebuild");
 var import_crypto = __toESM(require("crypto"));
 var import_promises = require("timers/promises");
@@ -83,6 +88,7 @@ var handler = async (event, context) => {
               },
               {
                 name: "destinationObjectKey",
+                // This should be random to always trigger a BucketDeployment update process
                 value: `${newPhysicalId}.zip`
               },
               {
@@ -231,6 +237,7 @@ var sendStatus = async (status, event, context, reason) => {
     LogicalResourceId: event.LogicalResourceId,
     NoEcho: false,
     Data: {}
+    //responseData
   });
   await fetch(event.ResponseURL, {
     method: "PUT",
