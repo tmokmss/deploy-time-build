@@ -82,7 +82,7 @@ export class ContainerImageBuild extends Construct implements IGrantable {
       (repository.node.defaultChild as CfnResource).addPropertyOverride('EmptyOnDelete', true);
     }
     const repositoryUri = repository.repositoryUri;
-    const imageArtifactName = 'artifact';
+    const imageArtifactName = 'artifact:$imageTag';
 
     const project = new SingletonProject(this, 'Project', {
       uuid: 'e83729fe-b156-4e70-9bec-452b15847a30',
@@ -112,7 +112,7 @@ export class ContainerImageBuild extends Construct implements IGrantable {
               'echo "$buildCommand"',
               'eval "$buildCommand"',
               'docker images',
-              `docker tag ${imageArtifactName}:latest ${repositoryUri}:$imageTag`,
+              `docker tag ${imageArtifactName} ${repositoryUri}:$imageTag`,
               `docker push ${repositoryUri}:$imageTag`,
             ],
           },
