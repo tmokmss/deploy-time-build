@@ -24,8 +24,17 @@ const project = new awscdk.AwsCdkConstructLibrary({
   gitignore: ['*.js', '*.d.ts', '!test/*.snapshot/**/*'],
   keywords: ['aws', 'cdk', 'lambda', 'aws-cdk', 'ecr', 'ecs'],
   tsconfigDev: {
-    compilerOptions: {},
+    compilerOptions: {
+      noUnusedLocals: false,
+      noUnusedParameters: false,
+    },
     exclude: ['example', 'test/*.snapshot'],
+  },
+  tsconfig: {
+    compilerOptions: {
+      noUnusedLocals: false,
+      noUnusedParameters: false,
+    },
   },
   devDeps: [
     'aws-cdk-lib@^2.159.0',
@@ -38,6 +47,9 @@ const project = new awscdk.AwsCdkConstructLibrary({
     pinnedDevDependency: false,
   },
   description: 'Build during CDK deployment.',
+});
+project.eslint?.addRules({
+  '@typescript-eslint/no-unused-vars': 'off',
 });
 // Bundle custom resource handler Lambda code
 project.projectBuild.postCompileTask.prependExec('npm ci && npm run build', {

@@ -161,6 +161,10 @@ export const handler = async (event: Event, context: any) => {
                 value: props.repositoryUri.split('/')[0],
               },
               {
+                name: 'repositoryRegion',
+                value: props.repositoryUri.split('.')[3],
+              },
+              {
                 name: 'buildCommand',
                 value: props.buildCommand,
               },

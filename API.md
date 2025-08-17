@@ -123,6 +123,7 @@ Any object.
 | <code><a href="#deploy-time-build.ContainerImageBuild.property.node">node</a></code> | <code>constructs.Node</code> | The tree node. |
 | <code><a href="#deploy-time-build.ContainerImageBuild.property.grantPrincipal">grantPrincipal</a></code> | <code>aws-cdk-lib.aws_iam.IPrincipal</code> | The principal to grant permissions to. |
 | <code><a href="#deploy-time-build.ContainerImageBuild.property.imageTag">imageTag</a></code> | <code>string</code> | *No description.* |
+| <code><a href="#deploy-time-build.ContainerImageBuild.property.imageUri">imageUri</a></code> | <code>string</code> | *No description.* |
 | <code><a href="#deploy-time-build.ContainerImageBuild.property.repository">repository</a></code> | <code>aws-cdk-lib.aws_ecr.IRepository</code> | *No description.* |
 
 ---
@@ -155,6 +156,16 @@ The principal to grant permissions to.
 
 ```typescript
 public readonly imageTag: string;
+```
+
+- *Type:* string
+
+---
+
+##### `imageUri`<sup>Required</sup> <a name="imageUri" id="deploy-time-build.ContainerImageBuild.property.imageUri"></a>
+
+```typescript
+public readonly imageUri: string;
 ```
 
 - *Type:* string

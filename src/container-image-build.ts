@@ -55,6 +55,7 @@ export class ContainerImageBuild extends Construct implements IGrantable {
   public readonly grantPrincipal: IPrincipal;
   public readonly repository: IRepository;
   public readonly imageTag: string;
+  public readonly imageUri: string;
 
   constructor(scope: Construct, id: string, private readonly props: ContainerImageBuildProps) {
     super(scope, id);
@@ -105,7 +106,7 @@ export class ContainerImageBuild extends Construct implements IGrantable {
               'aws s3 cp "$sourceS3Url" temp.zip',
               'unzip temp.zip',
               'ls -la',
-              'aws ecr get-login-password | docker login --username AWS --password-stdin $repositoryAuthUri',
+              'aws ecr get-login-password --region $repositoryRegion | docker login --username AWS --password-stdin $repositoryAuthUri',
               // for accessing ECR public
               'aws ecr-public get-login-password --region us-east-1 | docker login --username AWS --password-stdin public.ecr.aws',
               'docker buildx ls',
@@ -203,6 +204,7 @@ curl -v -i -X PUT -H 'Content-Type:' -d "@payload.json" "$responseURL"
 
     this.repository = repository;
     this.imageTag = custom.getAttString('ImageTag');
+    this.imageUri = `${repositoryUri}:${this.imageTag}`;
   }
 
   /**
