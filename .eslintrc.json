@@ -209,7 +209,8 @@
           "method"
         ]
       }
-    ]
+    ],
+    "@typescript-eslint/no-unused-vars": "off"
   },
   "overrides": [
     {

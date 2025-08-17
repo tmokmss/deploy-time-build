@@ -105,7 +105,7 @@ export class ContainerImageBuild extends Construct implements IGrantable {
               'aws s3 cp "$sourceS3Url" temp.zip',
               'unzip temp.zip',
               'ls -la',
-              'aws ecr get-login-password | docker login --username AWS --password-stdin $repositoryAuthUri',
+              'aws ecr get-login-password --region $repositoryRegion | docker login --username AWS --password-stdin $repositoryAuthUri',
               // for accessing ECR public
               'aws ecr-public get-login-password --region us-east-1 | docker login --username AWS --password-stdin public.ecr.aws',
               'docker buildx ls',
