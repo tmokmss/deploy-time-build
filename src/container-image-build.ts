@@ -113,8 +113,8 @@ export class ContainerImageBuild extends Construct implements IGrantable {
               'echo "$buildCommand"',
               'eval "$buildCommand"',
               'docker images',
-              `docker tag ${imageArtifactName} ${repositoryUri}:$imageTag`,
-              `docker push ${repositoryUri}:$imageTag`,
+              `docker tag ${imageArtifactName} $repositoryUri:$imageTag`,
+              `docker push $repositoryUri:$imageTag`,
             ],
           },
           post_build: {
