@@ -55,6 +55,7 @@ export class ContainerImageBuild extends Construct implements IGrantable {
   public readonly grantPrincipal: IPrincipal;
   public readonly repository: IRepository;
   public readonly imageTag: string;
+  public readonly imageUri: string;
 
   constructor(scope: Construct, id: string, private readonly props: ContainerImageBuildProps) {
     super(scope, id);
@@ -203,6 +204,7 @@ curl -v -i -X PUT -H 'Content-Type:' -d "@payload.json" "$responseURL"
 
     this.repository = repository;
     this.imageTag = custom.getAttString('ImageTag');
+    this.imageUri = `${repositoryUri}:${this.imageTag}`;
   }
 
   /**
