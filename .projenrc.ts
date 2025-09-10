@@ -12,11 +12,14 @@ const project = new awscdk.AwsCdkConstructLibrary({
   name: 'deploy-time-build',
   license: 'MIT',
   repositoryUrl: 'https://github.com/tmokmss/deploy-time-build.git',
+  npmTrustedPublishing: true,
   publishToPypi: {
     distName: 'deploy-time-build',
     module: 'deploy_time_build',
+    trustedPublishing: true,
   },
   packageManager: NodePackageManager.NPM,
+  workflowNodeVersion: '24',
   eslintOptions: {
     dirs: [],
     ignorePatterns: ['example/**/*', 'lambda/**/*', 'test/assets/**/*', 'test/*.snapshot/**/*', '*.d.ts'],
