@@ -261,7 +261,7 @@ curl -v -i -X PUT -H 'Content-Type:' -d "@payload.json" "$responseURL"
       type: 'NodejsBuild',
       sources,
       destinationBucketName: bucket.bucketName,
-      workingDirectory: sources[0].extractPath,
+      workingDirectory: props.workingDirectory ?? sources[0].extractPath,
       // join paths for CodeBuild (Linux) platform
       outputSourceDirectory: posix.join(sources[0].extractPath, props.outputSourceDirectory),
       environment: props.buildEnvironment,
