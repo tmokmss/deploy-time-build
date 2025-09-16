@@ -153,27 +153,11 @@ new FargateTaskDefinition(this, 'TaskDefinition', {
 The third argument (props) are a superset of DockerImageAsset's properties. You can set a few additional properties such as `tag`, `repository`, and `zstdCompression`.
 
 ### Build SOCI index for a container image
-[Seekable OCI (SOCI)](https://aws.amazon.com/about-aws/whats-new/2022/09/introducing-seekable-oci-lazy-loading-container-images/) is a way to help start tasks faster for Amazon ECS tasks on Fargate 1.4.0. You can build and push a SOCI index using the `SociIndexBuild` or `SociIndexV2Build` construct.
+[Seekable OCI (SOCI)](https://aws.amazon.com/about-aws/whats-new/2022/09/introducing-seekable-oci-lazy-loading-container-images/) is a way to help start tasks faster for Amazon ECS tasks on Fargate 1.4.0. You can build and push a SOCI index using the `SociIndexV2Build` construct.
 
 ![soci-architecture](imgs/soci-architecture.png)
 
 The following code is an example to use the construct:
-
-```ts
-import { SociIndexBuild } from 'deploy-time-build';
-
-const asset = new DockerImageAsset(this, 'Image', { directory: 'example-image' });
-new SociIndexBuild(this, 'Index', { imageTag: asset.assetHash, repository: asset.repository });
-// or using a utility method
-SociIndexBuild.fromDockerImageAsset(this, 'Index2', asset);
-
-// Use the asset for ECS Fargate tasks
-import { AssetImage } from 'aws-cdk-lib/aws-ecs';
-const assetImage = AssetImage.fromDockerImageAsset(asset);
-```
-
-#### SOCI Index Manifest v2 Support
-You can also build [SOCI index with Manifest v2](https://github.com/awslabs/soci-snapshotter/blob/v0.10.0/docs/soci-index-manifest-v2.md) using the `SociIndexV2Build` construct:
 
 ```ts
 import { SociIndexV2Build } from 'deploy-time-build';
@@ -202,6 +186,9 @@ The `SociIndexV2Build` construct:
 - Uses the same ECR repository for input and output images
 
 We currently use [`soci-wrapper`](https://github.com/tmokmss/soci-wrapper) to build and push SOCI indices.
+
+> [!WARNING]
+> The previous `SocideIndexBuild` construct is now deprecated. Customers new to SOCI on AWS Fargate can only use SOCI index manifest v2. See [this article](https://aws.amazon.com/blogs/containers/improving-amazon-ecs-deployment-consistency-with-soci-index-manifest-v2/) for more details.
 
 #### Motivation - why do we need the `SociIndexBuild` construct?
 
