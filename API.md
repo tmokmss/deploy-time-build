@@ -362,7 +362,7 @@ new SociIndexBuild(scope: Construct, id: string, props: SociIndexBuildProps)
 
 ---
 
-##### `toString` <a name="toString" id="deploy-time-build.SociIndexBuild.toString"></a>
+##### ~~`toString`~~ <a name="toString" id="deploy-time-build.SociIndexBuild.toString"></a>
 
 ```typescript
 public toString(): string
@@ -379,7 +379,7 @@ Returns a string representation of this construct.
 
 ---
 
-##### `isConstruct` <a name="isConstruct" id="deploy-time-build.SociIndexBuild.isConstruct"></a>
+##### ~~`isConstruct`~~ <a name="isConstruct" id="deploy-time-build.SociIndexBuild.isConstruct"></a>
 
 ```typescript
 import { SociIndexBuild } from 'deploy-time-build'
@@ -411,7 +411,7 @@ Any object.
 
 ---
 
-##### `fromDockerImageAsset` <a name="fromDockerImageAsset" id="deploy-time-build.SociIndexBuild.fromDockerImageAsset"></a>
+##### ~~`fromDockerImageAsset`~~ <a name="fromDockerImageAsset" id="deploy-time-build.SociIndexBuild.fromDockerImageAsset"></a>
 
 ```typescript
 import { SociIndexBuild } from 'deploy-time-build'
@@ -447,7 +447,10 @@ A utility method to create a SociIndexBuild construct from a DockerImageAsset in
 
 ---
 
-##### `node`<sup>Required</sup> <a name="node" id="deploy-time-build.SociIndexBuild.property.node"></a>
+##### ~~`node`~~<sup>Required</sup> <a name="node" id="deploy-time-build.SociIndexBuild.property.node"></a>
+
+- *Deprecated:* Use {@link SociIndexV2Build } instead. Customers new to SOCI on AWS Fargate can only use SOCI index manifest v2.
+See [this article](https://aws.amazon.com/blogs/containers/improving-amazon-ecs-deployment-consistency-with-soci-index-manifest-v2/) for more details.
 
 ```typescript
 public readonly node: Node;
