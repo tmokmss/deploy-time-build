@@ -7,7 +7,7 @@ import { IRepository, Repository } from 'aws-cdk-lib/aws-ecr';
 import { DockerImageAssetProps } from 'aws-cdk-lib/aws-ecr-assets';
 import { ContainerImage } from 'aws-cdk-lib/aws-ecs';
 import { IGrantable, IPrincipal, ManagedPolicy, PolicyStatement } from 'aws-cdk-lib/aws-iam';
-import { Code, DockerImageCode, EcrImageCodeProps, Runtime, RuntimeFamily, SingletonFunction } from 'aws-cdk-lib/aws-lambda';
+import { Code, DockerImageCode, Runtime, RuntimeFamily, SingletonFunction } from 'aws-cdk-lib/aws-lambda';
 import { Asset } from 'aws-cdk-lib/aws-s3-assets';
 import { Construct } from 'constructs';
 import { SingletonProject } from './singleton-project';
@@ -46,6 +46,36 @@ export interface ContainerImageBuildProps extends DockerImageAssetProps {
    * @default No VPC used.
    */
   readonly vpc?: IVpc;
+}
+
+/**
+ * Options for configuring Lambda Docker image code.
+ */
+export interface LambdaDockerImageOptions {
+  /**
+   * Specify or override the CMD on the specified Docker image or Dockerfile.
+   * This needs to be in the 'exec form', viz., `[ 'executable', 'param1', 'param2' ]`.
+   * @see <https://docs.docker.com/engine/reference/builder/#cmd>
+   * @default - use the CMD specified in the docker image or Dockerfile.
+   */
+  readonly cmd?: string[];
+
+  /**
+   * Specify or override the ENTRYPOINT on the specified Docker image or Dockerfile.
+   * An ENTRYPOINT allows you to configure a container that will run as an executable.
+   * This needs to be in the 'exec form', viz., `[ 'executable', 'param1', 'param2' ]`.
+   * @see <https://docs.docker.com/engine/reference/builder/#entrypoint>
+   * @default - use the ENTRYPOINT in the docker image or Dockerfile.
+   */
+  readonly entrypoint?: string[];
+
+  /**
+   * Specify or override the WORKDIR on the specified Docker image or Dockerfile.
+   * A WORKDIR allows you to configure the working directory the container will use.
+   * @see <https://docs.docker.com/engine/reference/builder/#workdir>
+   * @default - use the WORKDIR in the docker image or Dockerfile.
+   */
+  readonly workingDirectory?: string;
 }
 
 /**
@@ -211,13 +241,17 @@ curl -v -i -X PUT -H 'Content-Type:' -d "@payload.json" "$responseURL"
    * Get the instance of {@link DockerImageCode} for a Lambda function image.
    * @param options Optional configuration for Docker image code.
    */
-  public toLambdaDockerImageCode(options?: EcrImageCodeProps) {
+  public toLambdaDockerImageCode(options?: LambdaDockerImageOptions) {
     if (this.props.zstdCompression) {
       throw new Error('You cannot enable zstdCompression for a Lambda image.');
     }
     return DockerImageCode.fromEcr(this.repository, { 
       tagOrDigest: this.imageTag,
-      ...options
+      ...(options && {
+        cmd: options.cmd,
+        entrypoint: options.entrypoint,
+        workingDirectory: options.workingDirectory,
+      })
     });
   }
 
