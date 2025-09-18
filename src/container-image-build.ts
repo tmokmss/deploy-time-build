@@ -7,7 +7,7 @@ import { IRepository, Repository } from 'aws-cdk-lib/aws-ecr';
 import { DockerImageAssetProps } from 'aws-cdk-lib/aws-ecr-assets';
 import { ContainerImage } from 'aws-cdk-lib/aws-ecs';
 import { IGrantable, IPrincipal, ManagedPolicy, PolicyStatement } from 'aws-cdk-lib/aws-iam';
-import { Code, DockerImageCode, Runtime, RuntimeFamily, SingletonFunction } from 'aws-cdk-lib/aws-lambda';
+import { Code, DockerImageCode, EcrImageCodeProps, Runtime, RuntimeFamily, SingletonFunction } from 'aws-cdk-lib/aws-lambda';
 import { Asset } from 'aws-cdk-lib/aws-s3-assets';
 import { Construct } from 'constructs';
 import { SingletonProject } from './singleton-project';
@@ -209,12 +209,16 @@ curl -v -i -X PUT -H 'Content-Type:' -d "@payload.json" "$responseURL"
 
   /**
    * Get the instance of {@link DockerImageCode} for a Lambda function image.
+   * @param options Optional configuration for Docker image code.
    */
-  public toLambdaDockerImageCode() {
+  public toLambdaDockerImageCode(options?: EcrImageCodeProps) {
     if (this.props.zstdCompression) {
       throw new Error('You cannot enable zstdCompression for a Lambda image.');
     }
-    return DockerImageCode.fromEcr(this.repository, { tagOrDigest: this.imageTag });
+    return DockerImageCode.fromEcr(this.repository, { 
+      tagOrDigest: this.imageTag,
+      ...options
+    });
   }
 
   /**

@@ -71,10 +71,18 @@ Get the instance of {@link ContainerImage} for an ECS task definition.
 ##### `toLambdaDockerImageCode` <a name="toLambdaDockerImageCode" id="deploy-time-build.ContainerImageBuild.toLambdaDockerImageCode"></a>
 
 ```typescript
-public toLambdaDockerImageCode(): DockerImageCode
+public toLambdaDockerImageCode(options?: EcrImageCodeProps): DockerImageCode
 ```
 
 Get the instance of {@link DockerImageCode} for a Lambda function image.
+
+###### `options`<sup>Optional</sup> <a name="options" id="deploy-time-build.ContainerImageBuild.toLambdaDockerImageCode.parameter.options"></a>
+
+- *Type:* aws-cdk-lib.aws_lambda.EcrImageCodeProps
+
+Optional configuration for Docker image code.
+
+---
 
 #### Static Functions <a name="Static Functions" id="Static Functions"></a>
 
