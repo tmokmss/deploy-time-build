@@ -16,8 +16,6 @@ type Event = {
 };
 
 export const handler = async (event: Event, context: any) => {
-  console.log(JSON.stringify(event));
-
   try {
     if (event.RequestType == 'Create' || event.RequestType == 'Update') {
       const props = event.ResourceProperties;
