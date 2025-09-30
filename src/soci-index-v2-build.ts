@@ -116,7 +116,7 @@ cat <<EOF > payload.json
   }
 }
 EOF
-curl -vv -i -X PUT -H 'Content-Type:' -d "@payload.json" "$responseURL"
+curl -i -X PUT -H 'Content-Type:' -d "@payload.json" "$responseURL"
               `,
             ],
           },

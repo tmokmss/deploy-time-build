@@ -38,7 +38,6 @@ var import_crypto = __toESM(require("crypto"));
 var import_promises = require("timers/promises");
 var cb = new import_client_codebuild.CodeBuildClient({});
 var handler = async (event, context) => {
-  console.log(JSON.stringify(event));
   try {
     if (event.RequestType == "Create" || event.RequestType == "Update") {
       const props = event.ResourceProperties;
