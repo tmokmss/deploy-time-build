@@ -10,7 +10,7 @@
      ]
     },
     "type": "SociIndexBuild",
-    "imageTag": "a8bbd8136347d097316685416937f7ad1e2612d23493dcc4e0ef33d290c09b05",
+    "imageTag": "e1555cac621b51df07a3be311fb40203615c77b74beddebe9903793bfa83f87c",
     "repositoryName": {
      "Fn::Sub": "cdk-hnb659fds-container-assets-${AWS::AccountId}-${AWS::Region}"
     },
@@ -325,7 +325,7 @@
      ]
     },
     "type": "SociIndexBuild",
-    "imageTag": "ee67e8501ce0da550e5e99a322b5cc7b0981a2a5d46fee5459c401759efa4b7d",
+    "imageTag": "67a4b2afcaa5ced5af180155df75292878cc322b0c2b7da7b75f8162675797d1",
     "repositoryName": {
      "Fn::Sub": "cdk-hnb659fds-container-assets-${AWS::AccountId}-${AWS::Region}"
     },

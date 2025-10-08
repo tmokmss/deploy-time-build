@@ -6,6 +6,7 @@ import { Cluster, FargateTaskDefinition, CpuArchitecture, AwsLogDriver } from 'a
 import { DockerImageFunction } from 'aws-cdk-lib/aws-lambda';
 import { Construct } from 'constructs';
 import { ContainerImageBuild } from '../src';
+import { getCrHandlerHash } from './util';
 
 const app = new App();
 
@@ -23,6 +24,9 @@ class TestStack extends Stack {
       platform: Platform.LINUX_ARM64,
       repository: image.repository,
       zstdCompression: true,
+      buildArgs: {
+        HASH: getCrHandlerHash(),
+      },
     });
     new DockerImageFunction(this, 'Function', {
       code: image.toLambdaDockerImageCode(),
@@ -38,6 +42,9 @@ class TestStack extends Stack {
     const build = new ContainerImageBuild(this, 'BuildVpc', {
       directory: '../example/example-image',
       vpc,
+      buildArgs: {
+        HASH: getCrHandlerHash(),
+      },
     });
     // build must run after NAT gateways are configured
     build.node.addDependency(vpc);

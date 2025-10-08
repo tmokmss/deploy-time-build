@@ -10,8 +10,8 @@
      ]
     },
     "type": "SociIndexV2Build",
-    "inputImageTag": "a8bbd8136347d097316685416937f7ad1e2612d23493dcc4e0ef33d290c09b05",
-    "outputImageTag": "a8bbd8136347d097316685416937f7ad1e2612d23493dcc4e0ef33d290c09b05-soci",
+    "inputImageTag": "702dce256dd0eb5374a3332d97c47702d7c1ac3fe7508ecd916ac940c518dcda",
+    "outputImageTag": "702dce256dd0eb5374a3332d97c47702d7c1ac3fe7508ecd916ac940c518dcda-soci",
     "repositoryName": {
      "Fn::Sub": "cdk-hnb659fds-container-assets-${AWS::AccountId}-${AWS::Region}"
     },
@@ -326,8 +326,8 @@
      ]
     },
     "type": "SociIndexV2Build",
-    "inputImageTag": "ee67e8501ce0da550e5e99a322b5cc7b0981a2a5d46fee5459c401759efa4b7d",
-    "outputImageTag": "ee67e8501ce0da550e5e99a322b5cc7b0981a2a5d46fee5459c401759efa4b7d-soci",
+    "inputImageTag": "67a4b2afcaa5ced5af180155df75292878cc322b0c2b7da7b75f8162675797d1",
+    "outputImageTag": "67a4b2afcaa5ced5af180155df75292878cc322b0c2b7da7b75f8162675797d1-soci",
     "repositoryName": {
      "Fn::Sub": "cdk-hnb659fds-container-assets-${AWS::AccountId}-${AWS::Region}"
     },

@@ -558,7 +558,7 @@
      "Ref": "ContainerImageBuildAmd64e83729feb1564e709bec452b15847a30amd6491AAA9B2"
     },
     "sourceS3Url": {
-     "Fn::Sub": "s3://cdk-hnb659fds-assets-${AWS::AccountId}-${AWS::Region}/f7fa10e7cd7b9b27f49a4a335f4aa9795fb7e68a665c34ca8bf5711f0aa6aeab.zip"
+     "Fn::Sub": "s3://cdk-hnb659fds-assets-${AWS::AccountId}-${AWS::Region}/27d689e5b89504940c061916e0e9be8cc0a0f37417918f37e94199237655d0bb.zip"
     }
    },
    "DependsOn": [
@@ -925,7 +925,7 @@
      ]
     },
     "type": "ContainerImageBuild",
-    "buildCommand": "docker buildx build --platform linux/arm64 --output type=docker,name=artifact:$imageTag,oci-mediatypes=true,compression=zstd,force-compression=true,compression-level=3 --provenance=false .",
+    "buildCommand": "docker buildx build --build-arg HASH=12d89130d0082031700f0ae53cbb1acf --platform linux/arm64 --output type=docker,name=artifact:$imageTag,oci-mediatypes=true,compression=zstd,force-compression=true,compression-level=3 --provenance=false .",
     "repositoryUri": {
      "Fn::Join": [
       "",
@@ -978,7 +978,7 @@
      "Ref": "ContainerImageBuildArm64e83729feb1564e709bec452b15847a30amd64C13E3549"
     },
     "sourceS3Url": {
-     "Fn::Sub": "s3://cdk-hnb659fds-assets-${AWS::AccountId}-${AWS::Region}/f7fa10e7cd7b9b27f49a4a335f4aa9795fb7e68a665c34ca8bf5711f0aa6aeab.zip"
+     "Fn::Sub": "s3://cdk-hnb659fds-assets-${AWS::AccountId}-${AWS::Region}/27d689e5b89504940c061916e0e9be8cc0a0f37417918f37e94199237655d0bb.zip"
     }
    },
    "DependsOn": [
@@ -1575,7 +1575,7 @@
      ]
     },
     "type": "ContainerImageBuild",
-    "buildCommand": "docker buildx build --output type=docker,name=artifact:$imageTag --provenance=false .",
+    "buildCommand": "docker buildx build --build-arg HASH=12d89130d0082031700f0ae53cbb1acf --output type=docker,name=artifact:$imageTag --provenance=false .",
     "repositoryUri": {
      "Fn::Join": [
       "",
@@ -1628,7 +1628,7 @@
      "Ref": "ContainerImageBuildAmd64e83729feb1564e709bec452b15847a30c8a085f75ccbc05f5149859bcf147b49eadd8ac37damd64C6D1C187"
     },
     "sourceS3Url": {
-     "Fn::Sub": "s3://cdk-hnb659fds-assets-${AWS::AccountId}-${AWS::Region}/f7fa10e7cd7b9b27f49a4a335f4aa9795fb7e68a665c34ca8bf5711f0aa6aeab.zip"
+     "Fn::Sub": "s3://cdk-hnb659fds-assets-${AWS::AccountId}-${AWS::Region}/27d689e5b89504940c061916e0e9be8cc0a0f37417918f37e94199237655d0bb.zip"
     }
    },
    "DependsOn": [
