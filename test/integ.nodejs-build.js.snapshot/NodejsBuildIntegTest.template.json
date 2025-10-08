@@ -377,7 +377,7 @@
       "sourceBucketName": {
        "Fn::Sub": "cdk-hnb659fds-assets-${AWS::AccountId}-${AWS::Region}"
       },
-      "sourceObjectKey": "72f05c779a8bc73c6ec86f6eafc720508792e7526696d3ae45a7fddcfc473c9d.zip",
+      "sourceObjectKey": "ef20dfda9249d2e61cb6546119e2c25b56153008ca299dc0f3e21a5f4707a9f5.zip",
       "extractPath": "example-app"
      }
     ],
@@ -389,7 +389,8 @@
     "environment": {
      "VITE_SOME_TOKEN": {
       "Ref": "Destination920A3C57"
-     }
+     },
+     "HASH": "12d89130d0082031700f0ae53cbb1acf"
     },
     "buildCommands": [
      "npm ci",

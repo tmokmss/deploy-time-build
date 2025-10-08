@@ -3,6 +3,7 @@ import { Stack, StackProps, App } from 'aws-cdk-lib';
 import { DockerImageAsset } from 'aws-cdk-lib/aws-ecr-assets';
 import { Construct } from 'constructs';
 import { SociIndexV2Build } from '../src';
+import { getCrHandlerHash } from './util';
 
 const app = new App();
 
@@ -15,7 +16,7 @@ class TestStack extends Stack {
       const parent = new Construct(this, 'Image1');
       const asset = new DockerImageAsset(parent, 'Image', {
         directory: '../example/example-image',
-        buildArgs: { DUMMY_FILE_SIZE_MB: '10' },
+        buildArgs: { DUMMY_FILE_SIZE_MB: '10', HASH: getCrHandlerHash() },
       });
       new SociIndexV2Build(parent, 'Index', {
         inputImageTag: asset.assetHash,
