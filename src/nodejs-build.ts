@@ -6,7 +6,6 @@ import { IGrantable, IPrincipal, PolicyStatement } from 'aws-cdk-lib/aws-iam';
 import { Code, Runtime, RuntimeFamily, SingletonFunction } from 'aws-cdk-lib/aws-lambda';
 import { IBucket } from 'aws-cdk-lib/aws-s3';
 import { Asset, AssetProps } from 'aws-cdk-lib/aws-s3-assets';
-import { BucketDeployment, Source } from 'aws-cdk-lib/aws-s3-deployment';
 import { Construct } from 'constructs';
 import { NodejsBuildResourceProps } from './types';
 
@@ -122,7 +121,6 @@ export class NodejsBuild extends Construct implements IGrantable {
         Annotations.of(this).addWarning(`Possibly unsupported Node.js version: ${nodejsVersion}. Currently 12, 14, 16, 18, 20, and 22 are supported.`);
     }
 
-    const destinationObjectKeyOutputKey = 'destinationObjectKey';
     const envFileKeyOutputKey = 'envFileKey';
 
     const project = new Project(this, 'Project', {
@@ -175,8 +173,24 @@ done
               'ls -la',
               'cd "$current_dir"',
               'cd "$outputSourceDirectory"',
-              'zip -r output.zip ./',
-              'aws s3 cp output.zip "s3://$destinationBucketName/$destinationObjectKey"',
+              // Deploy to final destination bucket
+              `
+echo "Deploying build artifacts to final destination bucket..."
+if [[ -n "$finalDestinationKeyPrefix" && "$finalDestinationKeyPrefix" != "/" ]]
+then
+  aws s3 sync . "s3://$finalDestinationBucketName/$finalDestinationKeyPrefix" --delete
+else
+  aws s3 sync . "s3://$finalDestinationBucketName/" --delete
+fi
+              `,
+              // Invalidate CloudFront distribution if provided
+              `
+if [[ -n "$distributionId" ]]
+then
+  echo "Creating CloudFront invalidation for distribution: $distributionId"
+  aws cloudfront create-invalidation --distribution-id "$distributionId" --paths "/*"
+fi
+              `,
               // Upload .env if required
               `
 if [[ $outputEnvFile == "true" ]]
@@ -214,7 +228,6 @@ cat <<EOF > payload.json
   "Status": "$STATUS",
   "Reason": "$REASON",
   "Data": {
-    "${destinationObjectKeyOutputKey}": "$destinationObjectKey",
     "${envFileKeyOutputKey}": "$envFileKey"
   }
 }
@@ -268,6 +281,9 @@ curl -i -X PUT -H 'Content-Type:' -d "@payload.json" "$responseURL"
       buildCommands: props.buildCommands ?? ['npm run build'],
       codeBuildProjectName: project.projectName,
       outputEnvFile: props.outputEnvFile ?? false,
+      finalDestinationBucketName: props.destinationBucket.bucketName,
+      finalDestinationKeyPrefix: props.destinationKeyPrefix,
+      distributionId: props.distribution?.distributionId,
     };
 
     const custom = new CustomResource(this, 'Resource', {
@@ -276,15 +292,17 @@ curl -i -X PUT -H 'Content-Type:' -d "@payload.json" "$responseURL"
       properties,
     });
 
-    const deploy = new BucketDeployment(this, 'Deploy', {
-      sources: [Source.bucket(bucket, custom.getAttString(destinationObjectKeyOutputKey))],
-      destinationBucket: props.destinationBucket,
-      destinationKeyPrefix: props.destinationKeyPrefix,
-      distribution: props.distribution,
-      memoryLimit: 512, // sometimes timeout on default (128MB) memory
-    });
+    // Grant permissions to CodeBuild for S3 and CloudFront operations
+    props.destinationBucket.grantReadWrite(project);
 
-    deploy.node.addDependency(custom);
+    if (props.distribution) {
+      project.addToRolePolicy(
+        new PolicyStatement({
+          actions: ['cloudfront:CreateInvalidation'],
+          resources: [`arn:aws:cloudfront::${project.stack.account}:distribution/${props.distribution.distributionId}`],
+        }),
+      );
+    }
 
     if (props.outputEnvFile) {
       new CfnOutput(this, 'DownloadEnvFile', { value: `aws s3 cp ${bucket.s3UrlForObject(custom.getAttString(envFileKeyOutputKey))} .env.local` });
