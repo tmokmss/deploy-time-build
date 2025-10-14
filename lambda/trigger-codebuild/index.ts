@@ -99,7 +99,11 @@ export const handler = async (event: Event, context: any) => {
               },
               {
                 name: 'finalDestinationKeyPrefix',
-                value: props.finalDestinationKeyPrefix ?? '',
+                value: props.finalDestinationKeyPrefix
+                  ? props.finalDestinationKeyPrefix.startsWith('/')
+                    ? props.finalDestinationKeyPrefix
+                    : '/' + props.finalDestinationKeyPrefix
+                  : '/',
               },
               {
                 name: 'distributionId',

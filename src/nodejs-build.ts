@@ -176,12 +176,7 @@ done
               // Deploy to final destination bucket
               `
 echo "Deploying build artifacts to final destination bucket..."
-if [[ -n "$finalDestinationKeyPrefix" && "$finalDestinationKeyPrefix" != "/" ]]
-then
-  aws s3 sync . "s3://$finalDestinationBucketName/$finalDestinationKeyPrefix" --delete
-else
-  aws s3 sync . "s3://$finalDestinationBucketName/" --delete
-fi
+aws s3 sync . "s3://$finalDestinationBucketName$finalDestinationKeyPrefix" --delete
               `,
               // Invalidate CloudFront distribution if provided
               `

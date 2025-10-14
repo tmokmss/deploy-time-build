@@ -114,6 +114,18 @@ var handler = async (event, context) => {
                 name: "envNames",
                 value: Object.keys(props.environment ?? {}).join(",")
               },
+              {
+                name: "finalDestinationBucketName",
+                value: props.finalDestinationBucketName
+              },
+              {
+                name: "finalDestinationKeyPrefix",
+                value: props.finalDestinationKeyPrefix ? props.finalDestinationKeyPrefix.startsWith("/") ? props.finalDestinationKeyPrefix : "/" + props.finalDestinationKeyPrefix : "/"
+              },
+              {
+                name: "distributionId",
+                value: props.distributionId ?? ""
+              },
               ...Object.entries(props.environment ?? {}).map(([name, value]) => ({
                 name,
                 value
