@@ -10,8 +10,8 @@
      ]
     },
     "type": "SociIndexV2Build",
-    "inputImageTag": "702dce256dd0eb5374a3332d97c47702d7c1ac3fe7508ecd916ac940c518dcda",
-    "outputImageTag": "702dce256dd0eb5374a3332d97c47702d7c1ac3fe7508ecd916ac940c518dcda-soci",
+    "inputImageTag": "1c77e03c6438a0ad32761c65360c7503408a3f52ff35b9e3a42424a53ddebd50",
+    "outputImageTag": "1c77e03c6438a0ad32761c65360c7503408a3f52ff35b9e3a42424a53ddebd50-soci",
     "repositoryName": {
      "Fn::Sub": "cdk-hnb659fds-container-assets-${AWS::AccountId}-${AWS::Region}"
     },
@@ -86,7 +86,7 @@
      "S3Bucket": {
       "Fn::Sub": "cdk-hnb659fds-assets-${AWS::AccountId}-${AWS::Region}"
      },
-     "S3Key": "29bea96356a8ba5cfb914a321f9e30fd1a384a9c884fa560ea9192f6072df21b.zip"
+     "S3Key": "b31e00a71ec5a9e3589df0e6879037cb1dcafee2e079c062e2c8eb891ba98b74.zip"
     },
     "Handler": "index.handler",
     "Role": {

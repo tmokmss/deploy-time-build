@@ -14,6 +14,9 @@ export type NodejsBuildResourceProps = {
   }[];
   environment?: { [key: string]: string };
   destinationBucketName: string;
+  destinationKeyPrefix: string;
+  distributionId?: string;
+  assetBucketName: string;
   workingDirectory: string;
   outputSourceDirectory: string;
   buildCommands: string[];

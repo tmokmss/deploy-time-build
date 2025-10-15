@@ -647,7 +647,7 @@
      "S3Bucket": {
       "Fn::Sub": "cdk-hnb659fds-assets-${AWS::AccountId}-${AWS::Region}"
      },
-     "S3Key": "29bea96356a8ba5cfb914a321f9e30fd1a384a9c884fa560ea9192f6072df21b.zip"
+     "S3Key": "b31e00a71ec5a9e3589df0e6879037cb1dcafee2e079c062e2c8eb891ba98b74.zip"
     },
     "Handler": "index.handler",
     "Role": {
@@ -925,7 +925,7 @@
      ]
     },
     "type": "ContainerImageBuild",
-    "buildCommand": "docker buildx build --build-arg HASH=12d89130d0082031700f0ae53cbb1acf --platform linux/arm64 --output type=docker,name=artifact:$imageTag,oci-mediatypes=true,compression=zstd,force-compression=true,compression-level=3 --provenance=false .",
+    "buildCommand": "docker buildx build --build-arg HASH=2b2834c69e12688b5211141adea6ccad --platform linux/arm64 --output type=docker,name=artifact:$imageTag,oci-mediatypes=true,compression=zstd,force-compression=true,compression-level=3 --provenance=false .",
     "repositoryUri": {
      "Fn::Join": [
       "",
@@ -1575,7 +1575,7 @@
      ]
     },
     "type": "ContainerImageBuild",
-    "buildCommand": "docker buildx build --build-arg HASH=12d89130d0082031700f0ae53cbb1acf --output type=docker,name=artifact:$imageTag --provenance=false .",
+    "buildCommand": "docker buildx build --build-arg HASH=2b2834c69e12688b5211141adea6ccad --output type=docker,name=artifact:$imageTag --provenance=false .",
     "repositoryUri": {
      "Fn::Join": [
       "",
