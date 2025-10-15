@@ -279,11 +279,11 @@ curl -i -X PUT -H 'Content-Type:' -d "@payload.json" "$responseURL"
     const properties: NodejsBuildResourceProps = {
       type: 'NodejsBuild',
       sources,
-      workingDirectory,
       destinationBucketName: props.destinationBucket.bucketName,
       destinationKeyPrefix: props.destinationKeyPrefix ?? '/',
       distributionId: props.distribution?.distributionId,
       assetBucketName: bucket.bucketName,
+      workingDirectory,
       // join paths for CodeBuild (Linux) platform
       outputSourceDirectory: posix.join(workingDirectory, props.outputSourceDirectory),
       environment: props.buildEnvironment,
