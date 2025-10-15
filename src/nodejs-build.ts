@@ -102,29 +102,31 @@ export class NodejsBuild extends Construct implements IGrantable {
     });
 
     const nodejsVersion = props.nodejsVersion ?? 18;
-    let buildImage = LinuxBuildImage.STANDARD_7_0;
+    let buildImage = 'aws/codebuild/standard:7.0';
     // See: https://docs.aws.amazon.com/codebuild/latest/userguide/available-runtimes.html#linux-runtimes
     switch (nodejsVersion) {
       case 12:
       case 14:
-        buildImage = LinuxBuildImage.STANDARD_5_0;
+        buildImage = 'aws/codebuild/standard:5.0';
         break;
       case 16:
-        buildImage = LinuxBuildImage.STANDARD_6_0;
+        buildImage = 'aws/codebuild/standard:6.0';
         break;
       case 18:
       case 20:
       case 22:
-        buildImage = LinuxBuildImage.STANDARD_7_0;
+        buildImage = 'aws/codebuild/standard:7.0';
         break;
       default:
-        Annotations.of(this).addWarning(`Possibly unsupported Node.js version: ${nodejsVersion}. Currently 12, 14, 16, 18, 20, and 22 are supported.`);
+        Annotations.of(this).addWarning(
+          `Possibly unsupported Node.js version: ${nodejsVersion}. Currently 12, 14, 16, 18, 20, and 22 are supported.`
+        );
     }
 
     const envFileKeyOutputKey = 'envFileKey';
 
     const project = new Project(this, 'Project', {
-      environment: { buildImage },
+      environment: { buildImage: LinuxBuildImage.fromCodeBuildImageId(buildImage) },
       buildSpec: BuildSpec.fromObject({
         version: '0.2',
         env: {
@@ -236,19 +238,19 @@ curl -i -X PUT -H 'Content-Type:' -d "@payload.json" "$responseURL"
       new PolicyStatement({
         actions: ['codebuild:StartBuild'],
         resources: [project.projectArn],
-      }),
+      })
     );
 
     this.grantPrincipal = project.grantPrincipal;
 
     props.destinationBucket.grantReadWrite(project);
     if (props.distribution) {
-        project.addToRolePolicy(
-            new PolicyStatement({
-                actions: ["cloudfront:GetInvalidation", "cloudfront:CreateInvalidation"],
-                resources: [props.distribution.distributionArn],
-            })
-        );
+      project.addToRolePolicy(
+        new PolicyStatement({
+          actions: ['cloudfront:GetInvalidation', 'cloudfront:CreateInvalidation'],
+          resources: [props.distribution.distributionArn],
+        })
+      );
     }
 
     const commonExclude = ['.DS_Store', '.git', 'node_modules'];
@@ -275,10 +277,7 @@ curl -i -X PUT -H 'Content-Type:' -d "@payload.json" "$responseURL"
       type: 'NodejsBuild',
       sources,
       destinationBucketName: props.destinationBucket.bucketName,
-      destinationKeyPrefix: (() => {
-        const prefix = props.destinationKeyPrefix ?? "/";
-        return prefix === "/" ? "" : prefix;
-      })(),
+      destinationKeyPrefix: props.destinationKeyPrefix ?? '/',
       distributionId: props.distribution?.distributionId,
       assetBucketName: bucket.bucketName,
       workingDirectory: sources[0].extractPath,

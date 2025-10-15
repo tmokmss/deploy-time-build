@@ -86,9 +86,30 @@ var handler = async (event, context) => {
                 value: props.destinationBucketName
               },
               {
-                name: "destinationObjectKey",
-                // This should be random to always trigger a BucketDeployment update process
-                value: `${newPhysicalId}.zip`
+                name: "destinationKeyPrefix",
+                // remove the beginning / if any
+                value: props.destinationKeyPrefix.startsWith("/") ? props.destinationKeyPrefix.slice(1) : props.destinationKeyPrefix
+              },
+              {
+                name: "distributionId",
+                value: props.distributionId ?? ""
+              },
+              {
+                name: "distributionPath",
+                value: (() => {
+                  let path = props.destinationKeyPrefix;
+                  if (!path.startsWith("/")) {
+                    path = "/" + path;
+                  }
+                  if (!path.endsWith("/")) {
+                    path += "/";
+                  }
+                  return path + "*";
+                })()
+              },
+              {
+                name: "assetBucketName",
+                value: props.assetBucketName
               },
               {
                 name: "workingDirectory",
@@ -231,7 +252,7 @@ var handler = async (event, context) => {
   }
 };
 var sendStatus = async (status, event, context, reason) => {
-  const responseBody = JSON.stringify({
+  const responseBody = {
     Status: status,
     Reason: reason ?? "See the details in CloudWatch Log Stream: " + context.logStreamName,
     PhysicalResourceId: context.logStreamName,
@@ -241,13 +262,14 @@ var sendStatus = async (status, event, context, reason) => {
     NoEcho: false,
     Data: {}
     //responseData
-  });
+  };
+  const responseBodyString = JSON.stringify(responseBody);
   await fetch(event.ResponseURL, {
     method: "PUT",
-    body: responseBody,
+    body: responseBodyString,
     headers: {
       "Content-Type": "",
-      "Content-Length": responseBody.length.toString()
+      "Content-Length": responseBodyString.length.toString()
     }
   });
 };

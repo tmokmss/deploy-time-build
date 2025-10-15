@@ -1,9 +1,5 @@
 import { CodeBuildClient, StartBuildCommand } from '@aws-sdk/client-codebuild';
-import {
-  CloudFormationCustomResourceEvent,
-  CloudFormationCustomResourceResponse,
-  Context,
-} from 'aws-lambda';
+import { CloudFormationCustomResourceEvent, CloudFormationCustomResourceResponse, Context } from 'aws-lambda';
 import Crypto from 'crypto';
 import { setTimeout } from 'timers/promises';
 import type { ResourceProperties } from '../../src/types';
@@ -11,7 +7,7 @@ import type { ResourceProperties } from '../../src/types';
 const cb = new CodeBuildClient({});
 
 type Event = CloudFormationCustomResourceEvent & {
-    ResourceProperties: ResourceProperties;
+  ResourceProperties: ResourceProperties;
 };
 
 export const handler = async (event: Event, context: Context) => {
@@ -65,7 +61,8 @@ export const handler = async (event: Event, context: Context) => {
               },
               {
                 name: 'destinationKeyPrefix',
-                value: props.destinationKeyPrefix,
+                // remove the beginning / if any
+                value: props.destinationKeyPrefix.startsWith('/') ? props.destinationKeyPrefix.slice(1) : props.destinationKeyPrefix,
               },
               {
                 name: 'distributionId',
@@ -73,18 +70,16 @@ export const handler = async (event: Event, context: Context) => {
               },
               {
                 name: 'distributionPath',
-                value: props.distributionId 
-                  ? (() => {
-                      let path = props.destinationKeyPrefix;
-                      if (!path.startsWith("/")) {
-                        path = "/" + path;
-                      }
-                      if (!path.endsWith("/")) {
-                        path += "/";
-                      }
-                      return path + "*";
-                    })()
-                  : '',
+                value: (() => {
+                  let path = props.destinationKeyPrefix;
+                  if (!path.startsWith('/')) {
+                    path = '/' + path;
+                  }
+                  if (!path.endsWith('/')) {
+                    path += '/';
+                  }
+                  return path + '*';
+                })(),
               },
               {
                 name: 'assetBucketName',
@@ -261,7 +256,7 @@ const sendStatus = async (status: 'SUCCESS' | 'FAILED', event: Event, context: C
     NoEcho: false,
     Data: {}, //responseData
   };
-  const responseBodyString = JSON.stringify(responseBody)
+  const responseBodyString = JSON.stringify(responseBody);
 
   await fetch(event.ResponseURL, {
     method: 'PUT',
