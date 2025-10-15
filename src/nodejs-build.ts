@@ -1,3 +1,4 @@
+import { basename, join, posix } from 'path';
 import { Annotations, CfnOutput, CustomResource, Duration } from 'aws-cdk-lib';
 import { IDistribution } from 'aws-cdk-lib/aws-cloudfront';
 import { BuildSpec, LinuxBuildImage, Project } from 'aws-cdk-lib/aws-codebuild';
@@ -6,7 +7,6 @@ import { Code, Runtime, RuntimeFamily, SingletonFunction } from 'aws-cdk-lib/aws
 import { IBucket } from 'aws-cdk-lib/aws-s3';
 import { Asset, AssetProps } from 'aws-cdk-lib/aws-s3-assets';
 import { Construct } from 'constructs';
-import { basename, join, posix } from 'path';
 import { NodejsBuildResourceProps } from './types';
 
 export interface AssetConfig extends AssetProps {
@@ -118,11 +118,10 @@ export class NodejsBuild extends Construct implements IGrantable {
         buildImage = 'aws/codebuild/standard:7.0';
         break;
       default:
-        Annotations.of(this).addWarning(
-          `Possibly unsupported Node.js version: ${nodejsVersion}. Currently 12, 14, 16, 18, 20, and 22 are supported.`
-        );
+        Annotations.of(this).addWarning(`Possibly unsupported Node.js version: ${nodejsVersion}. Currently 12, 14, 16, 18, 20, and 22 are supported.`);
     }
 
+    const outputEnvFile = props.outputEnvFile ?? false;
     const envFileKeyOutputKey = 'envFileKey';
 
     const project = new Project(this, 'Project', {
@@ -264,7 +263,10 @@ curl -i -X PUT -H 'Content-Type:' -d "@payload.json" "$responseURL"
     });
 
     const bucket = assets[0].bucket;
-    bucket.grantWrite(project);
+    if (outputEnvFile) {
+      // use the asset bucket that are created by CDK bootstrap to store .env file
+      bucket.grantWrite(project);
+    }
 
     const sources: NodejsBuildResourceProps['sources'] = props.assets.map((s, i) => ({
       sourceBucketName: assets[i].s3BucketName,
@@ -286,7 +288,7 @@ curl -i -X PUT -H 'Content-Type:' -d "@payload.json" "$responseURL"
       environment: props.buildEnvironment,
       buildCommands: props.buildCommands ?? ['npm run build'],
       codeBuildProjectName: project.projectName,
-      outputEnvFile: props.outputEnvFile ?? false,
+      outputEnvFile,
     };
 
     const custom = new CustomResource(this, 'Resource', {
