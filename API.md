@@ -71,10 +71,18 @@ Get the instance of {@link ContainerImage} for an ECS task definition.
 ##### `toLambdaDockerImageCode` <a name="toLambdaDockerImageCode" id="deploy-time-build.ContainerImageBuild.toLambdaDockerImageCode"></a>
 
 ```typescript
-public toLambdaDockerImageCode(): DockerImageCode
+public toLambdaDockerImageCode(options?: LambdaDockerImageOptions): DockerImageCode
 ```
 
 Get the instance of {@link DockerImageCode} for a Lambda function image.
+
+###### `options`<sup>Optional</sup> <a name="options" id="deploy-time-build.ContainerImageBuild.toLambdaDockerImageCode.parameter.options"></a>
+
+- *Type:* <a href="#deploy-time-build.LambdaDockerImageOptions">LambdaDockerImageOptions</a>
+
+Optional configuration for Docker image code.
+
+---
 
 #### Static Functions <a name="Static Functions" id="Static Functions"></a>
 
@@ -362,7 +370,7 @@ new SociIndexBuild(scope: Construct, id: string, props: SociIndexBuildProps)
 
 ---
 
-##### `toString` <a name="toString" id="deploy-time-build.SociIndexBuild.toString"></a>
+##### ~~`toString`~~ <a name="toString" id="deploy-time-build.SociIndexBuild.toString"></a>
 
 ```typescript
 public toString(): string
@@ -379,7 +387,7 @@ Returns a string representation of this construct.
 
 ---
 
-##### `isConstruct` <a name="isConstruct" id="deploy-time-build.SociIndexBuild.isConstruct"></a>
+##### ~~`isConstruct`~~ <a name="isConstruct" id="deploy-time-build.SociIndexBuild.isConstruct"></a>
 
 ```typescript
 import { SociIndexBuild } from 'deploy-time-build'
@@ -411,7 +419,7 @@ Any object.
 
 ---
 
-##### `fromDockerImageAsset` <a name="fromDockerImageAsset" id="deploy-time-build.SociIndexBuild.fromDockerImageAsset"></a>
+##### ~~`fromDockerImageAsset`~~ <a name="fromDockerImageAsset" id="deploy-time-build.SociIndexBuild.fromDockerImageAsset"></a>
 
 ```typescript
 import { SociIndexBuild } from 'deploy-time-build'
@@ -447,7 +455,10 @@ A utility method to create a SociIndexBuild construct from a DockerImageAsset in
 
 ---
 
-##### `node`<sup>Required</sup> <a name="node" id="deploy-time-build.SociIndexBuild.property.node"></a>
+##### ~~`node`~~<sup>Required</sup> <a name="node" id="deploy-time-build.SociIndexBuild.property.node"></a>
+
+- *Deprecated:* Use {@link SociIndexV2Build } instead. Customers new to SOCI on AWS Fargate can only use SOCI index manifest v2.
+See [this article](https://aws.amazon.com/blogs/containers/improving-amazon-ecs-deployment-consistency-with-soci-index-manifest-v2/) for more details.
 
 ```typescript
 public readonly node: Node;
@@ -1301,6 +1312,80 @@ public readonly zstdCompression: boolean;
 - *Default:* false
 
 Use zstd for compressing a container image.
+
+---
+
+### LambdaDockerImageOptions <a name="LambdaDockerImageOptions" id="deploy-time-build.LambdaDockerImageOptions"></a>
+
+Options for configuring Lambda Docker image code.
+
+#### Initializer <a name="Initializer" id="deploy-time-build.LambdaDockerImageOptions.Initializer"></a>
+
+```typescript
+import { LambdaDockerImageOptions } from 'deploy-time-build'
+
+const lambdaDockerImageOptions: LambdaDockerImageOptions = { ... }
+```
+
+#### Properties <a name="Properties" id="Properties"></a>
+
+| **Name** | **Type** | **Description** |
+| --- | --- | --- |
+| <code><a href="#deploy-time-build.LambdaDockerImageOptions.property.cmd">cmd</a></code> | <code>string[]</code> | Specify or override the CMD on the specified Docker image or Dockerfile. |
+| <code><a href="#deploy-time-build.LambdaDockerImageOptions.property.entrypoint">entrypoint</a></code> | <code>string[]</code> | Specify or override the ENTRYPOINT on the specified Docker image or Dockerfile. |
+| <code><a href="#deploy-time-build.LambdaDockerImageOptions.property.workingDirectory">workingDirectory</a></code> | <code>string</code> | Specify or override the WORKDIR on the specified Docker image or Dockerfile. |
+
+---
+
+##### `cmd`<sup>Optional</sup> <a name="cmd" id="deploy-time-build.LambdaDockerImageOptions.property.cmd"></a>
+
+```typescript
+public readonly cmd: string[];
+```
+
+- *Type:* string[]
+- *Default:* use the CMD specified in the docker image or Dockerfile.
+
+Specify or override the CMD on the specified Docker image or Dockerfile.
+
+This needs to be in the 'exec form', viz., `[ 'executable', 'param1', 'param2' ]`.
+
+> [ <https://docs.docker.com/engine/reference/builder/#cmd>]( <https://docs.docker.com/engine/reference/builder/#cmd>)
+
+---
+
+##### `entrypoint`<sup>Optional</sup> <a name="entrypoint" id="deploy-time-build.LambdaDockerImageOptions.property.entrypoint"></a>
+
+```typescript
+public readonly entrypoint: string[];
+```
+
+- *Type:* string[]
+- *Default:* use the ENTRYPOINT in the docker image or Dockerfile.
+
+Specify or override the ENTRYPOINT on the specified Docker image or Dockerfile.
+
+An ENTRYPOINT allows you to configure a container that will run as an executable.
+This needs to be in the 'exec form', viz., `[ 'executable', 'param1', 'param2' ]`.
+
+> [ <https://docs.docker.com/engine/reference/builder/#entrypoint>]( <https://docs.docker.com/engine/reference/builder/#entrypoint>)
+
+---
+
+##### `workingDirectory`<sup>Optional</sup> <a name="workingDirectory" id="deploy-time-build.LambdaDockerImageOptions.property.workingDirectory"></a>
+
+```typescript
+public readonly workingDirectory: string;
+```
+
+- *Type:* string
+- *Default:* use the WORKDIR in the docker image or Dockerfile.
+
+Specify or override the WORKDIR on the specified Docker image or Dockerfile.
+
+A WORKDIR allows you to configure the working directory the container will use.
+
+> [ <https://docs.docker.com/engine/reference/builder/#workdir>]( <https://docs.docker.com/engine/reference/builder/#workdir>)
 
 ---
 

@@ -8,6 +8,7 @@ import { Code, Runtime, RuntimeFamily, SingletonFunction } from 'aws-cdk-lib/aws
 import { Construct } from 'constructs';
 import { SingletonProject } from './singleton-project';
 import { SociIndexBuildResourceProps } from './types';
+import { SociIndexV2Build } from './soci-index-v2-build';
 
 export interface SociIndexBuildProps {
   /**
@@ -27,6 +28,9 @@ export interface SociIndexBuildProps {
  * Build and publish a SOCI index for a container image.
  * A SOCI index helps start Fargate tasks faster in some cases.
  * Please read the following document for more details: https://docs.aws.amazon.com/AmazonECS/latest/userguide/container-considerations.html
+ *
+ * @deprecated Use {@link SociIndexV2Build} instead. Customers new to SOCI on AWS Fargate can only use SOCI index manifest v2.
+ * See [this article](https://aws.amazon.com/blogs/containers/improving-amazon-ecs-deployment-consistency-with-soci-index-manifest-v2/) for more details.
  */
 export class SociIndexBuild extends Construct {
   /**
@@ -101,7 +105,7 @@ cat <<EOF > payload.json
   "Reason": "$REASON"
 }
 EOF
-curl -vv -i -X PUT -H 'Content-Type:' -d "@payload.json" "$responseURL"
+curl -i -X PUT -H 'Content-Type:' -d "@payload.json" "$responseURL"
               `,
             ],
           },
@@ -113,7 +117,7 @@ curl -vv -i -X PUT -H 'Content-Type:' -d "@payload.json" "$responseURL"
       new PolicyStatement({
         actions: ['codebuild:StartBuild'],
         resources: [project.projectArn],
-      }),
+      })
     );
 
     props.repository.grantPullPush(project);

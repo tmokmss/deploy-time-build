@@ -2,6 +2,7 @@ import { IntegTest } from '@aws-cdk/integ-tests-alpha';
 import { Stack, StackProps, App, RemovalPolicy } from 'aws-cdk-lib';
 import { BlockPublicAccess, Bucket, BucketEncryption } from 'aws-cdk-lib/aws-s3';
 import { Construct } from 'constructs';
+import { getCrHandlerHash } from './util';
 import { NodejsBuild } from '../src/nodejs-build';
 
 const app = new App();
@@ -31,6 +32,7 @@ class TestStack extends Stack {
       buildCommands: ['npm ci', 'npm run build'],
       buildEnvironment: {
         VITE_SOME_TOKEN: dstBucket.bucketName,
+        HASH: getCrHandlerHash(),
       },
       nodejsVersion: 20,
       outputEnvFile: true,

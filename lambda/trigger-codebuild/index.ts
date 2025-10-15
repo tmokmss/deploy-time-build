@@ -1,23 +1,16 @@
-import { BatchGetBuildsCommand, CodeBuildClient, StartBuildCommand } from '@aws-sdk/client-codebuild';
-import type { ResourceProperties } from '../../src/types';
+import { CodeBuildClient, StartBuildCommand } from '@aws-sdk/client-codebuild';
+import { CloudFormationCustomResourceEvent, CloudFormationCustomResourceResponse, Context } from 'aws-lambda';
 import Crypto from 'crypto';
 import { setTimeout } from 'timers/promises';
+import type { ResourceProperties } from '../../src/types';
 
 const cb = new CodeBuildClient({});
 
-type Event = {
-  RequestType: 'Create' | 'Update' | 'Delete';
-  ResponseURL: string;
-  StackId: string;
-  RequestId: string;
-  ResourceType: string;
-  LogicalResourceId: string;
+type Event = CloudFormationCustomResourceEvent & {
   ResourceProperties: ResourceProperties;
 };
 
-export const handler = async (event: Event, context: any) => {
-  console.log(JSON.stringify(event));
-
+export const handler = async (event: Event, context: Context) => {
   try {
     if (event.RequestType == 'Create' || event.RequestType == 'Update') {
       const props = event.ResourceProperties;
@@ -67,9 +60,30 @@ export const handler = async (event: Event, context: any) => {
                 value: props.destinationBucketName,
               },
               {
-                name: 'destinationObjectKey',
-                // This should be random to always trigger a BucketDeployment update process
-                value: `${newPhysicalId}.zip`,
+                name: 'destinationKeyPrefix',
+                // remove the beginning / if any
+                value: props.destinationKeyPrefix.startsWith('/') ? props.destinationKeyPrefix.slice(1) : props.destinationKeyPrefix,
+              },
+              {
+                name: 'distributionId',
+                value: props.distributionId ?? '',
+              },
+              {
+                name: 'distributionPath',
+                value: (() => {
+                  let path = props.destinationKeyPrefix;
+                  if (!path.startsWith('/')) {
+                    path = '/' + path;
+                  }
+                  if (!path.endsWith('/')) {
+                    path += '/';
+                  }
+                  return path + '*';
+                })(),
+              },
+              {
+                name: 'assetBucketName',
+                value: props.assetBucketName,
               },
               {
                 name: 'workingDirectory',
@@ -231,8 +245,8 @@ export const handler = async (event: Event, context: any) => {
   }
 };
 
-const sendStatus = async (status: 'SUCCESS' | 'FAILED', event: Event, context: any, reason?: string) => {
-  const responseBody = JSON.stringify({
+const sendStatus = async (status: 'SUCCESS' | 'FAILED', event: Event, context: Context, reason?: string) => {
+  const responseBody: CloudFormationCustomResourceResponse = {
     Status: status,
     Reason: reason ?? 'See the details in CloudWatch Log Stream: ' + context.logStreamName,
     PhysicalResourceId: context.logStreamName,
@@ -241,14 +255,15 @@ const sendStatus = async (status: 'SUCCESS' | 'FAILED', event: Event, context: a
     LogicalResourceId: event.LogicalResourceId,
     NoEcho: false,
     Data: {}, //responseData
-  });
+  };
+  const responseBodyString = JSON.stringify(responseBody);
 
   await fetch(event.ResponseURL, {
     method: 'PUT',
-    body: responseBody,
+    body: responseBodyString,
     headers: {
       'Content-Type': '',
-      'Content-Length': responseBody.length.toString(),
+      'Content-Length': responseBodyString.length.toString(),
     },
   });
 };

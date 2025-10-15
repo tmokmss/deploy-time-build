@@ -49,6 +49,36 @@ export interface ContainerImageBuildProps extends DockerImageAssetProps {
 }
 
 /**
+ * Options for configuring Lambda Docker image code.
+ */
+export interface LambdaDockerImageOptions {
+  /**
+   * Specify or override the CMD on the specified Docker image or Dockerfile.
+   * This needs to be in the 'exec form', viz., `[ 'executable', 'param1', 'param2' ]`.
+   * @see <https://docs.docker.com/engine/reference/builder/#cmd>
+   * @default - use the CMD specified in the docker image or Dockerfile.
+   */
+  readonly cmd?: string[];
+
+  /**
+   * Specify or override the ENTRYPOINT on the specified Docker image or Dockerfile.
+   * An ENTRYPOINT allows you to configure a container that will run as an executable.
+   * This needs to be in the 'exec form', viz., `[ 'executable', 'param1', 'param2' ]`.
+   * @see <https://docs.docker.com/engine/reference/builder/#entrypoint>
+   * @default - use the ENTRYPOINT in the docker image or Dockerfile.
+   */
+  readonly entrypoint?: string[];
+
+  /**
+   * Specify or override the WORKDIR on the specified Docker image or Dockerfile.
+   * A WORKDIR allows you to configure the working directory the container will use.
+   * @see <https://docs.docker.com/engine/reference/builder/#workdir>
+   * @default - use the WORKDIR in the docker image or Dockerfile.
+   */
+  readonly workingDirectory?: string;
+}
+
+/**
  * Build a container image and push it to an ECR repository on deploy-time.
  */
 export class ContainerImageBuild extends Construct implements IGrantable {
@@ -141,7 +171,7 @@ cat <<EOF > payload.json
   }
 }
 EOF
-curl -v -i -X PUT -H 'Content-Type:' -d "@payload.json" "$responseURL"
+curl -i -X PUT -H 'Content-Type:' -d "@payload.json" "$responseURL"
               `,
             ],
           },
@@ -209,12 +239,20 @@ curl -v -i -X PUT -H 'Content-Type:' -d "@payload.json" "$responseURL"
 
   /**
    * Get the instance of {@link DockerImageCode} for a Lambda function image.
+   * @param options Optional configuration for Docker image code.
    */
-  public toLambdaDockerImageCode() {
+  public toLambdaDockerImageCode(options?: LambdaDockerImageOptions) {
     if (this.props.zstdCompression) {
       throw new Error('You cannot enable zstdCompression for a Lambda image.');
     }
-    return DockerImageCode.fromEcr(this.repository, { tagOrDigest: this.imageTag });
+    return DockerImageCode.fromEcr(this.repository, { 
+      tagOrDigest: this.imageTag,
+      ...(options && {
+        cmd: options.cmd,
+        entrypoint: options.entrypoint,
+        workingDirectory: options.workingDirectory,
+      })
+    });
   }
 
   /**

@@ -1,13 +1,14 @@
-import { Stack, StackProps, App, CfnOutput } from 'aws-cdk-lib';
-import { Construct } from 'constructs';
+import { App, CfnOutput, Stack, StackProps } from 'aws-cdk-lib';
 import { MockIntegration, RestApi } from 'aws-cdk-lib/aws-apigateway';
-import { ContainerImageBuild, NodejsBuild, SociIndexBuild, SociIndexV2Build } from '../src/';
-import { BlockPublicAccess, Bucket, BucketEncryption } from 'aws-cdk-lib/aws-s3';
-import { DockerImageAsset, Platform } from 'aws-cdk-lib/aws-ecr-assets';
-import { DockerImageFunction } from 'aws-cdk-lib/aws-lambda';
-import { AwsLogDriver, Cluster, ContainerImage, CpuArchitecture, FargateTaskDefinition } from 'aws-cdk-lib/aws-ecs';
+import { AllowedMethods, Distribution, OriginRequestPolicy, SecurityPolicyProtocol, SSLMethod, ViewerProtocolPolicy } from 'aws-cdk-lib/aws-cloudfront';
+import { S3BucketOrigin } from 'aws-cdk-lib/aws-cloudfront-origins';
 import { SubnetType, Vpc } from 'aws-cdk-lib/aws-ec2';
-import { OriginAccessIdentity, CloudFrontWebDistribution } from 'aws-cdk-lib/aws-cloudfront';
+import { DockerImageAsset, Platform } from 'aws-cdk-lib/aws-ecr-assets';
+import { AwsLogDriver, Cluster, ContainerImage, CpuArchitecture, FargateTaskDefinition } from 'aws-cdk-lib/aws-ecs';
+import { DockerImageFunction } from 'aws-cdk-lib/aws-lambda';
+import { BlockPublicAccess, Bucket, BucketEncryption } from 'aws-cdk-lib/aws-s3';
+import { Construct } from 'constructs';
+import { ContainerImageBuild, NodejsBuild, SociIndexBuild, SociIndexV2Build } from '../src/';
 
 class NodejsTestStack extends Stack {
   constructor(scope: Construct, id: string, props: StackProps = {}) {
@@ -35,23 +36,16 @@ class NodejsTestStack extends Stack {
     });
     const dstPath = '/';
 
-    const originAccessIdentity = new OriginAccessIdentity(this, 'OriginAccessIdentity');
-
-    const distribution = new CloudFrontWebDistribution(this, 'Distribution', {
-      originConfigs: [
-        {
-          s3OriginSource: {
-            s3BucketSource: dstBucket,
-            originAccessIdentity,
-            // originPath: dstPath,
-          },
-          behaviors: [
-            {
-              isDefaultBehavior: true,
-            },
-          ],
+    const distribution = new Distribution(this, "distribution", {
+        defaultRootObject: "index.html",
+        defaultBehavior: {
+            origin: S3BucketOrigin.withOriginAccessControl(dstBucket),
+            viewerProtocolPolicy: ViewerProtocolPolicy.REDIRECT_TO_HTTPS,
+            allowedMethods: AllowedMethods.ALLOW_ALL,
+            originRequestPolicy: OriginRequestPolicy.CORS_S3_ORIGIN,
         },
-      ],
+        minimumProtocolVersion: SecurityPolicyProtocol.TLS_V1_2_2021,
+        sslSupportMethod: SSLMethod.SNI,
     });
 
     new CfnOutput(this, 'DistributionUrl', {

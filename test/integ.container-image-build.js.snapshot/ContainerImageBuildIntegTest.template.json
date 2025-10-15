@@ -558,7 +558,7 @@
      "Ref": "ContainerImageBuildAmd64e83729feb1564e709bec452b15847a30amd6491AAA9B2"
     },
     "sourceS3Url": {
-     "Fn::Sub": "s3://cdk-hnb659fds-assets-${AWS::AccountId}-${AWS::Region}/f7fa10e7cd7b9b27f49a4a335f4aa9795fb7e68a665c34ca8bf5711f0aa6aeab.zip"
+     "Fn::Sub": "s3://cdk-hnb659fds-assets-${AWS::AccountId}-${AWS::Region}/27d689e5b89504940c061916e0e9be8cc0a0f37417918f37e94199237655d0bb.zip"
     }
    },
    "DependsOn": [
@@ -647,7 +647,7 @@
      "S3Bucket": {
       "Fn::Sub": "cdk-hnb659fds-assets-${AWS::AccountId}-${AWS::Region}"
      },
-     "S3Key": "d8a622b2ee726a5e63550e12ed80bfe326d49157ce1413ef6eadf4377af74aeb.zip"
+     "S3Key": "b31e00a71ec5a9e3589df0e6879037cb1dcafee2e079c062e2c8eb891ba98b74.zip"
     },
     "Handler": "index.handler",
     "Role": {
@@ -910,7 +910,7 @@
      ]
     },
     "Source": {
-     "BuildSpec": "{\n  \"version\": \"0.2\",\n  \"phases\": {\n    \"build\": {\n      \"commands\": [\n        \"current_dir=$(pwd)\",\n        \"echo \\\"$input\\\"\",\n        \"mkdir workdir\",\n        \"cd workdir\",\n        \"aws s3 cp \\\"$sourceS3Url\\\" temp.zip\",\n        \"unzip temp.zip\",\n        \"ls -la\",\n        \"aws ecr get-login-password --region $repositoryRegion | docker login --username AWS --password-stdin $repositoryAuthUri\",\n        \"aws ecr-public get-login-password --region us-east-1 | docker login --username AWS --password-stdin public.ecr.aws\",\n        \"docker buildx ls\",\n        \"echo \\\"$buildCommand\\\"\",\n        \"eval \\\"$buildCommand\\\"\",\n        \"docker images\",\n        \"docker tag artifact:$imageTag $repositoryUri:$imageTag\",\n        \"docker push $repositoryUri:$imageTag\"\n      ]\n    },\n    \"post_build\": {\n      \"commands\": [\n        \"echo Build completed on `date`\",\n        \"\\nSTATUS='SUCCESS'\\nif [ $CODEBUILD_BUILD_SUCCEEDING -ne 1 ] # Test if the build is failing\\nthen\\nSTATUS='FAILED'\\nREASON=\\\"ContainerImageBuild failed. See CloudWatch Log stream for the detailed reason: \\nhttps://$AWS_REGION.console.aws.amazon.com/cloudwatch/home?region=$AWS_REGION#logsV2:log-groups/log-group/\\\\$252Faws\\\\$252Fcodebuild\\\\$252F$projectName/log-events/$CODEBUILD_LOG_PATH\\\"\\nfi\\ncat <<EOF > payload.json\\n{\\n  \\\"StackId\\\": \\\"$stackId\\\",\\n  \\\"RequestId\\\": \\\"$requestId\\\",\\n  \\\"LogicalResourceId\\\":\\\"$logicalResourceId\\\",\\n  \\\"PhysicalResourceId\\\": \\\"$imageTag\\\",\\n  \\\"Status\\\": \\\"$STATUS\\\",\\n  \\\"Reason\\\": \\\"$REASON\\\",\\n  \\\"Data\\\": {\\n    \\\"ImageTag\\\": \\\"$imageTag\\\"\\n  }\\n}\\nEOF\\ncurl -v -i -X PUT -H 'Content-Type:' -d \\\"@payload.json\\\" \\\"$responseURL\\\"\\n              \"\n      ]\n    }\n  }\n}",
+     "BuildSpec": "{\n  \"version\": \"0.2\",\n  \"phases\": {\n    \"build\": {\n      \"commands\": [\n        \"current_dir=$(pwd)\",\n        \"echo \\\"$input\\\"\",\n        \"mkdir workdir\",\n        \"cd workdir\",\n        \"aws s3 cp \\\"$sourceS3Url\\\" temp.zip\",\n        \"unzip temp.zip\",\n        \"ls -la\",\n        \"aws ecr get-login-password --region $repositoryRegion | docker login --username AWS --password-stdin $repositoryAuthUri\",\n        \"aws ecr-public get-login-password --region us-east-1 | docker login --username AWS --password-stdin public.ecr.aws\",\n        \"docker buildx ls\",\n        \"echo \\\"$buildCommand\\\"\",\n        \"eval \\\"$buildCommand\\\"\",\n        \"docker images\",\n        \"docker tag artifact:$imageTag $repositoryUri:$imageTag\",\n        \"docker push $repositoryUri:$imageTag\"\n      ]\n    },\n    \"post_build\": {\n      \"commands\": [\n        \"echo Build completed on `date`\",\n        \"\\nSTATUS='SUCCESS'\\nif [ $CODEBUILD_BUILD_SUCCEEDING -ne 1 ] # Test if the build is failing\\nthen\\nSTATUS='FAILED'\\nREASON=\\\"ContainerImageBuild failed. See CloudWatch Log stream for the detailed reason: \\nhttps://$AWS_REGION.console.aws.amazon.com/cloudwatch/home?region=$AWS_REGION#logsV2:log-groups/log-group/\\\\$252Faws\\\\$252Fcodebuild\\\\$252F$projectName/log-events/$CODEBUILD_LOG_PATH\\\"\\nfi\\ncat <<EOF > payload.json\\n{\\n  \\\"StackId\\\": \\\"$stackId\\\",\\n  \\\"RequestId\\\": \\\"$requestId\\\",\\n  \\\"LogicalResourceId\\\":\\\"$logicalResourceId\\\",\\n  \\\"PhysicalResourceId\\\": \\\"$imageTag\\\",\\n  \\\"Status\\\": \\\"$STATUS\\\",\\n  \\\"Reason\\\": \\\"$REASON\\\",\\n  \\\"Data\\\": {\\n    \\\"ImageTag\\\": \\\"$imageTag\\\"\\n  }\\n}\\nEOF\\ncurl -i -X PUT -H 'Content-Type:' -d \\\"@payload.json\\\" \\\"$responseURL\\\"\\n              \"\n      ]\n    }\n  }\n}",
      "Type": "NO_SOURCE"
     }
    }
@@ -925,7 +925,7 @@
      ]
     },
     "type": "ContainerImageBuild",
-    "buildCommand": "docker buildx build --platform linux/arm64 --output type=docker,name=artifact:$imageTag,oci-mediatypes=true,compression=zstd,force-compression=true,compression-level=3 --provenance=false .",
+    "buildCommand": "docker buildx build --build-arg HASH=2b2834c69e12688b5211141adea6ccad --platform linux/arm64 --output type=docker,name=artifact:$imageTag,oci-mediatypes=true,compression=zstd,force-compression=true,compression-level=3 --provenance=false .",
     "repositoryUri": {
      "Fn::Join": [
       "",
@@ -978,7 +978,7 @@
      "Ref": "ContainerImageBuildArm64e83729feb1564e709bec452b15847a30amd64C13E3549"
     },
     "sourceS3Url": {
-     "Fn::Sub": "s3://cdk-hnb659fds-assets-${AWS::AccountId}-${AWS::Region}/f7fa10e7cd7b9b27f49a4a335f4aa9795fb7e68a665c34ca8bf5711f0aa6aeab.zip"
+     "Fn::Sub": "s3://cdk-hnb659fds-assets-${AWS::AccountId}-${AWS::Region}/27d689e5b89504940c061916e0e9be8cc0a0f37417918f37e94199237655d0bb.zip"
     }
    },
    "DependsOn": [
@@ -1216,7 +1216,7 @@
      ]
     },
     "Source": {
-     "BuildSpec": "{\n  \"version\": \"0.2\",\n  \"phases\": {\n    \"build\": {\n      \"commands\": [\n        \"current_dir=$(pwd)\",\n        \"echo \\\"$input\\\"\",\n        \"mkdir workdir\",\n        \"cd workdir\",\n        \"aws s3 cp \\\"$sourceS3Url\\\" temp.zip\",\n        \"unzip temp.zip\",\n        \"ls -la\",\n        \"aws ecr get-login-password --region $repositoryRegion | docker login --username AWS --password-stdin $repositoryAuthUri\",\n        \"aws ecr-public get-login-password --region us-east-1 | docker login --username AWS --password-stdin public.ecr.aws\",\n        \"docker buildx ls\",\n        \"echo \\\"$buildCommand\\\"\",\n        \"eval \\\"$buildCommand\\\"\",\n        \"docker images\",\n        \"docker tag artifact:$imageTag $repositoryUri:$imageTag\",\n        \"docker push $repositoryUri:$imageTag\"\n      ]\n    },\n    \"post_build\": {\n      \"commands\": [\n        \"echo Build completed on `date`\",\n        \"\\nSTATUS='SUCCESS'\\nif [ $CODEBUILD_BUILD_SUCCEEDING -ne 1 ] # Test if the build is failing\\nthen\\nSTATUS='FAILED'\\nREASON=\\\"ContainerImageBuild failed. See CloudWatch Log stream for the detailed reason: \\nhttps://$AWS_REGION.console.aws.amazon.com/cloudwatch/home?region=$AWS_REGION#logsV2:log-groups/log-group/\\\\$252Faws\\\\$252Fcodebuild\\\\$252F$projectName/log-events/$CODEBUILD_LOG_PATH\\\"\\nfi\\ncat <<EOF > payload.json\\n{\\n  \\\"StackId\\\": \\\"$stackId\\\",\\n  \\\"RequestId\\\": \\\"$requestId\\\",\\n  \\\"LogicalResourceId\\\":\\\"$logicalResourceId\\\",\\n  \\\"PhysicalResourceId\\\": \\\"$imageTag\\\",\\n  \\\"Status\\\": \\\"$STATUS\\\",\\n  \\\"Reason\\\": \\\"$REASON\\\",\\n  \\\"Data\\\": {\\n    \\\"ImageTag\\\": \\\"$imageTag\\\"\\n  }\\n}\\nEOF\\ncurl -v -i -X PUT -H 'Content-Type:' -d \\\"@payload.json\\\" \\\"$responseURL\\\"\\n              \"\n      ]\n    }\n  }\n}",
+     "BuildSpec": "{\n  \"version\": \"0.2\",\n  \"phases\": {\n    \"build\": {\n      \"commands\": [\n        \"current_dir=$(pwd)\",\n        \"echo \\\"$input\\\"\",\n        \"mkdir workdir\",\n        \"cd workdir\",\n        \"aws s3 cp \\\"$sourceS3Url\\\" temp.zip\",\n        \"unzip temp.zip\",\n        \"ls -la\",\n        \"aws ecr get-login-password --region $repositoryRegion | docker login --username AWS --password-stdin $repositoryAuthUri\",\n        \"aws ecr-public get-login-password --region us-east-1 | docker login --username AWS --password-stdin public.ecr.aws\",\n        \"docker buildx ls\",\n        \"echo \\\"$buildCommand\\\"\",\n        \"eval \\\"$buildCommand\\\"\",\n        \"docker images\",\n        \"docker tag artifact:$imageTag $repositoryUri:$imageTag\",\n        \"docker push $repositoryUri:$imageTag\"\n      ]\n    },\n    \"post_build\": {\n      \"commands\": [\n        \"echo Build completed on `date`\",\n        \"\\nSTATUS='SUCCESS'\\nif [ $CODEBUILD_BUILD_SUCCEEDING -ne 1 ] # Test if the build is failing\\nthen\\nSTATUS='FAILED'\\nREASON=\\\"ContainerImageBuild failed. See CloudWatch Log stream for the detailed reason: \\nhttps://$AWS_REGION.console.aws.amazon.com/cloudwatch/home?region=$AWS_REGION#logsV2:log-groups/log-group/\\\\$252Faws\\\\$252Fcodebuild\\\\$252F$projectName/log-events/$CODEBUILD_LOG_PATH\\\"\\nfi\\ncat <<EOF > payload.json\\n{\\n  \\\"StackId\\\": \\\"$stackId\\\",\\n  \\\"RequestId\\\": \\\"$requestId\\\",\\n  \\\"LogicalResourceId\\\":\\\"$logicalResourceId\\\",\\n  \\\"PhysicalResourceId\\\": \\\"$imageTag\\\",\\n  \\\"Status\\\": \\\"$STATUS\\\",\\n  \\\"Reason\\\": \\\"$REASON\\\",\\n  \\\"Data\\\": {\\n    \\\"ImageTag\\\": \\\"$imageTag\\\"\\n  }\\n}\\nEOF\\ncurl -i -X PUT -H 'Content-Type:' -d \\\"@payload.json\\\" \\\"$responseURL\\\"\\n              \"\n      ]\n    }\n  }\n}",
      "Type": "NO_SOURCE"
     }
    }
@@ -1575,7 +1575,7 @@
      ]
     },
     "type": "ContainerImageBuild",
-    "buildCommand": "docker buildx build --output type=docker,name=artifact:$imageTag --provenance=false .",
+    "buildCommand": "docker buildx build --build-arg HASH=2b2834c69e12688b5211141adea6ccad --output type=docker,name=artifact:$imageTag --provenance=false .",
     "repositoryUri": {
      "Fn::Join": [
       "",
@@ -1628,7 +1628,7 @@
      "Ref": "ContainerImageBuildAmd64e83729feb1564e709bec452b15847a30c8a085f75ccbc05f5149859bcf147b49eadd8ac37damd64C6D1C187"
     },
     "sourceS3Url": {
-     "Fn::Sub": "s3://cdk-hnb659fds-assets-${AWS::AccountId}-${AWS::Region}/f7fa10e7cd7b9b27f49a4a335f4aa9795fb7e68a665c34ca8bf5711f0aa6aeab.zip"
+     "Fn::Sub": "s3://cdk-hnb659fds-assets-${AWS::AccountId}-${AWS::Region}/27d689e5b89504940c061916e0e9be8cc0a0f37417918f37e94199237655d0bb.zip"
     }
    },
    "DependsOn": [
@@ -1983,7 +1983,7 @@
      ]
     },
     "Source": {
-     "BuildSpec": "{\n  \"version\": \"0.2\",\n  \"phases\": {\n    \"build\": {\n      \"commands\": [\n        \"current_dir=$(pwd)\",\n        \"echo \\\"$input\\\"\",\n        \"mkdir workdir\",\n        \"cd workdir\",\n        \"aws s3 cp \\\"$sourceS3Url\\\" temp.zip\",\n        \"unzip temp.zip\",\n        \"ls -la\",\n        \"aws ecr get-login-password --region $repositoryRegion | docker login --username AWS --password-stdin $repositoryAuthUri\",\n        \"aws ecr-public get-login-password --region us-east-1 | docker login --username AWS --password-stdin public.ecr.aws\",\n        \"docker buildx ls\",\n        \"echo \\\"$buildCommand\\\"\",\n        \"eval \\\"$buildCommand\\\"\",\n        \"docker images\",\n        \"docker tag artifact:$imageTag $repositoryUri:$imageTag\",\n        \"docker push $repositoryUri:$imageTag\"\n      ]\n    },\n    \"post_build\": {\n      \"commands\": [\n        \"echo Build completed on `date`\",\n        \"\\nSTATUS='SUCCESS'\\nif [ $CODEBUILD_BUILD_SUCCEEDING -ne 1 ] # Test if the build is failing\\nthen\\nSTATUS='FAILED'\\nREASON=\\\"ContainerImageBuild failed. See CloudWatch Log stream for the detailed reason: \\nhttps://$AWS_REGION.console.aws.amazon.com/cloudwatch/home?region=$AWS_REGION#logsV2:log-groups/log-group/\\\\$252Faws\\\\$252Fcodebuild\\\\$252F$projectName/log-events/$CODEBUILD_LOG_PATH\\\"\\nfi\\ncat <<EOF > payload.json\\n{\\n  \\\"StackId\\\": \\\"$stackId\\\",\\n  \\\"RequestId\\\": \\\"$requestId\\\",\\n  \\\"LogicalResourceId\\\":\\\"$logicalResourceId\\\",\\n  \\\"PhysicalResourceId\\\": \\\"$imageTag\\\",\\n  \\\"Status\\\": \\\"$STATUS\\\",\\n  \\\"Reason\\\": \\\"$REASON\\\",\\n  \\\"Data\\\": {\\n    \\\"ImageTag\\\": \\\"$imageTag\\\"\\n  }\\n}\\nEOF\\ncurl -v -i -X PUT -H 'Content-Type:' -d \\\"@payload.json\\\" \\\"$responseURL\\\"\\n              \"\n      ]\n    }\n  }\n}",
+     "BuildSpec": "{\n  \"version\": \"0.2\",\n  \"phases\": {\n    \"build\": {\n      \"commands\": [\n        \"current_dir=$(pwd)\",\n        \"echo \\\"$input\\\"\",\n        \"mkdir workdir\",\n        \"cd workdir\",\n        \"aws s3 cp \\\"$sourceS3Url\\\" temp.zip\",\n        \"unzip temp.zip\",\n        \"ls -la\",\n        \"aws ecr get-login-password --region $repositoryRegion | docker login --username AWS --password-stdin $repositoryAuthUri\",\n        \"aws ecr-public get-login-password --region us-east-1 | docker login --username AWS --password-stdin public.ecr.aws\",\n        \"docker buildx ls\",\n        \"echo \\\"$buildCommand\\\"\",\n        \"eval \\\"$buildCommand\\\"\",\n        \"docker images\",\n        \"docker tag artifact:$imageTag $repositoryUri:$imageTag\",\n        \"docker push $repositoryUri:$imageTag\"\n      ]\n    },\n    \"post_build\": {\n      \"commands\": [\n        \"echo Build completed on `date`\",\n        \"\\nSTATUS='SUCCESS'\\nif [ $CODEBUILD_BUILD_SUCCEEDING -ne 1 ] # Test if the build is failing\\nthen\\nSTATUS='FAILED'\\nREASON=\\\"ContainerImageBuild failed. See CloudWatch Log stream for the detailed reason: \\nhttps://$AWS_REGION.console.aws.amazon.com/cloudwatch/home?region=$AWS_REGION#logsV2:log-groups/log-group/\\\\$252Faws\\\\$252Fcodebuild\\\\$252F$projectName/log-events/$CODEBUILD_LOG_PATH\\\"\\nfi\\ncat <<EOF > payload.json\\n{\\n  \\\"StackId\\\": \\\"$stackId\\\",\\n  \\\"RequestId\\\": \\\"$requestId\\\",\\n  \\\"LogicalResourceId\\\":\\\"$logicalResourceId\\\",\\n  \\\"PhysicalResourceId\\\": \\\"$imageTag\\\",\\n  \\\"Status\\\": \\\"$STATUS\\\",\\n  \\\"Reason\\\": \\\"$REASON\\\",\\n  \\\"Data\\\": {\\n    \\\"ImageTag\\\": \\\"$imageTag\\\"\\n  }\\n}\\nEOF\\ncurl -i -X PUT -H 'Content-Type:' -d \\\"@payload.json\\\" \\\"$responseURL\\\"\\n              \"\n      ]\n    }\n  }\n}",
      "Type": "NO_SOURCE"
     },
     "VpcConfig": {
