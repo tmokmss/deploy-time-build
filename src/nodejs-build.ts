@@ -275,16 +275,17 @@ curl -i -X PUT -H 'Content-Type:' -d "@payload.json" "$responseURL"
       commands: s.commands,
     }));
 
+    const workingDirectory = props.workingDirectory ?? sources[0].extractPath;
     const properties: NodejsBuildResourceProps = {
       type: 'NodejsBuild',
       sources,
-      workingDirectory: props.workingDirectory ?? sources[0].extractPath,
+      workingDirectory,
       destinationBucketName: props.destinationBucket.bucketName,
       destinationKeyPrefix: props.destinationKeyPrefix ?? '/',
       distributionId: props.distribution?.distributionId,
       assetBucketName: bucket.bucketName,
       // join paths for CodeBuild (Linux) platform
-      outputSourceDirectory: posix.join(sources[0].extractPath, props.outputSourceDirectory),
+      outputSourceDirectory: posix.join(workingDirectory, props.outputSourceDirectory),
       environment: props.buildEnvironment,
       buildCommands: props.buildCommands ?? ['npm run build'],
       codeBuildProjectName: project.projectName,
