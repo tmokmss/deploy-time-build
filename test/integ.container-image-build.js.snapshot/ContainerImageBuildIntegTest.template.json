@@ -475,6 +475,9 @@
    "Type": "AWS::ECR::Repository",
    "Properties": {
     "EmptyOnDelete": true,
+    "ImageScanningConfiguration": {
+     "ScanOnPush": true
+    },
     "RepositoryPolicyText": {
      "Statement": [
       {
@@ -1562,7 +1565,10 @@
    "UpdateReplacePolicy": "Delete",
    "DeletionPolicy": "Delete",
    "Properties": {
-    "EmptyOnDelete": true
+    "EmptyOnDelete": true,
+    "ImageScanningConfiguration": {
+     "ScanOnPush": true
+    }
    }
   },
   "BuildVpc1895B133": {
