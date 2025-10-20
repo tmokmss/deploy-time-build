@@ -93,7 +93,7 @@ export class ContainerImageBuild extends Construct implements IGrantable {
     const handler = new SingletonFunction(this, 'CustomResourceHandler', {
       // Use raw string to avoid from tightening CDK version requirement
       runtime: new Runtime('nodejs22.x', RuntimeFamily.NODEJS),
-      code: Code.fromAsset(join(__dirname, '../lambda/trigger-codebuild/dist')),
+      code: Code.fromAsset(join(__dirname, '..', 'lambda', 'trigger-codebuild', 'dist')),
       handler: 'index.handler',
       uuid: 'db740fd5-5436-4a84-8a09-e6dfcd01f4f3', // generated for this construct
       lambdaPurpose: 'DeployTimeBuildCustomResourceHandler',
@@ -111,6 +111,7 @@ export class ContainerImageBuild extends Construct implements IGrantable {
     if (repository === undefined) {
       repository = new Repository(this, 'Repository', { removalPolicy: RemovalPolicy.DESTROY });
       (repository.node.defaultChild as CfnResource).addPropertyOverride('EmptyOnDelete', true);
+      (repository.node.defaultChild as CfnResource).addPropertyOverride('ImageScanningConfiguration.ScanOnPush', true);
     }
     const repositoryUri = repository.repositoryUri;
     const imageArtifactName = 'artifact:$imageTag';
@@ -187,7 +188,7 @@ curl -i -X PUT -H 'Content-Type:' -d "@payload.json" "$responseURL"
       new PolicyStatement({
         actions: ['codebuild:StartBuild'],
         resources: [project.projectArn],
-      }),
+      })
     );
 
     this.grantPrincipal = project.grantPrincipal;
@@ -245,13 +246,13 @@ curl -i -X PUT -H 'Content-Type:' -d "@payload.json" "$responseURL"
     if (this.props.zstdCompression) {
       throw new Error('You cannot enable zstdCompression for a Lambda image.');
     }
-    return DockerImageCode.fromEcr(this.repository, { 
+    return DockerImageCode.fromEcr(this.repository, {
       tagOrDigest: this.imageTag,
       ...(options && {
         cmd: options.cmd,
         entrypoint: options.entrypoint,
         workingDirectory: options.workingDirectory,
-      })
+      }),
     });
   }
 
