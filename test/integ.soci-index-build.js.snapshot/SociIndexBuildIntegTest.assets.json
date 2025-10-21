@@ -15,34 +15,34 @@
         }
       }
     },
-    "46609e7040f8fc916921cdec9665cb2417ae801ef6880b81c01644e695cb0456": {
+    "76195c38eaf557c67ea70599b5dda4b410341e3d8c399a62982da3b8939bc096": {
       "displayName": "SociIndexBuildIntegTest Template",
       "source": {
         "path": "SociIndexBuildIntegTest.template.json",
         "packaging": "file"
       },
       "destinations": {
-        "current_account-current_region-73a859b6": {
+        "current_account-current_region-c4474572": {
           "bucketName": "cdk-hnb659fds-assets-${AWS::AccountId}-${AWS::Region}",
-          "objectKey": "46609e7040f8fc916921cdec9665cb2417ae801ef6880b81c01644e695cb0456.json",
+          "objectKey": "76195c38eaf557c67ea70599b5dda4b410341e3d8c399a62982da3b8939bc096.json",
           "assumeRoleArn": "arn:${AWS::Partition}:iam::${AWS::AccountId}:role/cdk-hnb659fds-file-publishing-role-${AWS::AccountId}-${AWS::Region}"
         }
       }
     }
   },
   "dockerImages": {
-    "e1555cac621b51df07a3be311fb40203615c77b74beddebe9903793bfa83f87c": {
+    "b5b2e806ac7e624cdeff2f17c2d32395f79223a11c6b7158c086c5444edc6f5f": {
       "displayName": "Image1/Image",
       "source": {
-        "directory": "asset.e1555cac621b51df07a3be311fb40203615c77b74beddebe9903793bfa83f87c",
+        "directory": "asset.b5b2e806ac7e624cdeff2f17c2d32395f79223a11c6b7158c086c5444edc6f5f",
         "dockerBuildArgs": {
-          "DUMMY_FILE_SIZE_MB": "10"
+          "DUMMY_FILE_SIZE_MB": "11"
         }
       },
       "destinations": {
-        "current_account-current_region-5f91a38f": {
+        "current_account-current_region-b9bd9bdb": {
           "repositoryName": "cdk-hnb659fds-container-assets-${AWS::AccountId}-${AWS::Region}",
-          "imageTag": "e1555cac621b51df07a3be311fb40203615c77b74beddebe9903793bfa83f87c",
+          "imageTag": "b5b2e806ac7e624cdeff2f17c2d32395f79223a11c6b7158c086c5444edc6f5f",
           "assumeRoleArn": "arn:${AWS::Partition}:iam::${AWS::AccountId}:role/cdk-hnb659fds-image-publishing-role-${AWS::AccountId}-${AWS::Region}"
         }
       }

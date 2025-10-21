@@ -15,7 +15,7 @@ class TestStack extends Stack {
       const parent = new Construct(this, 'Image1');
       const asset = new DockerImageAsset(parent, 'Image', {
         directory: '../example/example-image',
-        buildArgs: { DUMMY_FILE_SIZE_MB: '10' },
+        buildArgs: { DUMMY_FILE_SIZE_MB: '11' },
       });
       new SociIndexBuild(parent, 'Index', { imageTag: asset.assetHash, repository: asset.repository });
     }
