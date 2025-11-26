@@ -4,26 +4,30 @@ import { Distribution } from 'aws-cdk-lib/aws-cloudfront';
 import { Bucket } from 'aws-cdk-lib/aws-s3';
 import { CacheType, NodejsBuild, Source } from '../lib/nodejs-build';
 
-// Mock the Asset class to avoid file system operations
+// Mock Asset to avoid heavy file system operations
 jest.mock('aws-cdk-lib/aws-s3-assets', () => {
   const actual = jest.requireActual('aws-cdk-lib/aws-s3-assets');
-  const s3 = jest.requireActual('aws-cdk-lib/aws-s3');
-
   return {
     ...actual,
-    Asset: jest.fn().mockImplementation((scope: any, id: string) => {
-      // Create a real bucket for proper CDK integration
-      const assetBucket = new s3.Bucket(scope, `${id}Bucket`);
-      return {
-        bucket: assetBucket,
-        s3BucketName: assetBucket.bucketName,
+    Asset: jest.fn().mockImplementation((_scope, _id, _props) => {
+      const mockAsset = {
+        s3BucketName: 'mock-bucket',
         s3ObjectKey: 'mock-key.zip',
-        s3ObjectUrl: `s3://${assetBucket.bucketName}/mock-key.zip`,
         isZipArchive: true,
+        bucket: {
+          bucketName: 'mock-bucket',
+          bucketArn: 'arn:aws:s3:::mock-bucket',
+          s3UrlForObject: (obj: string) => `s3://mock-bucket/${obj}`,
+          grantRead: jest.fn(),
+          grantWrite: jest.fn(),
+        },
         grantRead: jest.fn(),
         addResourceMetadata: jest.fn(),
-        node: { defaultChild: {} },
+        node: {
+          defaultChild: {},
+        },
       };
+      return mockAsset;
     }),
   };
 });
