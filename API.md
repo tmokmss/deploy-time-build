@@ -679,12 +679,14 @@ const assetConfig: AssetConfig = { ... }
 | <code><a href="#deploy-time-build.AssetConfig.property.readers">readers</a></code> | <code>aws-cdk-lib.aws_iam.IGrantable[]</code> | A list of principals that should be able to read this asset from S3. |
 | <code><a href="#deploy-time-build.AssetConfig.property.sourceKMSKey">sourceKMSKey</a></code> | <code>aws-cdk-lib.aws_kms.IKey</code> | The ARN of the KMS key used to encrypt the handler code. |
 | <code><a href="#deploy-time-build.AssetConfig.property.path">path</a></code> | <code>string</code> | The disk location of the asset. |
-| <code><a href="#deploy-time-build.AssetConfig.property.commands">commands</a></code> | <code>string[]</code> | Shell commands executed right after the asset zip is extracted to the build environment. |
+| <code><a href="#deploy-time-build.AssetConfig.property.commands">commands</a></code> | <code>string[]</code> | Shell commands executed right after the asset is extracted to the build environment. |
 | <code><a href="#deploy-time-build.AssetConfig.property.extractPath">extractPath</a></code> | <code>string</code> | Relative path from a build directory to the directory where the asset is extracted. |
 
 ---
 
-##### `assetHash`<sup>Optional</sup> <a name="assetHash" id="deploy-time-build.AssetConfig.property.assetHash"></a>
+##### ~~`assetHash`~~<sup>Optional</sup> <a name="assetHash" id="deploy-time-build.AssetConfig.property.assetHash"></a>
+
+- *Deprecated:* Use Source.fromAsset() instead
 
 ```typescript
 public readonly assetHash: string;
@@ -708,7 +710,9 @@ possible that some deployments will not be invalidated.
 
 ---
 
-##### `assetHashType`<sup>Optional</sup> <a name="assetHashType" id="deploy-time-build.AssetConfig.property.assetHashType"></a>
+##### ~~`assetHashType`~~<sup>Optional</sup> <a name="assetHashType" id="deploy-time-build.AssetConfig.property.assetHashType"></a>
+
+- *Deprecated:* Use Source.fromAsset() instead
 
 ```typescript
 public readonly assetHashType: AssetHashType;
@@ -724,7 +728,9 @@ If `assetHash` is configured, this option must be `undefined` or
 
 ---
 
-##### `bundling`<sup>Optional</sup> <a name="bundling" id="deploy-time-build.AssetConfig.property.bundling"></a>
+##### ~~`bundling`~~<sup>Optional</sup> <a name="bundling" id="deploy-time-build.AssetConfig.property.bundling"></a>
+
+- *Deprecated:* Use Source.fromAsset() instead
 
 ```typescript
 public readonly bundling: BundlingOptions;
@@ -742,7 +748,9 @@ final asset.
 
 ---
 
-##### `exclude`<sup>Optional</sup> <a name="exclude" id="deploy-time-build.AssetConfig.property.exclude"></a>
+##### ~~`exclude`~~<sup>Optional</sup> <a name="exclude" id="deploy-time-build.AssetConfig.property.exclude"></a>
+
+- *Deprecated:* Use Source.fromAsset() instead
 
 ```typescript
 public readonly exclude: string[];
@@ -758,7 +766,9 @@ Has no effect on Assets bundled using the `bundling` property.
 
 ---
 
-##### `followSymlinks`<sup>Optional</sup> <a name="followSymlinks" id="deploy-time-build.AssetConfig.property.followSymlinks"></a>
+##### ~~`followSymlinks`~~<sup>Optional</sup> <a name="followSymlinks" id="deploy-time-build.AssetConfig.property.followSymlinks"></a>
+
+- *Deprecated:* Use Source.fromAsset() instead
 
 ```typescript
 public readonly followSymlinks: SymlinkFollowMode;
@@ -771,7 +781,9 @@ A strategy for how to handle symlinks.
 
 ---
 
-##### `ignoreMode`<sup>Optional</sup> <a name="ignoreMode" id="deploy-time-build.AssetConfig.property.ignoreMode"></a>
+##### ~~`ignoreMode`~~<sup>Optional</sup> <a name="ignoreMode" id="deploy-time-build.AssetConfig.property.ignoreMode"></a>
+
+- *Deprecated:* Use Source.fromAsset() instead
 
 ```typescript
 public readonly ignoreMode: IgnoreMode;
@@ -784,7 +796,9 @@ The ignore behavior to use for `exclude` patterns.
 
 ---
 
-##### `deployTime`<sup>Optional</sup> <a name="deployTime" id="deploy-time-build.AssetConfig.property.deployTime"></a>
+##### ~~`deployTime`~~<sup>Optional</sup> <a name="deployTime" id="deploy-time-build.AssetConfig.property.deployTime"></a>
+
+- *Deprecated:* Use Source.fromAsset() instead
 
 ```typescript
 public readonly deployTime: boolean;
@@ -807,7 +821,9 @@ we consider those deployTime assets.
 
 ---
 
-##### `displayName`<sup>Optional</sup> <a name="displayName" id="deploy-time-build.AssetConfig.property.displayName"></a>
+##### ~~`displayName`~~<sup>Optional</sup> <a name="displayName" id="deploy-time-build.AssetConfig.property.displayName"></a>
+
+- *Deprecated:* Use Source.fromAsset() instead
 
 ```typescript
 public readonly displayName: string;
@@ -835,7 +851,9 @@ production.
 
 ---
 
-##### `readers`<sup>Optional</sup> <a name="readers" id="deploy-time-build.AssetConfig.property.readers"></a>
+##### ~~`readers`~~<sup>Optional</sup> <a name="readers" id="deploy-time-build.AssetConfig.property.readers"></a>
+
+- *Deprecated:* Use Source.fromAsset() instead
 
 ```typescript
 public readonly readers: IGrantable[];
@@ -850,7 +868,9 @@ You can use `asset.grantRead(principal)` to grant read permissions later.
 
 ---
 
-##### `sourceKMSKey`<sup>Optional</sup> <a name="sourceKMSKey" id="deploy-time-build.AssetConfig.property.sourceKMSKey"></a>
+##### ~~`sourceKMSKey`~~<sup>Optional</sup> <a name="sourceKMSKey" id="deploy-time-build.AssetConfig.property.sourceKMSKey"></a>
+
+- *Deprecated:* Use Source.fromAsset() instead
 
 ```typescript
 public readonly sourceKMSKey: IKey;
@@ -863,7 +883,9 @@ The ARN of the KMS key used to encrypt the handler code.
 
 ---
 
-##### `path`<sup>Required</sup> <a name="path" id="deploy-time-build.AssetConfig.property.path"></a>
+##### ~~`path`~~<sup>Required</sup> <a name="path" id="deploy-time-build.AssetConfig.property.path"></a>
+
+- *Deprecated:* Use Source.fromAsset() instead
 
 ```typescript
 public readonly path: string;
@@ -879,7 +901,9 @@ The path should refer to one of the following:
 
 ---
 
-##### `commands`<sup>Optional</sup> <a name="commands" id="deploy-time-build.AssetConfig.property.commands"></a>
+##### ~~`commands`~~<sup>Optional</sup> <a name="commands" id="deploy-time-build.AssetConfig.property.commands"></a>
+
+- *Deprecated:* Use Source.fromAsset() instead
 
 ```typescript
 public readonly commands: string[];
@@ -888,11 +912,249 @@ public readonly commands: string[];
 - *Type:* string[]
 - *Default:* No command is executed.
 
-Shell commands executed right after the asset zip is extracted to the build environment.
+Shell commands executed right after the asset is extracted to the build environment.
 
 ---
 
-##### `extractPath`<sup>Optional</sup> <a name="extractPath" id="deploy-time-build.AssetConfig.property.extractPath"></a>
+##### ~~`extractPath`~~<sup>Optional</sup> <a name="extractPath" id="deploy-time-build.AssetConfig.property.extractPath"></a>
+
+- *Deprecated:* Use Source.fromAsset() instead
+
+```typescript
+public readonly extractPath: string;
+```
+
+- *Type:* string
+- *Default:* basename of the asset path.
+
+Relative path from a build directory to the directory where the asset is extracted.
+
+---
+
+### AssetSourceOptions <a name="AssetSourceOptions" id="deploy-time-build.AssetSourceOptions"></a>
+
+Options for Source.fromAsset.
+
+#### Initializer <a name="Initializer" id="deploy-time-build.AssetSourceOptions.Initializer"></a>
+
+```typescript
+import { AssetSourceOptions } from 'deploy-time-build'
+
+const assetSourceOptions: AssetSourceOptions = { ... }
+```
+
+#### Properties <a name="Properties" id="Properties"></a>
+
+| **Name** | **Type** | **Description** |
+| --- | --- | --- |
+| <code><a href="#deploy-time-build.AssetSourceOptions.property.assetHash">assetHash</a></code> | <code>string</code> | Specify a custom hash for this asset. |
+| <code><a href="#deploy-time-build.AssetSourceOptions.property.assetHashType">assetHashType</a></code> | <code>aws-cdk-lib.AssetHashType</code> | Specifies the type of hash to calculate for this asset. |
+| <code><a href="#deploy-time-build.AssetSourceOptions.property.bundling">bundling</a></code> | <code>aws-cdk-lib.BundlingOptions</code> | Bundle the asset by executing a command in a Docker container or a custom bundling provider. |
+| <code><a href="#deploy-time-build.AssetSourceOptions.property.exclude">exclude</a></code> | <code>string[]</code> | File paths matching the patterns will be excluded. |
+| <code><a href="#deploy-time-build.AssetSourceOptions.property.followSymlinks">followSymlinks</a></code> | <code>aws-cdk-lib.SymlinkFollowMode</code> | A strategy for how to handle symlinks. |
+| <code><a href="#deploy-time-build.AssetSourceOptions.property.ignoreMode">ignoreMode</a></code> | <code>aws-cdk-lib.IgnoreMode</code> | The ignore behavior to use for `exclude` patterns. |
+| <code><a href="#deploy-time-build.AssetSourceOptions.property.deployTime">deployTime</a></code> | <code>boolean</code> | Whether or not the asset needs to exist beyond deployment time; |
+| <code><a href="#deploy-time-build.AssetSourceOptions.property.displayName">displayName</a></code> | <code>string</code> | A display name for this asset. |
+| <code><a href="#deploy-time-build.AssetSourceOptions.property.readers">readers</a></code> | <code>aws-cdk-lib.aws_iam.IGrantable[]</code> | A list of principals that should be able to read this asset from S3. |
+| <code><a href="#deploy-time-build.AssetSourceOptions.property.sourceKMSKey">sourceKMSKey</a></code> | <code>aws-cdk-lib.aws_kms.IKey</code> | The ARN of the KMS key used to encrypt the handler code. |
+| <code><a href="#deploy-time-build.AssetSourceOptions.property.commands">commands</a></code> | <code>string[]</code> | Shell commands executed right after the asset is extracted to the build environment. |
+| <code><a href="#deploy-time-build.AssetSourceOptions.property.extractPath">extractPath</a></code> | <code>string</code> | Relative path from a build directory to the directory where the asset is extracted. |
+
+---
+
+##### `assetHash`<sup>Optional</sup> <a name="assetHash" id="deploy-time-build.AssetSourceOptions.property.assetHash"></a>
+
+```typescript
+public readonly assetHash: string;
+```
+
+- *Type:* string
+- *Default:* based on `assetHashType`
+
+Specify a custom hash for this asset.
+
+If `assetHashType` is set it must
+be set to `AssetHashType.CUSTOM`. For consistency, this custom hash will
+be SHA256 hashed and encoded as hex. The resulting hash will be the asset
+hash.
+
+NOTE: the hash is used in order to identify a specific revision of the asset, and
+used for optimizing and caching deployment activities related to this asset such as
+packaging, uploading to Amazon S3, etc. If you chose to customize the hash, you will
+need to make sure it is updated every time the asset changes, or otherwise it is
+possible that some deployments will not be invalidated.
+
+---
+
+##### `assetHashType`<sup>Optional</sup> <a name="assetHashType" id="deploy-time-build.AssetSourceOptions.property.assetHashType"></a>
+
+```typescript
+public readonly assetHashType: AssetHashType;
+```
+
+- *Type:* aws-cdk-lib.AssetHashType
+- *Default:* the default is `AssetHashType.SOURCE`, but if `assetHash` is explicitly specified this value defaults to `AssetHashType.CUSTOM`.
+
+Specifies the type of hash to calculate for this asset.
+
+If `assetHash` is configured, this option must be `undefined` or
+`AssetHashType.CUSTOM`.
+
+---
+
+##### `bundling`<sup>Optional</sup> <a name="bundling" id="deploy-time-build.AssetSourceOptions.property.bundling"></a>
+
+```typescript
+public readonly bundling: BundlingOptions;
+```
+
+- *Type:* aws-cdk-lib.BundlingOptions
+- *Default:* uploaded as-is to S3 if the asset is a regular file or a .zip file, archived into a .zip file and uploaded to S3 otherwise
+
+Bundle the asset by executing a command in a Docker container or a custom bundling provider.
+
+The asset path will be mounted at `/asset-input`. The Docker
+container is responsible for putting content at `/asset-output`.
+The content at `/asset-output` will be zipped and used as the
+final asset.
+
+---
+
+##### `exclude`<sup>Optional</sup> <a name="exclude" id="deploy-time-build.AssetSourceOptions.property.exclude"></a>
+
+```typescript
+public readonly exclude: string[];
+```
+
+- *Type:* string[]
+- *Default:* nothing is excluded
+
+File paths matching the patterns will be excluded.
+
+See `ignoreMode` to set the matching behavior.
+Has no effect on Assets bundled using the `bundling` property.
+
+---
+
+##### `followSymlinks`<sup>Optional</sup> <a name="followSymlinks" id="deploy-time-build.AssetSourceOptions.property.followSymlinks"></a>
+
+```typescript
+public readonly followSymlinks: SymlinkFollowMode;
+```
+
+- *Type:* aws-cdk-lib.SymlinkFollowMode
+- *Default:* SymlinkFollowMode.NEVER
+
+A strategy for how to handle symlinks.
+
+---
+
+##### `ignoreMode`<sup>Optional</sup> <a name="ignoreMode" id="deploy-time-build.AssetSourceOptions.property.ignoreMode"></a>
+
+```typescript
+public readonly ignoreMode: IgnoreMode;
+```
+
+- *Type:* aws-cdk-lib.IgnoreMode
+- *Default:* IgnoreMode.GLOB
+
+The ignore behavior to use for `exclude` patterns.
+
+---
+
+##### `deployTime`<sup>Optional</sup> <a name="deployTime" id="deploy-time-build.AssetSourceOptions.property.deployTime"></a>
+
+```typescript
+public readonly deployTime: boolean;
+```
+
+- *Type:* boolean
+- *Default:* false
+
+Whether or not the asset needs to exist beyond deployment time;
+
+i.e.
+are copied over to a different location and not needed afterwards.
+Setting this property to true has an impact on the lifecycle of the asset,
+because we will assume that it is safe to delete after the CloudFormation
+deployment succeeds.
+
+For example, Lambda Function assets are copied over to Lambda during
+deployment. Therefore, it is not necessary to store the asset in S3, so
+we consider those deployTime assets.
+
+---
+
+##### `displayName`<sup>Optional</sup> <a name="displayName" id="deploy-time-build.AssetSourceOptions.property.displayName"></a>
+
+```typescript
+public readonly displayName: string;
+```
+
+- *Type:* string
+- *Default:* Stack-relative construct path
+
+A display name for this asset.
+
+If supplied, the display name will be used in locations where the asset
+identifier is printed, like in the CLI progress information. If the same
+asset is added multiple times, the display name of the first occurrence is
+used.
+
+The default is the construct path of the Asset construct, with respect to
+the enclosing stack. If the asset is produced by a construct helper
+function (such as `lambda.Code.fromAsset()`), this will look like
+`MyFunction/Code`.
+
+We use the stack-relative construct path so that in the common case where
+you have multiple stacks with the same asset, we won't show something like
+`/MyBetaStack/MyFunction/Code` when you are actually deploying to
+production.
+
+---
+
+##### `readers`<sup>Optional</sup> <a name="readers" id="deploy-time-build.AssetSourceOptions.property.readers"></a>
+
+```typescript
+public readonly readers: IGrantable[];
+```
+
+- *Type:* aws-cdk-lib.aws_iam.IGrantable[]
+- *Default:* No principals that can read file asset.
+
+A list of principals that should be able to read this asset from S3.
+
+You can use `asset.grantRead(principal)` to grant read permissions later.
+
+---
+
+##### `sourceKMSKey`<sup>Optional</sup> <a name="sourceKMSKey" id="deploy-time-build.AssetSourceOptions.property.sourceKMSKey"></a>
+
+```typescript
+public readonly sourceKMSKey: IKey;
+```
+
+- *Type:* aws-cdk-lib.aws_kms.IKey
+- *Default:* the default server-side encryption with Amazon S3 managed keys(SSE-S3) key will be used.
+
+The ARN of the KMS key used to encrypt the handler code.
+
+---
+
+##### `commands`<sup>Optional</sup> <a name="commands" id="deploy-time-build.AssetSourceOptions.property.commands"></a>
+
+```typescript
+public readonly commands: string[];
+```
+
+- *Type:* string[]
+- *Default:* No command is executed.
+
+Shell commands executed right after the asset is extracted to the build environment.
+
+---
+
+##### `extractPath`<sup>Optional</sup> <a name="extractPath" id="deploy-time-build.AssetSourceOptions.property.extractPath"></a>
 
 ```typescript
 public readonly extractPath: string;
@@ -1403,29 +1665,20 @@ const nodejsBuildProps: NodejsBuildProps = { ... }
 
 | **Name** | **Type** | **Description** |
 | --- | --- | --- |
-| <code><a href="#deploy-time-build.NodejsBuildProps.property.assets">assets</a></code> | <code><a href="#deploy-time-build.AssetConfig">AssetConfig</a>[]</code> | The AssetProps from which s3-assets are created and copied to the build environment. |
 | <code><a href="#deploy-time-build.NodejsBuildProps.property.destinationBucket">destinationBucket</a></code> | <code>aws-cdk-lib.aws_s3.IBucket</code> | S3 Bucket to which your build artifacts are finally deployed. |
 | <code><a href="#deploy-time-build.NodejsBuildProps.property.outputSourceDirectory">outputSourceDirectory</a></code> | <code>string</code> | Relative path from the working directory to the directory where the build artifacts are output. |
+| <code><a href="#deploy-time-build.NodejsBuildProps.property.assets">assets</a></code> | <code><a href="#deploy-time-build.AssetConfig">AssetConfig</a>[]</code> | The AssetProps from which s3-assets are created and copied to the build environment. |
 | <code><a href="#deploy-time-build.NodejsBuildProps.property.buildCommands">buildCommands</a></code> | <code>string[]</code> | Shell commands to build your project. |
 | <code><a href="#deploy-time-build.NodejsBuildProps.property.buildEnvironment">buildEnvironment</a></code> | <code>{[ key: string ]: string}</code> | Environment variables injected to the build environment. |
+| <code><a href="#deploy-time-build.NodejsBuildProps.property.cache">cache</a></code> | <code><a href="#deploy-time-build.CacheType">CacheType</a></code> | Cache type for the npm cache directory. |
+| <code><a href="#deploy-time-build.NodejsBuildProps.property.computeType">computeType</a></code> | <code>aws-cdk-lib.aws_codebuild.ComputeType</code> | The type of compute to use for this build. |
 | <code><a href="#deploy-time-build.NodejsBuildProps.property.destinationKeyPrefix">destinationKeyPrefix</a></code> | <code>string</code> | Key prefix to deploy your build artifact. |
 | <code><a href="#deploy-time-build.NodejsBuildProps.property.distribution">distribution</a></code> | <code>aws-cdk-lib.aws_cloudfront.IDistribution</code> | The distribution you are using to publish you build artifact. |
 | <code><a href="#deploy-time-build.NodejsBuildProps.property.excludeCommonFiles">excludeCommonFiles</a></code> | <code>boolean</code> | If true, common unnecessary files/directories such as .DS_Store, .git, node_modules, etc are excluded from the assets by default. |
 | <code><a href="#deploy-time-build.NodejsBuildProps.property.nodejsVersion">nodejsVersion</a></code> | <code>number</code> | The version of Node.js to use in a build environment. Available versions: 12, 14, 16, 18, 20, and 22. |
 | <code><a href="#deploy-time-build.NodejsBuildProps.property.outputEnvFile">outputEnvFile</a></code> | <code>boolean</code> | If true, a .env file is uploaded to an S3 bucket with values of `buildEnvironment` property. You can copy it to your local machine by running the command in the stack output. |
+| <code><a href="#deploy-time-build.NodejsBuildProps.property.sources">sources</a></code> | <code><a href="#deploy-time-build.Source">Source</a>[]</code> | The source directories for the build environment. |
 | <code><a href="#deploy-time-build.NodejsBuildProps.property.workingDirectory">workingDirectory</a></code> | <code>string</code> | Relative path from the build directory to the directory where build commands run. |
-
----
-
-##### `assets`<sup>Required</sup> <a name="assets" id="deploy-time-build.NodejsBuildProps.property.assets"></a>
-
-```typescript
-public readonly assets: AssetConfig[];
-```
-
-- *Type:* <a href="#deploy-time-build.AssetConfig">AssetConfig</a>[]
-
-The AssetProps from which s3-assets are created and copied to the build environment.
 
 ---
 
@@ -1450,6 +1703,20 @@ public readonly outputSourceDirectory: string;
 - *Type:* string
 
 Relative path from the working directory to the directory where the build artifacts are output.
+
+---
+
+##### ~~`assets`~~<sup>Optional</sup> <a name="assets" id="deploy-time-build.NodejsBuildProps.property.assets"></a>
+
+- *Deprecated:* Use sources property with Source.fromAsset() instead
+
+```typescript
+public readonly assets: AssetConfig[];
+```
+
+- *Type:* <a href="#deploy-time-build.AssetConfig">AssetConfig</a>[]
+
+The AssetProps from which s3-assets are created and copied to the build environment.
 
 ---
 
@@ -1480,6 +1747,32 @@ public readonly buildEnvironment: {[ key: string ]: string};
 Environment variables injected to the build environment.
 
 You can use CDK deploy-time values as well as literals.
+
+---
+
+##### `cache`<sup>Optional</sup> <a name="cache" id="deploy-time-build.NodejsBuildProps.property.cache"></a>
+
+```typescript
+public readonly cache: CacheType;
+```
+
+- *Type:* <a href="#deploy-time-build.CacheType">CacheType</a>
+- *Default:* No caching
+
+Cache type for the npm cache directory.
+
+---
+
+##### `computeType`<sup>Optional</sup> <a name="computeType" id="deploy-time-build.NodejsBuildProps.property.computeType"></a>
+
+```typescript
+public readonly computeType: ComputeType;
+```
+
+- *Type:* aws-cdk-lib.aws_codebuild.ComputeType
+- *Default:* ComputeType.SMALL
+
+The type of compute to use for this build.
 
 ---
 
@@ -1550,6 +1843,20 @@ If true, a .env file is uploaded to an S3 bucket with values of `buildEnvironmen
 
 ---
 
+##### `sources`<sup>Optional</sup> <a name="sources" id="deploy-time-build.NodejsBuildProps.property.sources"></a>
+
+```typescript
+public readonly sources: Source[];
+```
+
+- *Type:* <a href="#deploy-time-build.Source">Source</a>[]
+
+The source directories for the build environment.
+
+Use Source.fromAsset() to create sources.
+
+---
+
 ##### `workingDirectory`<sup>Optional</sup> <a name="workingDirectory" id="deploy-time-build.NodejsBuildProps.property.workingDirectory"></a>
 
 ```typescript
@@ -1557,7 +1864,7 @@ public readonly workingDirectory: string;
 ```
 
 - *Type:* string
-- *Default:* assetProps[0].extractPath
+- *Default:* The extractPath of the first source
 
 Relative path from the build directory to the directory where build commands run.
 
@@ -1669,5 +1976,174 @@ The tag of the output container image embedded with SOCI index.
 
 ---
 
+## Classes <a name="Classes" id="Classes"></a>
 
+### Source <a name="Source" id="deploy-time-build.Source"></a>
+
+Represents a source for NodejsBuild.
+
+#### Initializers <a name="Initializers" id="deploy-time-build.Source.Initializer"></a>
+
+```typescript
+import { Source } from 'deploy-time-build'
+
+new Source()
+```
+
+| **Name** | **Type** | **Description** |
+| --- | --- | --- |
+
+---
+
+
+#### Static Functions <a name="Static Functions" id="Static Functions"></a>
+
+| **Name** | **Description** |
+| --- | --- |
+| <code><a href="#deploy-time-build.Source.fromAsset">fromAsset</a></code> | Loads the source from a local disk path. |
+
+---
+
+##### `fromAsset` <a name="fromAsset" id="deploy-time-build.Source.fromAsset"></a>
+
+```typescript
+import { Source } from 'deploy-time-build'
+
+Source.fromAsset(path: string, options?: AssetSourceOptions)
+```
+
+Loads the source from a local disk path.
+
+###### `path`<sup>Required</sup> <a name="path" id="deploy-time-build.Source.fromAsset.parameter.path"></a>
+
+- *Type:* string
+
+Path to the asset file or directory.
+
+---
+
+###### `options`<sup>Optional</sup> <a name="options" id="deploy-time-build.Source.fromAsset.parameter.options"></a>
+
+- *Type:* <a href="#deploy-time-build.AssetSourceOptions">AssetSourceOptions</a>
+
+Asset options including commands and extractPath.
+
+---
+
+
+
+
+## Enums <a name="Enums" id="Enums"></a>
+
+### CacheType <a name="CacheType" id="deploy-time-build.CacheType"></a>
+
+Cache type for NodejsBuild.
+
+#### Members <a name="Members" id="Members"></a>
+
+| **Name** | **Description** |
+| --- | --- |
+| <code><a href="#deploy-time-build.CacheType.S3">S3</a></code> | S3 caching. |
+| <code><a href="#deploy-time-build.CacheType.LOCAL">LOCAL</a></code> | Local caching. |
+
+---
+
+##### `S3` <a name="S3" id="deploy-time-build.CacheType.S3"></a>
+
+S3 caching.
+
+Stores the npm cache directory in an S3 bucket.
+Good for builds that run on different hosts.
+
+---
+
+
+##### `LOCAL` <a name="LOCAL" id="deploy-time-build.CacheType.LOCAL"></a>
+
+Local caching.
+
+Stores the npm cache directory on the build host.
+Faster than S3 but only effective if builds run on the same host.
+Not supported with VPC or certain compute types.
+
+---
+
+
+### ComputeType <a name="ComputeType" id="deploy-time-build.ComputeType"></a>
+
+Build machine compute type.
+
+> [https://docs.aws.amazon.com/codebuild/latest/userguide/build-env-ref-compute-types.html#environment.types](https://docs.aws.amazon.com/codebuild/latest/userguide/build-env-ref-compute-types.html#environment.types)
+
+#### Members <a name="Members" id="Members"></a>
+
+| **Name** | **Description** |
+| --- | --- |
+| <code><a href="#deploy-time-build.ComputeType.SMALL">SMALL</a></code> | *No description.* |
+| <code><a href="#deploy-time-build.ComputeType.MEDIUM">MEDIUM</a></code> | *No description.* |
+| <code><a href="#deploy-time-build.ComputeType.LARGE">LARGE</a></code> | *No description.* |
+| <code><a href="#deploy-time-build.ComputeType.X_LARGE">X_LARGE</a></code> | *No description.* |
+| <code><a href="#deploy-time-build.ComputeType.X2_LARGE">X2_LARGE</a></code> | *No description.* |
+| <code><a href="#deploy-time-build.ComputeType.LAMBDA_1GB">LAMBDA_1GB</a></code> | *No description.* |
+| <code><a href="#deploy-time-build.ComputeType.LAMBDA_2GB">LAMBDA_2GB</a></code> | *No description.* |
+| <code><a href="#deploy-time-build.ComputeType.LAMBDA_4GB">LAMBDA_4GB</a></code> | *No description.* |
+| <code><a href="#deploy-time-build.ComputeType.LAMBDA_8GB">LAMBDA_8GB</a></code> | *No description.* |
+| <code><a href="#deploy-time-build.ComputeType.LAMBDA_10GB">LAMBDA_10GB</a></code> | *No description.* |
+| <code><a href="#deploy-time-build.ComputeType.ATTRIBUTE_BASED">ATTRIBUTE_BASED</a></code> | *No description.* |
+
+---
+
+##### `SMALL` <a name="SMALL" id="deploy-time-build.ComputeType.SMALL"></a>
+
+---
+
+
+##### `MEDIUM` <a name="MEDIUM" id="deploy-time-build.ComputeType.MEDIUM"></a>
+
+---
+
+
+##### `LARGE` <a name="LARGE" id="deploy-time-build.ComputeType.LARGE"></a>
+
+---
+
+
+##### `X_LARGE` <a name="X_LARGE" id="deploy-time-build.ComputeType.X_LARGE"></a>
+
+---
+
+
+##### `X2_LARGE` <a name="X2_LARGE" id="deploy-time-build.ComputeType.X2_LARGE"></a>
+
+---
+
+
+##### `LAMBDA_1GB` <a name="LAMBDA_1GB" id="deploy-time-build.ComputeType.LAMBDA_1GB"></a>
+
+---
+
+
+##### `LAMBDA_2GB` <a name="LAMBDA_2GB" id="deploy-time-build.ComputeType.LAMBDA_2GB"></a>
+
+---
+
+
+##### `LAMBDA_4GB` <a name="LAMBDA_4GB" id="deploy-time-build.ComputeType.LAMBDA_4GB"></a>
+
+---
+
+
+##### `LAMBDA_8GB` <a name="LAMBDA_8GB" id="deploy-time-build.ComputeType.LAMBDA_8GB"></a>
+
+---
+
+
+##### `LAMBDA_10GB` <a name="LAMBDA_10GB" id="deploy-time-build.ComputeType.LAMBDA_10GB"></a>
+
+---
+
+
+##### `ATTRIBUTE_BASED` <a name="ATTRIBUTE_BASED" id="deploy-time-build.ComputeType.ATTRIBUTE_BASED"></a>
+
+---
 

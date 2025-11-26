@@ -8,7 +8,7 @@ import { AwsLogDriver, Cluster, ContainerImage, CpuArchitecture, FargateTaskDefi
 import { DockerImageFunction } from 'aws-cdk-lib/aws-lambda';
 import { BlockPublicAccess, Bucket, BucketEncryption } from 'aws-cdk-lib/aws-s3';
 import { Construct } from 'constructs';
-import { ContainerImageBuild, NodejsBuild, SociIndexBuild, SociIndexV2Build } from '../src/';
+import { CacheType, ContainerImageBuild, NodejsBuild, SociIndexBuild, SociIndexV2Build, Source } from '../src/';
 
 class NodejsTestStack extends Stack {
   constructor(scope: Construct, id: string, props: StackProps = {}) {
@@ -53,11 +53,10 @@ class NodejsTestStack extends Stack {
     });
 
     new NodejsBuild(this, 'ExampleBuild', {
-      assets: [
-        {
-          path: 'example-app',
+      sources: [
+        Source.fromAsset('example-app', {
           exclude: ['dist', 'node_modules'],
-        },
+        }),
       ],
       destinationBucket: dstBucket,
       destinationKeyPrefix: dstPath,
@@ -71,6 +70,7 @@ class NodejsTestStack extends Stack {
       },
       nodejsVersion: 20,
       outputEnvFile: true,
+      cache: CacheType.S3,
     });
   }
 }
