@@ -2,8 +2,7 @@ import { App, Stack } from 'aws-cdk-lib';
 import { Match, Template } from 'aws-cdk-lib/assertions';
 import { Distribution } from 'aws-cdk-lib/aws-cloudfront';
 import { Bucket } from 'aws-cdk-lib/aws-s3';
-import { Asset } from 'aws-cdk-lib/aws-s3-assets';
-import { NodejsBuild } from '../src';
+import { CacheType, NodejsBuild, Source } from '../lib/nodejs-build';
 
 // Mock Asset to avoid heavy file system operations
 jest.mock('aws-cdk-lib/aws-s3-assets', () => {
@@ -19,6 +18,7 @@ jest.mock('aws-cdk-lib/aws-s3-assets', () => {
           bucketName: 'mock-bucket',
           bucketArn: 'arn:aws:s3:::mock-bucket',
           s3UrlForObject: (obj: string) => `s3://mock-bucket/${obj}`,
+          grantRead: jest.fn(),
           grantWrite: jest.fn(),
         },
         grantRead: jest.fn(),
@@ -41,39 +41,27 @@ describe('NodejsBuild', () => {
     app = new App();
     stack = new Stack(app, 'TestStack');
     destinationBucket = new Bucket(stack, 'DestinationBucket');
-    // Clear mock calls before each test
-    (Asset as unknown as jest.Mock).mockClear();
   });
 
   describe('workingDirectory property', () => {
-    test('uses first asset extractPath as default when workingDirectory is not specified', () => {
+    test('uses first source extractPath as default when workingDirectory is not specified', () => {
       new NodejsBuild(stack, 'NodejsBuild', {
-        assets: [
-          {
-            path: 'test-asset',
-            extractPath: 'my-app',
-          },
-        ],
+        sources: [Source.fromAsset('test-app', { extractPath: 'my-app' })],
         destinationBucket,
         outputSourceDirectory: 'dist',
       });
 
       const template = Template.fromStack(stack);
 
-      // Check that CustomResource has correct properties
       template.hasResourceProperties('Custom::CDKNodejsBuild', {
         workingDirectory: 'my-app',
         outputSourceDirectory: 'my-app/dist',
       });
     });
 
-    test('uses first asset path basename as default when extractPath is not specified', () => {
+    test('uses basename as extractPath when not specified', () => {
       new NodejsBuild(stack, 'NodejsBuild', {
-        assets: [
-          {
-            path: 'test-asset',
-          },
-        ],
+        sources: [Source.fromAsset('path/to/my-app')],
         destinationBucket,
         outputSourceDirectory: 'dist',
       });
@@ -81,19 +69,14 @@ describe('NodejsBuild', () => {
       const template = Template.fromStack(stack);
 
       template.hasResourceProperties('Custom::CDKNodejsBuild', {
-        workingDirectory: 'test-asset',
-        outputSourceDirectory: 'test-asset/dist',
+        workingDirectory: 'my-app',
+        outputSourceDirectory: 'my-app/dist',
       });
     });
 
     test('uses specified workingDirectory when provided', () => {
       new NodejsBuild(stack, 'NodejsBuild', {
-        assets: [
-          {
-            path: 'test-asset',
-            extractPath: 'my-app',
-          },
-        ],
+        sources: [Source.fromAsset('test-app', { extractPath: 'my-app' })],
         destinationBucket,
         workingDirectory: 'my-app/packages/frontend',
         outputSourceDirectory: 'build',
@@ -109,15 +92,9 @@ describe('NodejsBuild', () => {
 
     test('workingDirectory different from extractPath', () => {
       new NodejsBuild(stack, 'NodejsBuild', {
-        assets: [
-          {
-            path: 'test-asset',
-            extractPath: 'app1',
-          },
-          {
-            path: 'test-asset2',
-            extractPath: 'app2',
-          },
+        sources: [
+          Source.fromAsset('app1', { extractPath: 'app1' }),
+          Source.fromAsset('app2', { extractPath: 'app2' }),
         ],
         destinationBucket,
         workingDirectory: 'app2',
@@ -136,7 +113,7 @@ describe('NodejsBuild', () => {
   describe('other properties', () => {
     test('sets default buildCommands when not specified', () => {
       new NodejsBuild(stack, 'NodejsBuild', {
-        assets: [{ path: 'test-asset' }],
+        sources: [Source.fromAsset('test-app', { extractPath: 'app' })],
         destinationBucket,
         outputSourceDirectory: 'dist',
       });
@@ -150,7 +127,7 @@ describe('NodejsBuild', () => {
 
     test('uses custom buildCommands when specified', () => {
       new NodejsBuild(stack, 'NodejsBuild', {
-        assets: [{ path: 'test-asset' }],
+        sources: [Source.fromAsset('test-app', { extractPath: 'app' })],
         destinationBucket,
         outputSourceDirectory: 'dist',
         buildCommands: ['npm ci', 'npm run build:prod'],
@@ -165,7 +142,7 @@ describe('NodejsBuild', () => {
 
     test('sets buildEnvironment when specified', () => {
       new NodejsBuild(stack, 'NodejsBuild', {
-        assets: [{ path: 'test-asset' }],
+        sources: [Source.fromAsset('test-app', { extractPath: 'app' })],
         destinationBucket,
         outputSourceDirectory: 'dist',
         buildEnvironment: {
@@ -186,7 +163,7 @@ describe('NodejsBuild', () => {
 
     test('sets destinationKeyPrefix when specified', () => {
       new NodejsBuild(stack, 'NodejsBuild', {
-        assets: [{ path: 'test-asset' }],
+        sources: [Source.fromAsset('test-app', { extractPath: 'app' })],
         destinationBucket,
         outputSourceDirectory: 'dist',
         destinationKeyPrefix: 'my-prefix/',
@@ -201,7 +178,7 @@ describe('NodejsBuild', () => {
 
     test('uses default "/" destinationKeyPrefix when not specified', () => {
       new NodejsBuild(stack, 'NodejsBuild', {
-        assets: [{ path: 'test-asset' }],
+        sources: [Source.fromAsset('test-app', { extractPath: 'app' })],
         destinationBucket,
         outputSourceDirectory: 'dist',
       });
@@ -220,7 +197,7 @@ describe('NodejsBuild', () => {
       });
 
       new NodejsBuild(stack, 'NodejsBuild', {
-        assets: [{ path: 'test-asset' }],
+        sources: [Source.fromAsset('test-app', { extractPath: 'app' })],
         destinationBucket,
         outputSourceDirectory: 'dist',
         distribution,
@@ -235,7 +212,7 @@ describe('NodejsBuild', () => {
 
     test('sets outputEnvFile to false by default', () => {
       new NodejsBuild(stack, 'NodejsBuild', {
-        assets: [{ path: 'test-asset' }],
+        sources: [Source.fromAsset('test-app', { extractPath: 'app' })],
         destinationBucket,
         outputSourceDirectory: 'dist',
       });
@@ -249,7 +226,7 @@ describe('NodejsBuild', () => {
 
     test('sets outputEnvFile to true when specified', () => {
       new NodejsBuild(stack, 'NodejsBuild', {
-        assets: [{ path: 'test-asset' }],
+        sources: [Source.fromAsset('test-app', { extractPath: 'app' })],
         destinationBucket,
         outputSourceDirectory: 'dist',
         outputEnvFile: true,
@@ -263,15 +240,15 @@ describe('NodejsBuild', () => {
     });
   });
 
-  describe('assets configuration', () => {
-    test('handles single asset with commands', () => {
+
+  describe('sources configuration', () => {
+    test('handles single source with commands', () => {
       new NodejsBuild(stack, 'NodejsBuild', {
-        assets: [
-          {
-            path: 'test-asset',
+        sources: [
+          Source.fromAsset('test-app', {
             extractPath: 'app',
             commands: ['npm install', 'npm run setup'],
-          },
+          }),
         ],
         destinationBucket,
         outputSourceDirectory: 'dist',
@@ -289,18 +266,14 @@ describe('NodejsBuild', () => {
       });
     });
 
-    test('handles multiple assets', () => {
+    test('handles multiple sources', () => {
       new NodejsBuild(stack, 'NodejsBuild', {
-        assets: [
-          {
-            path: 'app1',
-            extractPath: 'frontend',
-          },
-          {
-            path: 'app2',
+        sources: [
+          Source.fromAsset('frontend', { extractPath: 'frontend' }),
+          Source.fromAsset('backend', {
             extractPath: 'backend',
             commands: ['npm install'],
-          },
+          }),
         ],
         destinationBucket,
         workingDirectory: 'frontend',
@@ -326,7 +299,7 @@ describe('NodejsBuild', () => {
   describe('CodeBuild project', () => {
     test('creates CodeBuild project with correct runtime', () => {
       new NodejsBuild(stack, 'NodejsBuild', {
-        assets: [{ path: 'test-asset' }],
+        sources: [Source.fromAsset('test-app', { extractPath: 'app' })],
         destinationBucket,
         outputSourceDirectory: 'dist',
         nodejsVersion: 20,
@@ -343,7 +316,7 @@ describe('NodejsBuild', () => {
 
     test('creates SingletonFunction for custom resource handler', () => {
       new NodejsBuild(stack, 'NodejsBuild', {
-        assets: [{ path: 'test-asset' }],
+        sources: [Source.fromAsset('test-app', { extractPath: 'app' })],
         destinationBucket,
         outputSourceDirectory: 'dist',
       });
@@ -358,17 +331,70 @@ describe('NodejsBuild', () => {
     });
   });
 
-  describe('IAM permissions', () => {
-    test('grants CodeBuild read permissions to assets', () => {
+  describe('cache configuration', () => {
+    test('does not create cache bucket when cache is not specified', () => {
       new NodejsBuild(stack, 'NodejsBuild', {
-        assets: [{ path: 'test-asset' }],
+        sources: [Source.fromAsset('test-app', { extractPath: 'app' })],
         destinationBucket,
         outputSourceDirectory: 'dist',
       });
 
       const template = Template.fromStack(stack);
 
-      // CodeBuild should have permissions to read from asset bucket
+      template.hasResourceProperties('AWS::CodeBuild::Project', {
+        Cache: {
+          Type: 'NO_CACHE',
+        },
+      });
+    });
+
+    test('creates cache bucket when cache is S3', () => {
+      new NodejsBuild(stack, 'NodejsBuild', {
+        sources: [Source.fromAsset('test-app', { extractPath: 'app' })],
+        destinationBucket,
+        outputSourceDirectory: 'dist',
+        cache: CacheType.S3,
+      });
+
+      const template = Template.fromStack(stack);
+
+      template.hasResourceProperties('AWS::CodeBuild::Project', {
+        Cache: {
+          Type: 'S3',
+          Location: Match.anyValue(),
+        },
+      });
+    });
+
+    test('uses local cache when cache is LOCAL', () => {
+      new NodejsBuild(stack, 'NodejsBuild', {
+        sources: [Source.fromAsset('test-app', { extractPath: 'app' })],
+        destinationBucket,
+        outputSourceDirectory: 'dist',
+        cache: CacheType.LOCAL,
+      });
+
+      const template = Template.fromStack(stack);
+
+      template.hasResourceProperties('AWS::CodeBuild::Project', {
+        Cache: {
+          Type: 'LOCAL',
+          Modes: ['LOCAL_CUSTOM_CACHE'],
+        },
+      });
+    });
+  });
+
+  describe('IAM permissions', () => {
+    test('grants CodeBuild read permissions to source bucket', () => {
+      new NodejsBuild(stack, 'NodejsBuild', {
+        sources: [Source.fromAsset('test-app', { extractPath: 'app' })],
+        destinationBucket,
+        outputSourceDirectory: 'dist',
+      });
+
+      const template = Template.fromStack(stack);
+
       template.hasResourceProperties('AWS::IAM::Policy', {
         PolicyDocument: {
           Statement: Match.arrayWith([
@@ -384,14 +410,13 @@ describe('NodejsBuild', () => {
 
     test('grants CodeBuild write permissions to destination bucket', () => {
       new NodejsBuild(stack, 'NodejsBuild', {
-        assets: [{ path: 'test-asset' }],
+        sources: [Source.fromAsset('test-app', { extractPath: 'app' })],
         destinationBucket,
         outputSourceDirectory: 'dist',
       });
 
       const template = Template.fromStack(stack);
 
-      // CodeBuild should have read/write permissions to destination bucket
       template.hasResourceProperties('AWS::IAM::Policy', {
         PolicyDocument: {
           Statement: Match.arrayWith([
@@ -423,7 +448,7 @@ describe('NodejsBuild', () => {
       });
 
       new NodejsBuild(stack, 'NodejsBuild', {
-        assets: [{ path: 'test-asset' }],
+        sources: [Source.fromAsset('test-app', { extractPath: 'app' })],
         destinationBucket,
         outputSourceDirectory: 'dist',
         distribution,
@@ -446,7 +471,7 @@ describe('NodejsBuild', () => {
 
     test('grants Lambda permission to start CodeBuild', () => {
       new NodejsBuild(stack, 'NodejsBuild', {
-        assets: [{ path: 'test-asset' }],
+        sources: [Source.fromAsset('test-app', { extractPath: 'app' })],
         destinationBucket,
         outputSourceDirectory: 'dist',
       });
