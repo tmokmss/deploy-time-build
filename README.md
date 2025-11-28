@@ -25,17 +25,16 @@ You can build a Node.js app such as a React frontend app on deploy time by the `
 The following code is an example to use the construct:
 
 ```ts
-import { NodejsBuild } from 'deploy-time-build';
+import { NodejsBuild, Source } from 'deploy-time-build';
 
 declare const api: apigateway.RestApi;
 declare const destinationBucket: s3.IBucket;
 declare const distribution: cloudfront.IDistribution;
 new NodejsBuild(this, 'ExampleBuild', {
-    assets: [
-        {
-            path: 'example-app',
+    sources: [
+        Source.fromAsset('example-app', {
             exclude: ['dist', 'node_modules'],
-        },
+        }),
     ],
     destinationBucket,
     distribution,
@@ -50,20 +49,17 @@ new NodejsBuild(this, 'ExampleBuild', {
 Note that it is possible to pass environment variable `VITE_API_ENDPOINT: api.url` to the construct, which is resolved on deploy time, and injected to the build environment (a vite process in this case.)
 The resulting build artifacts will be deployed to `destinationBucket` from CodeBuild.
 
-You can specify multiple input assets by `assets` property. These assets are extracted to respective sub directories. For example, assume you specified assets like the following:
+You can specify multiple input sources. These sources are extracted to respective sub directories. For example, assume you specified sources like the following:
 
 ```ts
-assets: [
-    {
-        // directory containing source code and package.json
-        path: 'example-app',
+sources: [
+    // directory containing source code and package.json
+    Source.fromAsset('example-app', {
         exclude: ['dist', 'node_modules'],
         commands: ['npm install'],
-    },
-    {
-        // directory that is also required for the build
-        path: 'module1',
-    },
+    }),
+    // directory that is also required for the build
+    Source.fromAsset('module1'),
 ],
 ```
 
@@ -78,7 +74,7 @@ Then, the extracted directories will be located as the following:
 └── module1               # extracted module1 assets
 ```
 
-You can also override the path where assets are extracted by `extractPath` property for each asset.
+You can also override the path where assets are extracted by `extractPath` option for each source.
 
 With `outputEnvFile` property enabled, a `.env` file is automatically generated and uploaded to your S3 bucket. This file can be used running you frontend project locally. You can download the file to your local machine by running the command added in the stack output.
 
@@ -105,22 +101,63 @@ I talked about why this construct can be useful in some situations at CDK Day 20
 
 [Recording](https://www.youtube.com/live/b-nSH18gFQk?si=ogEZ2x1NixOj6J6j&t=373) | [Slides](https://speakerdeck.com/tmokmss/deploy-web-frontend-apps-with-aws-cdk)
 
+#### Caching
+
+You can enable npm caching to speed up builds using the `cache` property:
+
+```ts
+import { NodejsBuild, Source, CacheType } from 'deploy-time-build';
+
+new NodejsBuild(this, 'ExampleBuild', {
+    sources: [
+        Source.fromAsset('example-app', {
+            exclude: ['dist', 'node_modules'],
+        }),
+    ],
+    destinationBucket,
+    outputSourceDirectory: 'dist',
+    cache: CacheType.S3, // or CacheType.LOCAL
+});
+```
+
+Two cache types are available:
+- `CacheType.S3`: Stores the npm cache directory in an S3 bucket. Good for builds that run infrequently on different hosts.
+- `CacheType.LOCAL`: Stores the npm cache directory on the build host. Faster than S3 but only effective if builds run on the same host.
+
+#### Compute Type
+
+You can specify the compute type for the CodeBuild project using the `computeType` property:
+
+```ts
+import { NodejsBuild, Source, ComputeType } from 'deploy-time-build';
+
+new NodejsBuild(this, 'ExampleBuild', {
+    sources: [
+        Source.fromAsset('example-app', {
+            exclude: ['dist', 'node_modules'],
+        }),
+    ],
+    destinationBucket,
+    outputSourceDirectory: 'dist',
+    computeType: ComputeType.MEDIUM,
+});
+```
+
 #### Considerations
-Since this construct builds your frontend apps every time you deploy the stack and there is any change in input assets (and currently there's even no build cache in the Lambda function!), the time a deployment takes tends to be longer (e.g. a few minutes even for the simple app in `example` directory.) This might results in worse developer experience if you want to deploy changes frequently (imagine `cdk watch` deployment always re-build your frontend app).
+Since this construct builds your frontend apps every time you deploy the stack and there is any change in input assets, the time a deployment takes tends to be longer (e.g. a few minutes even for the simple app in `example` directory.) This might results in worse developer experience if you want to deploy changes frequently (imagine `cdk watch` deployment always re-build your frontend app).
 
 To mitigate this issue, you can separate the stack for frontend construct from other stacks especially for a dev environment. Another solution would be to set a fixed string as an asset hash, and avoid builds on every deployment.
 
 ```ts
-      assets: [
-        {
-          path: '../frontend',
-          exclude: ['node_modules', 'dist'],
-          commands: ['npm ci'],
-          // Set a fixed string as a asset hash to prevent deploying changes.
-          // This can be useful for an environment you use to develop locally.
-          assetHash: 'frontend_asset',
-        },
-      ],
+sources: [
+    Source.fromAsset('../frontend', {
+        exclude: ['node_modules', 'dist'],
+        commands: ['npm ci'],
+        // Set a fixed string as an asset hash to prevent deploying changes.
+        // This can be useful for an environment you use to develop locally.
+        assetHash: 'frontend_asset',
+    }),
+],
 ```
 
 ### Build a container image
