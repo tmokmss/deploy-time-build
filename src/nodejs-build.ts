@@ -297,6 +297,9 @@ curl -i -X PUT -H 'Content-Type:' -d "@payload.json" "$responseURL"
       resourceType: 'Custom::CDKNodejsBuild',
       properties,
     });
+    if (project.role) {
+      custom.node.addDependency(project.role);
+    }
 
     if (props.outputEnvFile) {
       new CfnOutput(this, 'DownloadEnvFile', { value: `aws s3 cp ${bucket.s3UrlForObject(custom.getAttString(envFileKeyOutputKey))} .env.local` });
