@@ -9,6 +9,7 @@ queue_rules:
       - status-success=build
       - status-success=package-js
       - status-success=package-python
+      - status-success=verify-min-cdk-version
     merge_method: squash
     commit_message_template: |-
       {{ title }} (#{{ number }})
@@ -26,5 +27,6 @@ pull_request_rules:
       - status-success=build
       - status-success=package-js
       - status-success=package-python
+      - status-success=verify-min-cdk-version
 merge_queue:
   max_parallel_checks: 1

@@ -1,5 +1,5 @@
 import { basename, join, posix } from 'path';
-import { Annotations, CfnOutput, CustomResource, Duration } from 'aws-cdk-lib';
+import { Annotations, CfnOutput, CustomResource, Duration, Stack } from 'aws-cdk-lib';
 import { IDistribution } from 'aws-cdk-lib/aws-cloudfront';
 import { BuildSpec, LinuxBuildImage, Project } from 'aws-cdk-lib/aws-codebuild';
 import { IGrantable, IPrincipal, PolicyStatement } from 'aws-cdk-lib/aws-iam';
@@ -247,8 +247,15 @@ curl -i -X PUT -H 'Content-Type:' -d "@payload.json" "$responseURL"
       project.addToRolePolicy(
         new PolicyStatement({
           actions: ['cloudfront:GetInvalidation', 'cloudfront:CreateInvalidation'],
-          resources: [props.distribution.distributionArn],
-        })
+          resources: [
+            Stack.of(props.distribution).formatArn({
+              service: 'cloudfront',
+              region: '',
+              resource: 'distribution',
+              resourceName: props.distribution.distributionId,
+            }),
+          ],
+        }),
       );
     }
 
