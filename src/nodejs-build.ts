@@ -1,4 +1,4 @@
-import { Annotations, CfnOutput, CustomResource, Duration, RemovalPolicy } from 'aws-cdk-lib';
+import { Annotations, CfnOutput, CustomResource, Duration, RemovalPolicy, Stack } from 'aws-cdk-lib';
 import { IDistribution } from 'aws-cdk-lib/aws-cloudfront';
 import { BuildSpec, Cache, ComputeType, LinuxBuildImage, LocalCacheMode, Project } from 'aws-cdk-lib/aws-codebuild';
 import { IGrantable, IPrincipal, PolicyStatement } from 'aws-cdk-lib/aws-iam';
@@ -377,8 +377,15 @@ curl -i -X PUT -H 'Content-Type:' -d "@payload.json" "$responseURL"
       project.addToRolePolicy(
         new PolicyStatement({
           actions: ['cloudfront:GetInvalidation', 'cloudfront:CreateInvalidation'],
-          resources: [props.distribution.distributionArn],
-        })
+          resources: [
+            Stack.of(props.distribution).formatArn({
+              service: 'cloudfront',
+              region: '',
+              resource: 'distribution',
+              resourceName: props.distribution.distributionId,
+            }),
+          ],
+        }),
       );
     }
 
@@ -455,6 +462,9 @@ curl -i -X PUT -H 'Content-Type:' -d "@payload.json" "$responseURL"
       resourceType: 'Custom::CDKNodejsBuild',
       properties,
     });
+    if (project.role) {
+      custom.node.addDependency(project.role);
+    }
 
     if (props.outputEnvFile) {
       new CfnOutput(this, 'DownloadEnvFile', { value: `aws s3 cp ${assetBucket.s3UrlForObject(custom.getAttString(envFileKeyOutputKey))} .env.local` });

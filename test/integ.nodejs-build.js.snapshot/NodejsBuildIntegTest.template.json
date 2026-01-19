@@ -421,6 +421,10 @@
     },
     "outputEnvFile": true
    },
+   "DependsOn": [
+    "ExampleBuildProjectRoleDefaultPolicy1E341966",
+    "ExampleBuildProjectRole823D0208"
+   ],
    "UpdateReplacePolicy": "Delete",
    "DeletionPolicy": "Delete"
   },
