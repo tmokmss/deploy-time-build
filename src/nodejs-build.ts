@@ -407,10 +407,7 @@ curl -i -X PUT -H 'Content-Type:' -d "@payload.json" "$responseURL"
       });
     } else {
       // Deprecated API: use assets
-      Annotations.of(this).addWarningV2(
-        '@deploy-time-build/NodejsBuild:assetsDeprecated',
-        'The "assets" property is deprecated. Use "sources" with Source.fromAsset() instead.'
-      );
+      Annotations.of(this).addWarning('The "assets" property is deprecated. Use "sources" with Source.fromAsset() instead.');
       const commonExclude = props.excludeCommonFiles ? COMMON_EXCLUDE : [];
       boundSources = props.assets!.map((assetProps, index) => {
         const asset = new Asset(this, `Source${index}`, {
