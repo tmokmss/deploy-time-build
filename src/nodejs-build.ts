@@ -42,20 +42,41 @@ interface BindOptions {
 }
 
 /**
- * Options for Source.fromAsset
+ * Common options for all source types.
  */
-export interface AssetSourceOptions extends AssetOptions {
+export interface SourceOptions {
   /**
-   * Shell commands executed right after the asset is extracted to the build environment.
+   * Shell commands executed right after the source is extracted to the build environment.
    * @default No command is executed.
    */
   readonly commands?: string[];
 
   /**
-   * Relative path from a build directory to the directory where the asset is extracted.
-   * @default basename of the asset path.
+   * Relative path from the build directory to the directory where the source is extracted.
+   * @default '.' (extracts to the root of the build directory)
    */
   readonly extractPath?: string;
+}
+
+/**
+ * Options for Source.fromAsset
+ */
+export interface AssetSourceOptions extends AssetOptions, SourceOptions {
+}
+
+/**
+ * Options for Source.fromBucket
+ */
+export interface BucketSourceOptions extends SourceOptions {
+  /**
+   * Optional S3 object version.
+   * If not specified, the latest version will be used.
+   * Note: If objectVersion is not defined, the build will not be updated automatically
+   * if the source in the bucket is updated. This is because CDK/CloudFormation does not
+   * track changes on the source S3 Bucket.
+   * @default - latest version
+   */
+  readonly objectVersion?: string;
 }
 
 /**
@@ -70,6 +91,52 @@ export abstract class Source {
    */
   public static fromAsset(path: string, options?: AssetSourceOptions): Source {
     return new AssetSource(path, options);
+  }
+
+  /**
+   * Uses a .zip file stored in an S3 bucket as the source for the build.
+   *
+   * Make sure you trust the producer of the archive.
+   *
+   * If the `bucket` parameter is an "out-of-app" reference "imported" via static methods such as
+   * `s3.Bucket.fromBucketName`, be cautious about the bucket's encryption key. In general, CDK does
+   * not query for additional properties of imported constructs at synthesis time. For example, for a
+   * bucket created from `s3.Bucket.fromBucketName`, CDK does not know its `IBucket.encryptionKey`
+   * property, and therefore will NOT give KMS permissions to the CodeBuild execution role. If you want
+   * the `kms:Decrypt` and `kms:DescribeKey` permissions on the bucket's encryption key to be added
+   * automatically, reference the imported bucket via `s3.Bucket.fromBucketAttributes` and pass in the
+   * `encryptionKey` attribute explicitly.
+   *
+   * @param bucket The S3 bucket containing the source
+   * @param zipObjectKey The object key within the bucket pointing to a .zip file
+   * @param options Asset options including commands and extractPath
+   *
+   * @example
+   *
+   * declare const destinationBucket: s3.IBucket;
+   * const sourceBucket = s3.Bucket.fromBucketAttributes(this, 'SourceBucket', {
+   *   bucketArn: 'arn:aws:s3:::my-source-bucket-name',
+   *   encryptionKey: kms.Key.fromKeyArn(
+   *     this,
+   *     'SourceBucketEncryptionKey',
+   *     'arn:aws:kms:us-east-1:123456789012:key/<key-id>'
+   *   ),
+   * });
+   *
+   * new NodejsBuild(this, 'Build', {
+   *   sources: [Source.fromBucket(sourceBucket, 'source.zip')],
+   *   destinationBucket,
+   *   outputSourceDirectory: 'dist',
+   * });
+   */
+  public static fromBucket(bucket: IBucket, zipObjectKey: string, options?: BucketSourceOptions): Source {
+    if (options?.objectVersion === undefined) {
+      Annotations.of(bucket).addWarning(
+        'objectVersion is not defined for Source.fromBucket(). The build will not be updated automatically if the source in the bucket is updated. ' +
+        'This is because CDK/CloudFormation does not track changes on the source S3 Bucket. Consider using Source.fromAsset() instead or set objectVersion.',
+      );
+    }
+    return new BucketSource(bucket, zipObjectKey, options);
   }
 
   /**
@@ -98,7 +165,26 @@ class AssetSource extends Source {
     return {
       bucket: asset.bucket,
       key: asset.s3ObjectKey,
-      extractPath: this.options?.extractPath ?? basename(this.path),
+      extractPath: this.options?.extractPath ?? '.',
+      commands: this.options?.commands,
+    };
+  }
+}
+
+class BucketSource extends Source {
+  constructor(
+    private readonly bucket: IBucket,
+    private readonly zipObjectKey: string,
+    private readonly options?: BucketSourceOptions
+  ) {
+    super();
+  }
+
+  public _bind(_scope: Construct, _id: string, _options?: BindOptions): SourceConfig {    
+    return {
+      bucket: this.bucket,
+      key: this.zipObjectKey,
+      extractPath: this.options?.extractPath ?? '.',
       commands: this.options?.commands,
     };
   }

@@ -957,8 +957,8 @@ const assetSourceOptions: AssetSourceOptions = { ... }
 | <code><a href="#deploy-time-build.AssetSourceOptions.property.displayName">displayName</a></code> | <code>string</code> | A display name for this asset. |
 | <code><a href="#deploy-time-build.AssetSourceOptions.property.readers">readers</a></code> | <code>aws-cdk-lib.aws_iam.IGrantable[]</code> | A list of principals that should be able to read this asset from S3. |
 | <code><a href="#deploy-time-build.AssetSourceOptions.property.sourceKMSKey">sourceKMSKey</a></code> | <code>aws-cdk-lib.aws_kms.IKey</code> | The ARN of the KMS key used to encrypt the handler code. |
-| <code><a href="#deploy-time-build.AssetSourceOptions.property.commands">commands</a></code> | <code>string[]</code> | Shell commands executed right after the asset is extracted to the build environment. |
-| <code><a href="#deploy-time-build.AssetSourceOptions.property.extractPath">extractPath</a></code> | <code>string</code> | Relative path from a build directory to the directory where the asset is extracted. |
+| <code><a href="#deploy-time-build.AssetSourceOptions.property.commands">commands</a></code> | <code>string[]</code> | Shell commands executed right after the source is extracted to the build environment. |
+| <code><a href="#deploy-time-build.AssetSourceOptions.property.extractPath">extractPath</a></code> | <code>string</code> | Relative path from the build directory to the directory where the source is extracted. |
 
 ---
 
@@ -1150,7 +1150,7 @@ public readonly commands: string[];
 - *Type:* string[]
 - *Default:* No command is executed.
 
-Shell commands executed right after the asset is extracted to the build environment.
+Shell commands executed right after the source is extracted to the build environment.
 
 ---
 
@@ -1161,9 +1161,75 @@ public readonly extractPath: string;
 ```
 
 - *Type:* string
-- *Default:* basename of the asset path.
+- *Default:* '.' (extracts to the root of the build directory)
 
-Relative path from a build directory to the directory where the asset is extracted.
+Relative path from the build directory to the directory where the source is extracted.
+
+---
+
+### BucketSourceOptions <a name="BucketSourceOptions" id="deploy-time-build.BucketSourceOptions"></a>
+
+Options for Source.fromBucket.
+
+#### Initializer <a name="Initializer" id="deploy-time-build.BucketSourceOptions.Initializer"></a>
+
+```typescript
+import { BucketSourceOptions } from 'deploy-time-build'
+
+const bucketSourceOptions: BucketSourceOptions = { ... }
+```
+
+#### Properties <a name="Properties" id="Properties"></a>
+
+| **Name** | **Type** | **Description** |
+| --- | --- | --- |
+| <code><a href="#deploy-time-build.BucketSourceOptions.property.commands">commands</a></code> | <code>string[]</code> | Shell commands executed right after the source is extracted to the build environment. |
+| <code><a href="#deploy-time-build.BucketSourceOptions.property.extractPath">extractPath</a></code> | <code>string</code> | Relative path from the build directory to the directory where the source is extracted. |
+| <code><a href="#deploy-time-build.BucketSourceOptions.property.objectVersion">objectVersion</a></code> | <code>string</code> | Optional S3 object version. |
+
+---
+
+##### `commands`<sup>Optional</sup> <a name="commands" id="deploy-time-build.BucketSourceOptions.property.commands"></a>
+
+```typescript
+public readonly commands: string[];
+```
+
+- *Type:* string[]
+- *Default:* No command is executed.
+
+Shell commands executed right after the source is extracted to the build environment.
+
+---
+
+##### `extractPath`<sup>Optional</sup> <a name="extractPath" id="deploy-time-build.BucketSourceOptions.property.extractPath"></a>
+
+```typescript
+public readonly extractPath: string;
+```
+
+- *Type:* string
+- *Default:* '.' (extracts to the root of the build directory)
+
+Relative path from the build directory to the directory where the source is extracted.
+
+---
+
+##### `objectVersion`<sup>Optional</sup> <a name="objectVersion" id="deploy-time-build.BucketSourceOptions.property.objectVersion"></a>
+
+```typescript
+public readonly objectVersion: string;
+```
+
+- *Type:* string
+- *Default:* latest version
+
+Optional S3 object version.
+
+If not specified, the latest version will be used.
+Note: If objectVersion is not defined, the build will not be updated automatically
+if the source in the bucket is updated. This is because CDK/CloudFormation does not
+track changes on the source S3 Bucket.
 
 ---
 
@@ -1976,6 +2042,53 @@ The tag of the output container image embedded with SOCI index.
 
 ---
 
+### SourceOptions <a name="SourceOptions" id="deploy-time-build.SourceOptions"></a>
+
+Common options for all source types.
+
+#### Initializer <a name="Initializer" id="deploy-time-build.SourceOptions.Initializer"></a>
+
+```typescript
+import { SourceOptions } from 'deploy-time-build'
+
+const sourceOptions: SourceOptions = { ... }
+```
+
+#### Properties <a name="Properties" id="Properties"></a>
+
+| **Name** | **Type** | **Description** |
+| --- | --- | --- |
+| <code><a href="#deploy-time-build.SourceOptions.property.commands">commands</a></code> | <code>string[]</code> | Shell commands executed right after the source is extracted to the build environment. |
+| <code><a href="#deploy-time-build.SourceOptions.property.extractPath">extractPath</a></code> | <code>string</code> | Relative path from the build directory to the directory where the source is extracted. |
+
+---
+
+##### `commands`<sup>Optional</sup> <a name="commands" id="deploy-time-build.SourceOptions.property.commands"></a>
+
+```typescript
+public readonly commands: string[];
+```
+
+- *Type:* string[]
+- *Default:* No command is executed.
+
+Shell commands executed right after the source is extracted to the build environment.
+
+---
+
+##### `extractPath`<sup>Optional</sup> <a name="extractPath" id="deploy-time-build.SourceOptions.property.extractPath"></a>
+
+```typescript
+public readonly extractPath: string;
+```
+
+- *Type:* string
+- *Default:* '.' (extracts to the root of the build directory)
+
+Relative path from the build directory to the directory where the source is extracted.
+
+---
+
 ## Classes <a name="Classes" id="Classes"></a>
 
 ### Source <a name="Source" id="deploy-time-build.Source"></a>
@@ -2001,6 +2114,7 @@ new Source()
 | **Name** | **Description** |
 | --- | --- |
 | <code><a href="#deploy-time-build.Source.fromAsset">fromAsset</a></code> | Loads the source from a local disk path. |
+| <code><a href="#deploy-time-build.Source.fromBucket">fromBucket</a></code> | Uses a .zip file stored in an S3 bucket as the source for the build. |
 
 ---
 
@@ -2025,6 +2139,72 @@ Path to the asset file or directory.
 ###### `options`<sup>Optional</sup> <a name="options" id="deploy-time-build.Source.fromAsset.parameter.options"></a>
 
 - *Type:* <a href="#deploy-time-build.AssetSourceOptions">AssetSourceOptions</a>
+
+Asset options including commands and extractPath.
+
+---
+
+##### `fromBucket` <a name="fromBucket" id="deploy-time-build.Source.fromBucket"></a>
+
+```typescript
+import { Source } from 'deploy-time-build'
+
+Source.fromBucket(bucket: IBucket, zipObjectKey: string, options?: BucketSourceOptions)
+```
+
+Uses a .zip file stored in an S3 bucket as the source for the build.
+
+Make sure you trust the producer of the archive.
+
+If the `bucket` parameter is an "out-of-app" reference "imported" via static methods such as
+`s3.Bucket.fromBucketName`, be cautious about the bucket's encryption key. In general, CDK does
+not query for additional properties of imported constructs at synthesis time. For example, for a
+bucket created from `s3.Bucket.fromBucketName`, CDK does not know its `IBucket.encryptionKey`
+property, and therefore will NOT give KMS permissions to the CodeBuild execution role. If you want
+the `kms:Decrypt` and `kms:DescribeKey` permissions on the bucket's encryption key to be added
+automatically, reference the imported bucket via `s3.Bucket.fromBucketAttributes` and pass in the
+`encryptionKey` attribute explicitly.
+
+*Example*
+
+```typescript
+declare const destinationBucket: s3.IBucket;
+const sourceBucket = s3.Bucket.fromBucketAttributes(this, 'SourceBucket', {
+  bucketArn: 'arn:aws:s3:::my-source-bucket-name',
+  encryptionKey: kms.Key.fromKeyArn(
+    this,
+    'SourceBucketEncryptionKey',
+    'arn:aws:kms:us-east-1:123456789012:key/<key-id>'
+  ),
+});
+
+new NodejsBuild(this, 'Build', {
+  sources: [Source.fromBucket(sourceBucket, 'source.zip')],
+  destinationBucket,
+  outputSourceDirectory: 'dist',
+});
+```
+
+
+###### `bucket`<sup>Required</sup> <a name="bucket" id="deploy-time-build.Source.fromBucket.parameter.bucket"></a>
+
+- *Type:* aws-cdk-lib.aws_s3.IBucket
+
+The S3 bucket containing the source.
+
+---
+
+###### `zipObjectKey`<sup>Required</sup> <a name="zipObjectKey" id="deploy-time-build.Source.fromBucket.parameter.zipObjectKey"></a>
+
+- *Type:* string
+
+The object key within the bucket pointing to a .zip file.
+
+---
+
+###### `options`<sup>Optional</sup> <a name="options" id="deploy-time-build.Source.fromBucket.parameter.options"></a>
+
+- *Type:* <a href="#deploy-time-build.BucketSourceOptions">BucketSourceOptions</a>
 
 Asset options including commands and extractPath.
 

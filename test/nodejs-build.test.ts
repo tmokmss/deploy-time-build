@@ -345,7 +345,7 @@ describe('NodejsBuild', () => {
   });
 
   describe('sources configuration', () => {
-    test('handles single source', () => {
+    test('handles single source from asset', () => {
       new NodejsBuild(stack, 'NodejsBuild', {
         sources: [Source.fromAsset('test-asset')],
         destinationBucket,
@@ -357,7 +357,7 @@ describe('NodejsBuild', () => {
       template.hasResourceProperties('Custom::CDKNodejsBuild', {
         sources: [
           {
-            extractPath: 'test-asset',
+            extractPath: '.',
           },
         ],
       });
@@ -433,7 +433,7 @@ describe('NodejsBuild', () => {
       });
     });
 
-    test('uses source path basename when extractPath is not specified', () => {
+    test('uses root directory when extractPath is not specified', () => {
       new NodejsBuild(stack, 'NodejsBuild', {
         sources: [Source.fromAsset('test-asset')],
         destinationBucket,
@@ -443,8 +443,176 @@ describe('NodejsBuild', () => {
       const template = Template.fromStack(stack);
 
       template.hasResourceProperties('Custom::CDKNodejsBuild', {
-        workingDirectory: 'test-asset',
-        outputSourceDirectory: 'test-asset/dist',
+        workingDirectory: '.',
+        outputSourceDirectory: 'dist',
+      });
+    });
+
+    test('handles single source from bucket with default extractPath', () => {
+      const sourceBucket = new Bucket(stack, 'SourceBucket');
+
+      new NodejsBuild(stack, 'NodejsBuild', {
+        sources: [
+          Source.fromBucket(sourceBucket, 'my-app.zip', {
+            objectVersion: 'v1',
+          }),
+        ],
+        destinationBucket,
+        outputSourceDirectory: 'dist',
+      });
+
+      const template = Template.fromStack(stack);
+
+      template.hasResourceProperties('Custom::CDKNodejsBuild', {
+        sources: Match.arrayWith([
+          Match.objectLike({
+            sourceObjectKey: 'my-app.zip',
+            extractPath: '.',
+          }),
+        ]),
+        workingDirectory: '.',
+        outputSourceDirectory: 'dist',
+      });
+    });
+
+    test('handles source from bucket with custom extractPath', () => {
+      const sourceBucket = new Bucket(stack, 'SourceBucket');
+
+      new NodejsBuild(stack, 'NodejsBuild', {
+        sources: [
+          Source.fromBucket(sourceBucket, 'artifacts/app.zip', {
+            extractPath: 'my-app',
+            objectVersion: 'v1',
+          }),
+        ],
+        destinationBucket,
+        outputSourceDirectory: 'dist',
+      });
+
+      const template = Template.fromStack(stack);
+
+      template.hasResourceProperties('Custom::CDKNodejsBuild', {
+        sources: Match.arrayWith([
+          Match.objectLike({
+            sourceObjectKey: 'artifacts/app.zip',
+            extractPath: 'my-app',
+          }),
+        ]),
+        workingDirectory: 'my-app',
+        outputSourceDirectory: 'my-app/dist',
+      });
+    });
+
+    test('handles source from bucket with commands', () => {
+      const sourceBucket = new Bucket(stack, 'SourceBucket');
+
+      new NodejsBuild(stack, 'NodejsBuild', {
+        sources: [
+          Source.fromBucket(sourceBucket, 'app.zip', {
+            extractPath: 'app',
+            commands: ['npm install', 'npm run setup'],
+            objectVersion: 'v1',
+          }),
+        ],
+        destinationBucket,
+        outputSourceDirectory: 'dist',
+      });
+
+      const template = Template.fromStack(stack);
+
+      template.hasResourceProperties('Custom::CDKNodejsBuild', {
+        sources: Match.arrayWith([
+          Match.objectLike({
+            sourceObjectKey: 'app.zip',
+            extractPath: 'app',
+            commands: ['npm install', 'npm run setup'],
+          }),
+        ]),
+      });
+    });
+
+    test('handles source from bucket with objectVersion', () => {
+      const sourceBucket = new Bucket(stack, 'SourceBucket');
+
+      new NodejsBuild(stack, 'NodejsBuild', {
+        sources: [
+          Source.fromBucket(sourceBucket, 'app.zip', {
+            extractPath: 'app',
+            objectVersion: 'v123456',
+          }),
+        ],
+        destinationBucket,
+        outputSourceDirectory: 'dist',
+      });
+
+      const template = Template.fromStack(stack);
+
+      // Should not produce any warnings when objectVersion is specified
+      template.hasResourceProperties('Custom::CDKNodejsBuild', {
+        sources: Match.arrayWith([
+          Match.objectLike({
+            sourceObjectKey: 'app.zip',
+            extractPath: 'app',
+          }),
+        ]),
+      });
+    });
+
+    test('handles mixed sources from asset and bucket', () => {
+      const sourceBucket = new Bucket(stack, 'SourceBucket');
+
+      new NodejsBuild(stack, 'NodejsBuild', {
+        sources: [
+          Source.fromAsset('local-app', { extractPath: 'frontend' }),
+          Source.fromBucket(sourceBucket, 'shared-lib.zip', {
+            extractPath: 'lib',
+            commands: ['npm install'],
+            objectVersion: 'v1',
+          }),
+        ],
+        destinationBucket,
+        workingDirectory: 'frontend',
+        outputSourceDirectory: 'build',
+      });
+
+      const template = Template.fromStack(stack);
+
+      template.hasResourceProperties('Custom::CDKNodejsBuild', {
+        sources: [
+          Match.objectLike({
+            extractPath: 'frontend',
+          }),
+          Match.objectLike({
+            sourceObjectKey: 'shared-lib.zip',
+            extractPath: 'lib',
+            commands: ['npm install'],
+          }),
+        ],
+      });
+    });
+
+    test('grants CodeBuild read permissions to bucket source', () => {
+      const sourceBucket = new Bucket(stack, 'SourceBucket');
+
+      new NodejsBuild(stack, 'NodejsBuild', {
+        sources: [Source.fromBucket(sourceBucket, 'app.zip', { objectVersion: 'v1' })],
+        destinationBucket,
+        workingDirectory: 'app',
+        outputSourceDirectory: 'dist',
+      });
+
+      const template = Template.fromStack(stack);
+
+      template.hasResourceProperties('AWS::IAM::Policy', {
+        PolicyDocument: {
+          Statement: Match.arrayWith([
+            {
+              Action: Match.arrayWith(['s3:GetObject*', 's3:GetBucket*', 's3:List*']),
+              Effect: 'Allow',
+              Resource: Match.anyValue(),
+            },
+          ]),
+        },
       });
     });
   });

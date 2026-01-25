@@ -14,7 +14,7 @@ class NodejsTestStack extends Stack {
   constructor(scope: Construct, id: string, props: StackProps = {}) {
     super(scope, id, props);
 
-    const api = new RestApi(this, 'ExampleApi');
+    const api = new RestApi(this, 'Api');
     api.root.addMethod(
       'ANY',
       new MockIntegration({
@@ -28,18 +28,18 @@ class NodejsTestStack extends Stack {
       }
     );
 
-    const dstBucket = new Bucket(this, 'DstBucket', {
+    const destinationBucket = new Bucket(this, 'DestinationBucket', {
       // autoDeleteObjects: true,
       // removalPolicy: RemovalPolicy.DESTROY,
       blockPublicAccess: BlockPublicAccess.BLOCK_ALL,
       encryption: BucketEncryption.S3_MANAGED,
     });
-    const dstPath = '/';
+    const destinationKeyPrefix = '/';
 
-    const distribution = new Distribution(this, "distribution", {
+    const distribution = new Distribution(this, "Distribution", {
         defaultRootObject: "index.html",
         defaultBehavior: {
-            origin: S3BucketOrigin.withOriginAccessControl(dstBucket),
+            origin: S3BucketOrigin.withOriginAccessControl(destinationBucket),
             viewerProtocolPolicy: ViewerProtocolPolicy.REDIRECT_TO_HTTPS,
             allowedMethods: AllowedMethods.ALLOW_ALL,
             originRequestPolicy: OriginRequestPolicy.CORS_S3_ORIGIN,
@@ -52,21 +52,21 @@ class NodejsTestStack extends Stack {
       value: `https://${distribution.distributionDomainName}`,
     });
 
-    new NodejsBuild(this, 'ExampleBuild', {
+    new NodejsBuild(this, 'Build', {
       sources: [
         Source.fromAsset('example-app', {
           exclude: ['dist', 'node_modules'],
         }),
       ],
-      destinationBucket: dstBucket,
-      destinationKeyPrefix: dstPath,
+      destinationBucket,
+      destinationKeyPrefix,
       outputSourceDirectory: 'dist',
       distribution,
       buildCommands: ['npm ci', 'npm run build'],
       buildEnvironment: {
         VITE_API_ENDPOINT: api.url,
         AAA: 'asdf',
-        BBB: dstBucket.bucketName,
+        BBB: destinationBucket.bucketName,
       },
       nodejsVersion: 20,
       outputEnvFile: true,
