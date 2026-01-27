@@ -4,7 +4,7 @@ import { BuildSpec, Cache, ComputeType, LinuxBuildImage, LocalCacheMode, Project
 import { IGrantable, IPrincipal, PolicyStatement } from 'aws-cdk-lib/aws-iam';
 import { Code, Runtime, RuntimeFamily, SingletonFunction } from 'aws-cdk-lib/aws-lambda';
 import { Bucket, IBucket } from 'aws-cdk-lib/aws-s3';
-import { Asset, AssetOptions, AssetProps } from 'aws-cdk-lib/aws-s3-assets';
+import { Asset, AssetProps } from 'aws-cdk-lib/aws-s3-assets';
 import { Construct } from 'constructs';
 import { basename, join, posix } from 'path';
 import { NodejsBuildResourceProps } from './types';
@@ -28,171 +28,6 @@ export enum CacheType {
   LOCAL = 'LOCAL',
 }
 
-const COMMON_EXCLUDE = ['.DS_Store', '.git', 'node_modules'];
-
-interface SourceConfig {
-  readonly bucket: IBucket;
-  readonly key: string;
-  readonly extractPath: string;
-  readonly commands?: string[];
-}
-
-interface BindOptions {
-  readonly excludeCommonFiles?: boolean;
-}
-
-/**
- * Common options for all source types.
- */
-export interface SourceOptions {
-  /**
-   * Shell commands executed right after the source is extracted to the build environment.
-   * @default No command is executed.
-   */
-  readonly commands?: string[];
-
-  /**
-   * Relative path from the build directory to the directory where the source is extracted.
-   * @default '.' (extracts to the root of the build directory)
-   */
-  readonly extractPath?: string;
-}
-
-/**
- * Options for Source.fromAsset
- */
-export interface AssetSourceOptions extends AssetOptions, SourceOptions {
-}
-
-/**
- * Options for Source.fromBucket
- */
-export interface BucketSourceOptions extends SourceOptions {
-  /**
-   * Optional S3 object version.
-   * If not specified, the latest version will be used.
-   * Note: If objectVersion is not defined, the build will not be updated automatically
-   * if the source in the bucket is updated. This is because CDK/CloudFormation does not
-   * track changes on the source S3 Bucket.
-   * @default - latest version
-   */
-  readonly objectVersion?: string;
-}
-
-/**
- * Represents a source for NodejsBuild.
- */
-export abstract class Source {
-  /**
-   * Loads the source from a local disk path.
-   *
-   * @param path Path to the asset file or directory
-   * @param options Asset options including commands and extractPath
-   */
-  public static fromAsset(path: string, options?: AssetSourceOptions): Source {
-    return new AssetSource(path, options);
-  }
-
-  /**
-   * Uses a .zip file stored in an S3 bucket as the source for the build.
-   *
-   * Make sure you trust the producer of the archive.
-   *
-   * If the `bucket` parameter is an "out-of-app" reference "imported" via static methods such as
-   * `s3.Bucket.fromBucketName`, be cautious about the bucket's encryption key. In general, CDK does
-   * not query for additional properties of imported constructs at synthesis time. For example, for a
-   * bucket created from `s3.Bucket.fromBucketName`, CDK does not know its `IBucket.encryptionKey`
-   * property, and therefore will NOT give KMS permissions to the CodeBuild execution role. If you want
-   * the `kms:Decrypt` and `kms:DescribeKey` permissions on the bucket's encryption key to be added
-   * automatically, reference the imported bucket via `s3.Bucket.fromBucketAttributes` and pass in the
-   * `encryptionKey` attribute explicitly.
-   *
-   * @param bucket The S3 bucket containing the source
-   * @param zipObjectKey The object key within the bucket pointing to a .zip file
-   * @param options Asset options including commands and extractPath
-   *
-   * @example
-   *
-   * declare const destinationBucket: s3.IBucket;
-   * const sourceBucket = s3.Bucket.fromBucketAttributes(this, 'SourceBucket', {
-   *   bucketArn: 'arn:aws:s3:::my-source-bucket-name',
-   *   encryptionKey: kms.Key.fromKeyArn(
-   *     this,
-   *     'SourceBucketEncryptionKey',
-   *     'arn:aws:kms:us-east-1:123456789012:key/<key-id>'
-   *   ),
-   * });
-   *
-   * new NodejsBuild(this, 'Build', {
-   *   sources: [Source.fromBucket(sourceBucket, 'source.zip')],
-   *   destinationBucket,
-   *   outputSourceDirectory: 'dist',
-   * });
-   */
-  public static fromBucket(bucket: IBucket, zipObjectKey: string, options?: BucketSourceOptions): Source {
-    if (options?.objectVersion === undefined) {
-      Annotations.of(bucket).addWarning(
-        'objectVersion is not defined for Source.fromBucket(). The build will not be updated automatically if the source in the bucket is updated. ' +
-        'This is because CDK/CloudFormation does not track changes on the source S3 Bucket. Consider using Source.fromAsset() instead or set objectVersion.',
-      );
-    }
-    return new BucketSource(bucket, zipObjectKey, options);
-  }
-
-  /**
-   * @internal
-   */
-  public abstract _bind(scope: Construct, id: string, options?: BindOptions): SourceConfig;
-}
-
-class AssetSource extends Source {
-  constructor(
-    private readonly path: string,
-    private readonly options?: AssetSourceOptions
-  ) {
-    super();
-  }
-
-  public _bind(scope: Construct, id: string, options?: BindOptions): SourceConfig {
-    const commonExclude = options?.excludeCommonFiles ? COMMON_EXCLUDE : [];
-
-    const asset = new Asset(scope, id, {
-      path: this.path,
-      ...this.options,
-      exclude: [...commonExclude, ...(this.options?.exclude ?? [])],
-    });
-
-    return {
-      bucket: asset.bucket,
-      key: asset.s3ObjectKey,
-      extractPath: this.options?.extractPath ?? '.',
-      commands: this.options?.commands,
-    };
-  }
-}
-
-class BucketSource extends Source {
-  constructor(
-    private readonly bucket: IBucket,
-    private readonly zipObjectKey: string,
-    private readonly options?: BucketSourceOptions
-  ) {
-    super();
-  }
-
-  public _bind(_scope: Construct, _id: string, _options?: BindOptions): SourceConfig {    
-    return {
-      bucket: this.bucket,
-      key: this.zipObjectKey,
-      extractPath: this.options?.extractPath ?? '.',
-      commands: this.options?.commands,
-    };
-  }
-}
-
-/**
- * @deprecated Use Source.fromAsset() instead
- */
 export interface AssetConfig extends AssetProps {
   /**
    * Shell commands executed right after the asset is extracted to the build environment.
@@ -209,15 +44,9 @@ export interface AssetConfig extends AssetProps {
 
 export interface NodejsBuildProps {
   /**
-   * The source directories for the build environment.
-   * Use Source.fromAsset() to create sources.
-   */
-  readonly sources?: Source[];
-  /**
    * The AssetProps from which s3-assets are created and copied to the build environment.
-   * @deprecated Use sources property with Source.fromAsset() instead
    */
-  readonly assets?: AssetConfig[];
+  readonly assets: AssetConfig[];
   /**
    * Environment variables injected to the build environment.
    * You can use CDK deploy-time values as well as literals.
@@ -246,7 +75,7 @@ export interface NodejsBuildProps {
   readonly buildCommands?: string[];
   /**
    * Relative path from the build directory to the directory where build commands run.
-   * @default The extractPath of the first source
+   * @default assetProps[0].extractPath
    */
   readonly workingDirectory?: string;
   /**
@@ -475,52 +304,27 @@ curl -i -X PUT -H 'Content-Type:' -d "@payload.json" "$responseURL"
       );
     }
 
-    // Validate that either sources or assets is provided, but not both
-    if (props.sources && props.assets) {
-      throw new Error('Cannot specify both "sources" and "assets". Use "sources" with Source.fromAsset().');
-    }
-    if (!props.sources && !props.assets) {
-      throw new Error('Either "sources" or "assets" must be specified.');
-    }
-
-    let boundSources: SourceConfig[];
-    if (props.sources) {
-      // New API: use Source objects
-      boundSources = props.sources.map((source, index) => {
-        const boundSource = source._bind(this, `Source${index}`, { excludeCommonFiles: props.excludeCommonFiles });
-        boundSource.bucket.grantRead(project);
-        return boundSource;
+    const commonExclude = props.excludeCommonFiles ? ['.DS_Store', '.git', 'node_modules'] : [];
+    const assets = props.assets.map((assetProps, index) => {
+      const asset = new Asset(this, `Source${index}`, {
+        ...assetProps,
+        exclude: [...commonExclude, ...(assetProps.exclude ?? [])],
       });
-    } else {
-      // Deprecated API: use assets
-      Annotations.of(this).addWarning('The "assets" property is deprecated. Use "sources" with Source.fromAsset() instead.');
-      const commonExclude = props.excludeCommonFiles ? COMMON_EXCLUDE : [];
-      boundSources = props.assets!.map((assetProps, index) => {
-        const asset = new Asset(this, `Source${index}`, {
-          ...assetProps,
-          exclude: [...commonExclude, ...(assetProps.exclude ?? [])],
-        });
-        asset.grantRead(project);
-        return {
-          bucket: asset.bucket,
-          key: asset.s3ObjectKey,
-          extractPath: assetProps.extractPath ?? basename(assetProps.path),
-          commands: assetProps.commands,
-        };
-      });
-    }
+      asset.grantRead(project);
+      return { asset, assetProps };
+    });
 
-    const assetBucket = boundSources[0].bucket;
+    const assetBucket = assets[0].asset.bucket;
     if (outputEnvFile) {
       // use the asset bucket that are created by CDK bootstrap to store .env file
       assetBucket.grantWrite(project);
     }
 
-    const sources: NodejsBuildResourceProps['sources'] = boundSources.map((source) => ({
-      sourceBucketName: source.bucket.bucketName,
-      sourceObjectKey: source.key,
-      extractPath: source.extractPath,
-      commands: source.commands,
+    const sources: NodejsBuildResourceProps['sources'] = assets.map(({ asset, assetProps }) => ({
+      sourceBucketName: asset.bucket.bucketName,
+      sourceObjectKey: asset.s3ObjectKey,
+      extractPath: assetProps.extractPath ?? basename(assetProps.path),
+      commands: assetProps.commands,
     }));
 
     const workingDirectory = props.workingDirectory ?? sources[0].extractPath;
