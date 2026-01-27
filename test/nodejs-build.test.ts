@@ -3,7 +3,7 @@ import { Match, Template } from 'aws-cdk-lib/assertions';
 import { Distribution } from 'aws-cdk-lib/aws-cloudfront';
 import { Bucket } from 'aws-cdk-lib/aws-s3';
 import { Asset } from 'aws-cdk-lib/aws-s3-assets';
-import { NodejsBuild } from '../src';
+import { CacheType, ComputeType, NodejsBuild } from '../src';
 
 // Mock Asset to avoid heavy file system operations
 jest.mock('aws-cdk-lib/aws-s3-assets', () => {
@@ -319,6 +319,125 @@ describe('NodejsBuild', () => {
             commands: ['npm install'],
           },
         ],
+      });
+    });
+  });
+
+  describe('cache configuration', () => {
+    test('creates S3 cache bucket when cache is S3', () => {
+      new NodejsBuild(stack, 'NodejsBuild', {
+        assets: [{ path: 'test-asset' }],
+        destinationBucket,
+        outputSourceDirectory: 'dist',
+        cache: CacheType.S3,
+      });
+
+      const template = Template.fromStack(stack);
+
+      // Should create a cache bucket with auto-delete
+      template.hasResourceProperties('AWS::S3::Bucket', {
+        Tags: Match.arrayWith([
+          {
+            Key: 'aws-cdk:auto-delete-objects',
+            Value: 'true',
+          },
+        ]),
+      });
+
+      // CodeBuild project should reference the cache bucket
+      template.hasResourceProperties('AWS::CodeBuild::Project', {
+        Cache: {
+          Type: 'S3',
+          Location: Match.anyValue(),
+        },
+      });
+    });
+
+    test('uses local cache when cache is LOCAL', () => {
+      new NodejsBuild(stack, 'NodejsBuild', {
+        assets: [{ path: 'test-asset' }],
+        destinationBucket,
+        outputSourceDirectory: 'dist',
+        cache: CacheType.LOCAL,
+      });
+
+      const template = Template.fromStack(stack);
+
+      template.hasResourceProperties('AWS::CodeBuild::Project', {
+        Cache: {
+          Type: 'LOCAL',
+          Modes: ['LOCAL_CUSTOM_CACHE'],
+        },
+      });
+    });
+
+    test('does not create cache when cache is not specified', () => {
+      new NodejsBuild(stack, 'NodejsBuild', {
+        assets: [{ path: 'test-asset' }],
+        destinationBucket,
+        outputSourceDirectory: 'dist',
+      });
+
+      const template = Template.fromStack(stack);
+
+      // When cache is not specified, CDK sets NO_CACHE as default
+      template.hasResourceProperties('AWS::CodeBuild::Project', {
+        Cache: {
+          Type: 'NO_CACHE',
+        },
+      });
+    });
+  });
+
+  describe('computeType configuration', () => {
+    test('uses SMALL compute type by default', () => {
+      new NodejsBuild(stack, 'NodejsBuild', {
+        assets: [{ path: 'test-asset' }],
+        destinationBucket,
+        outputSourceDirectory: 'dist',
+      });
+
+      const template = Template.fromStack(stack);
+
+      // When computeType is not specified, CDK uses SMALL as default
+      template.hasResourceProperties('AWS::CodeBuild::Project', {
+        Environment: Match.objectLike({
+          ComputeType: 'BUILD_GENERAL1_SMALL',
+        }),
+      });
+    });
+
+    test('uses specified compute type', () => {
+      new NodejsBuild(stack, 'NodejsBuild', {
+        assets: [{ path: 'test-asset' }],
+        destinationBucket,
+        outputSourceDirectory: 'dist',
+        computeType: ComputeType.MEDIUM,
+      });
+
+      const template = Template.fromStack(stack);
+
+      template.hasResourceProperties('AWS::CodeBuild::Project', {
+        Environment: Match.objectLike({
+          ComputeType: 'BUILD_GENERAL1_MEDIUM',
+        }),
+      });
+    });
+
+    test('supports LARGE compute type', () => {
+      new NodejsBuild(stack, 'NodejsBuild', {
+        assets: [{ path: 'test-asset' }],
+        destinationBucket,
+        outputSourceDirectory: 'dist',
+        computeType: ComputeType.LARGE,
+      });
+
+      const template = Template.fromStack(stack);
+
+      template.hasResourceProperties('AWS::CodeBuild::Project', {
+        Environment: Match.objectLike({
+          ComputeType: 'BUILD_GENERAL1_LARGE',
+        }),
       });
     });
   });

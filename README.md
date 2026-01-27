@@ -105,6 +105,50 @@ I talked about why this construct can be useful in some situations at CDK Day 20
 
 [Recording](https://www.youtube.com/live/b-nSH18gFQk?si=ogEZ2x1NixOj6J6j&t=373) | [Slides](https://speakerdeck.com/tmokmss/deploy-web-frontend-apps-with-aws-cdk)
 
+#### Caching
+
+You can enable npm caching to speed up builds using the `cache` property:
+
+```ts
+import { NodejsBuild, CacheType } from 'deploy-time-build';
+
+new NodejsBuild(this, 'ExampleBuild', {
+    assets: [
+        {
+            path: 'example-app',
+            exclude: ['dist', 'node_modules'],
+        },
+    ],
+    destinationBucket,
+    outputSourceDirectory: 'dist',
+    cache: CacheType.S3, // or CacheType.LOCAL
+});
+```
+
+Two cache types are available:
+- `CacheType.S3`: Stores the npm cache directory in an S3 bucket. Good for builds that run infrequently on different hosts.
+- `CacheType.LOCAL`: Stores the npm cache directory on the build host. Faster than S3 but only effective if builds run on the same host.
+
+#### Compute Type
+
+You can specify the compute type for the CodeBuild project using the `computeType` property:
+
+```ts
+import { NodejsBuild, ComputeType } from 'deploy-time-build';
+
+new NodejsBuild(this, 'ExampleBuild', {
+    assets: [
+        {
+            path: 'example-app',
+            exclude: ['dist', 'node_modules'],
+        },
+    ],
+    destinationBucket,
+    outputSourceDirectory: 'dist',
+    computeType: ComputeType.MEDIUM,
+});
+```
+
 #### Considerations
 Since this construct builds your frontend apps every time you deploy the stack and there is any change in input assets (and currently there's even no build cache in the Lambda function!), the time a deployment takes tends to be longer (e.g. a few minutes even for the simple app in `example` directory.) This might results in worse developer experience if you want to deploy changes frequently (imagine `cdk watch` deployment always re-build your frontend app).
 

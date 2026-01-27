@@ -1,13 +1,32 @@
 import { basename, join, posix } from 'path';
-import { Annotations, CfnOutput, CustomResource, Duration, Stack } from 'aws-cdk-lib';
+import { Annotations, CfnOutput, CustomResource, Duration, RemovalPolicy, Stack } from 'aws-cdk-lib';
 import { IDistribution } from 'aws-cdk-lib/aws-cloudfront';
-import { BuildSpec, LinuxBuildImage, Project } from 'aws-cdk-lib/aws-codebuild';
+import { BuildSpec, Cache, ComputeType, LinuxBuildImage, LocalCacheMode, Project } from 'aws-cdk-lib/aws-codebuild';
 import { IGrantable, IPrincipal, PolicyStatement } from 'aws-cdk-lib/aws-iam';
 import { Code, Runtime, RuntimeFamily, SingletonFunction } from 'aws-cdk-lib/aws-lambda';
-import { IBucket } from 'aws-cdk-lib/aws-s3';
+import { Bucket, IBucket } from 'aws-cdk-lib/aws-s3';
 import { Asset, AssetProps } from 'aws-cdk-lib/aws-s3-assets';
 import { Construct } from 'constructs';
 import { NodejsBuildResourceProps } from './types';
+
+export { ComputeType } from 'aws-cdk-lib/aws-codebuild';
+
+/**
+ * Cache type for NodejsBuild.
+ */
+export enum CacheType {
+  /**
+   * S3 caching. Stores the npm cache directory in an S3 bucket.
+   * Good for builds that run on different hosts.
+   */
+  S3 = 'S3',
+  /**
+   * Local caching. Stores the npm cache directory on the build host.
+   * Faster than S3 but only effective if builds run on the same host.
+   * Not supported with VPC or certain compute types.
+   */
+  LOCAL = 'LOCAL',
+}
 
 export interface AssetConfig extends AssetProps {
   /**
@@ -80,6 +99,16 @@ export interface NodejsBuildProps {
    * @default true
    */
   readonly excludeCommonFiles?: boolean;
+  /**
+   * Cache type for the npm cache directory.
+   * @default - No caching
+   */
+  readonly cache?: CacheType;
+  /**
+   * The type of compute to use for this build.
+   * @default ComputeType.SMALL
+   */
+  readonly computeType?: ComputeType;
 }
 
 /**
@@ -124,8 +153,19 @@ export class NodejsBuild extends Construct implements IGrantable {
     const outputEnvFile = props.outputEnvFile ?? false;
     const envFileKeyOutputKey = 'envFileKey';
 
+    const cacheBucket = props.cache === CacheType.S3 ? new Bucket(this, 'CacheBucket', {
+      autoDeleteObjects: true,
+      removalPolicy: RemovalPolicy.DESTROY,
+      enforceSSL: true,
+    }) : undefined;
+
     const project = new Project(this, 'Project', {
-      environment: { buildImage: LinuxBuildImage.fromCodeBuildImageId(buildImage) },
+      environment: {
+        buildImage: LinuxBuildImage.fromCodeBuildImageId(buildImage),
+        computeType: props.computeType,
+      },
+      ...(cacheBucket && { cache: Cache.bucket(cacheBucket) }),
+      ...(props.cache === CacheType.LOCAL && { cache: Cache.local(LocalCacheMode.CUSTOM) }),
       buildSpec: BuildSpec.fromObject({
         version: '0.2',
         env: {
@@ -230,6 +270,11 @@ curl -i -X PUT -H 'Content-Type:' -d "@payload.json" "$responseURL"
             ],
           },
         },
+        ...(props.cache && {
+          cache: {
+            paths: ['/root/.npm/**/*'],
+          },
+        }),
       }),
     });
 
@@ -269,10 +314,10 @@ curl -i -X PUT -H 'Content-Type:' -d "@payload.json" "$responseURL"
       return asset;
     });
 
-    const bucket = assets[0].bucket;
+    const assetBucket = assets[0].bucket;
     if (outputEnvFile) {
       // use the asset bucket that are created by CDK bootstrap to store .env file
-      bucket.grantWrite(project);
+      assetBucket.grantWrite(project);
     }
 
     const sources: NodejsBuildResourceProps['sources'] = props.assets.map((s, i) => ({
@@ -289,7 +334,7 @@ curl -i -X PUT -H 'Content-Type:' -d "@payload.json" "$responseURL"
       destinationBucketName: props.destinationBucket.bucketName,
       destinationKeyPrefix: props.destinationKeyPrefix ?? '/',
       distributionId: props.distribution?.distributionId,
-      assetBucketName: bucket.bucketName,
+      assetBucketName: assetBucket.bucketName,
       workingDirectory,
       // join paths for CodeBuild (Linux) platform
       outputSourceDirectory: posix.join(workingDirectory, props.outputSourceDirectory),
@@ -309,7 +354,7 @@ curl -i -X PUT -H 'Content-Type:' -d "@payload.json" "$responseURL"
     }
 
     if (props.outputEnvFile) {
-      new CfnOutput(this, 'DownloadEnvFile', { value: `aws s3 cp ${bucket.s3UrlForObject(custom.getAttString(envFileKeyOutputKey))} .env.local` });
+      new CfnOutput(this, 'DownloadEnvFile', { value: `aws s3 cp ${assetBucket.s3UrlForObject(custom.getAttString(envFileKeyOutputKey))} .env.local` });
     }
   }
 }

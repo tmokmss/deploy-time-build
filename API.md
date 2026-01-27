@@ -1408,6 +1408,8 @@ const nodejsBuildProps: NodejsBuildProps = { ... }
 | <code><a href="#deploy-time-build.NodejsBuildProps.property.outputSourceDirectory">outputSourceDirectory</a></code> | <code>string</code> | Relative path from the working directory to the directory where the build artifacts are output. |
 | <code><a href="#deploy-time-build.NodejsBuildProps.property.buildCommands">buildCommands</a></code> | <code>string[]</code> | Shell commands to build your project. |
 | <code><a href="#deploy-time-build.NodejsBuildProps.property.buildEnvironment">buildEnvironment</a></code> | <code>{[ key: string ]: string}</code> | Environment variables injected to the build environment. |
+| <code><a href="#deploy-time-build.NodejsBuildProps.property.cache">cache</a></code> | <code><a href="#deploy-time-build.CacheType">CacheType</a></code> | Cache type for the npm cache directory. |
+| <code><a href="#deploy-time-build.NodejsBuildProps.property.computeType">computeType</a></code> | <code>aws-cdk-lib.aws_codebuild.ComputeType</code> | The type of compute to use for this build. |
 | <code><a href="#deploy-time-build.NodejsBuildProps.property.destinationKeyPrefix">destinationKeyPrefix</a></code> | <code>string</code> | Key prefix to deploy your build artifact. |
 | <code><a href="#deploy-time-build.NodejsBuildProps.property.distribution">distribution</a></code> | <code>aws-cdk-lib.aws_cloudfront.IDistribution</code> | The distribution you are using to publish you build artifact. |
 | <code><a href="#deploy-time-build.NodejsBuildProps.property.excludeCommonFiles">excludeCommonFiles</a></code> | <code>boolean</code> | If true, common unnecessary files/directories such as .DS_Store, .git, node_modules, etc are excluded from the assets by default. |
@@ -1480,6 +1482,32 @@ public readonly buildEnvironment: {[ key: string ]: string};
 Environment variables injected to the build environment.
 
 You can use CDK deploy-time values as well as literals.
+
+---
+
+##### `cache`<sup>Optional</sup> <a name="cache" id="deploy-time-build.NodejsBuildProps.property.cache"></a>
+
+```typescript
+public readonly cache: CacheType;
+```
+
+- *Type:* <a href="#deploy-time-build.CacheType">CacheType</a>
+- *Default:* No caching
+
+Cache type for the npm cache directory.
+
+---
+
+##### `computeType`<sup>Optional</sup> <a name="computeType" id="deploy-time-build.NodejsBuildProps.property.computeType"></a>
+
+```typescript
+public readonly computeType: ComputeType;
+```
+
+- *Type:* aws-cdk-lib.aws_codebuild.ComputeType
+- *Default:* ComputeType.SMALL
+
+The type of compute to use for this build.
 
 ---
 
@@ -1670,4 +1698,118 @@ The tag of the output container image embedded with SOCI index.
 ---
 
 
+
+## Enums <a name="Enums" id="Enums"></a>
+
+### CacheType <a name="CacheType" id="deploy-time-build.CacheType"></a>
+
+Cache type for NodejsBuild.
+
+#### Members <a name="Members" id="Members"></a>
+
+| **Name** | **Description** |
+| --- | --- |
+| <code><a href="#deploy-time-build.CacheType.S3">S3</a></code> | S3 caching. |
+| <code><a href="#deploy-time-build.CacheType.LOCAL">LOCAL</a></code> | Local caching. |
+
+---
+
+##### `S3` <a name="S3" id="deploy-time-build.CacheType.S3"></a>
+
+S3 caching.
+
+Stores the npm cache directory in an S3 bucket.
+Good for builds that run on different hosts.
+
+---
+
+
+##### `LOCAL` <a name="LOCAL" id="deploy-time-build.CacheType.LOCAL"></a>
+
+Local caching.
+
+Stores the npm cache directory on the build host.
+Faster than S3 but only effective if builds run on the same host.
+Not supported with VPC or certain compute types.
+
+---
+
+
+### ComputeType <a name="ComputeType" id="deploy-time-build.ComputeType"></a>
+
+Build machine compute type.
+
+> [https://docs.aws.amazon.com/codebuild/latest/userguide/build-env-ref-compute-types.html#environment.types](https://docs.aws.amazon.com/codebuild/latest/userguide/build-env-ref-compute-types.html#environment.types)
+
+#### Members <a name="Members" id="Members"></a>
+
+| **Name** | **Description** |
+| --- | --- |
+| <code><a href="#deploy-time-build.ComputeType.SMALL">SMALL</a></code> | *No description.* |
+| <code><a href="#deploy-time-build.ComputeType.MEDIUM">MEDIUM</a></code> | *No description.* |
+| <code><a href="#deploy-time-build.ComputeType.LARGE">LARGE</a></code> | *No description.* |
+| <code><a href="#deploy-time-build.ComputeType.X_LARGE">X_LARGE</a></code> | *No description.* |
+| <code><a href="#deploy-time-build.ComputeType.X2_LARGE">X2_LARGE</a></code> | *No description.* |
+| <code><a href="#deploy-time-build.ComputeType.LAMBDA_1GB">LAMBDA_1GB</a></code> | *No description.* |
+| <code><a href="#deploy-time-build.ComputeType.LAMBDA_2GB">LAMBDA_2GB</a></code> | *No description.* |
+| <code><a href="#deploy-time-build.ComputeType.LAMBDA_4GB">LAMBDA_4GB</a></code> | *No description.* |
+| <code><a href="#deploy-time-build.ComputeType.LAMBDA_8GB">LAMBDA_8GB</a></code> | *No description.* |
+| <code><a href="#deploy-time-build.ComputeType.LAMBDA_10GB">LAMBDA_10GB</a></code> | *No description.* |
+| <code><a href="#deploy-time-build.ComputeType.ATTRIBUTE_BASED">ATTRIBUTE_BASED</a></code> | *No description.* |
+
+---
+
+##### `SMALL` <a name="SMALL" id="deploy-time-build.ComputeType.SMALL"></a>
+
+---
+
+
+##### `MEDIUM` <a name="MEDIUM" id="deploy-time-build.ComputeType.MEDIUM"></a>
+
+---
+
+
+##### `LARGE` <a name="LARGE" id="deploy-time-build.ComputeType.LARGE"></a>
+
+---
+
+
+##### `X_LARGE` <a name="X_LARGE" id="deploy-time-build.ComputeType.X_LARGE"></a>
+
+---
+
+
+##### `X2_LARGE` <a name="X2_LARGE" id="deploy-time-build.ComputeType.X2_LARGE"></a>
+
+---
+
+
+##### `LAMBDA_1GB` <a name="LAMBDA_1GB" id="deploy-time-build.ComputeType.LAMBDA_1GB"></a>
+
+---
+
+
+##### `LAMBDA_2GB` <a name="LAMBDA_2GB" id="deploy-time-build.ComputeType.LAMBDA_2GB"></a>
+
+---
+
+
+##### `LAMBDA_4GB` <a name="LAMBDA_4GB" id="deploy-time-build.ComputeType.LAMBDA_4GB"></a>
+
+---
+
+
+##### `LAMBDA_8GB` <a name="LAMBDA_8GB" id="deploy-time-build.ComputeType.LAMBDA_8GB"></a>
+
+---
+
+
+##### `LAMBDA_10GB` <a name="LAMBDA_10GB" id="deploy-time-build.ComputeType.LAMBDA_10GB"></a>
+
+---
+
+
+##### `ATTRIBUTE_BASED` <a name="ATTRIBUTE_BASED" id="deploy-time-build.ComputeType.ATTRIBUTE_BASED"></a>
+
+---
 
