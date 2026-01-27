@@ -1,3 +1,4 @@
+import { basename, join, posix } from 'path';
 import { Annotations, CfnOutput, CustomResource, Duration, RemovalPolicy, Stack } from 'aws-cdk-lib';
 import { IDistribution } from 'aws-cdk-lib/aws-cloudfront';
 import { BuildSpec, Cache, ComputeType, LinuxBuildImage, LocalCacheMode, Project } from 'aws-cdk-lib/aws-codebuild';
@@ -6,7 +7,6 @@ import { Code, Runtime, RuntimeFamily, SingletonFunction } from 'aws-cdk-lib/aws
 import { Bucket, IBucket } from 'aws-cdk-lib/aws-s3';
 import { Asset, AssetProps } from 'aws-cdk-lib/aws-s3-assets';
 import { Construct } from 'constructs';
-import { basename, join, posix } from 'path';
 import { NodejsBuildResourceProps } from './types';
 
 export { ComputeType } from 'aws-cdk-lib/aws-codebuild';
@@ -30,7 +30,7 @@ export enum CacheType {
 
 export interface AssetConfig extends AssetProps {
   /**
-   * Shell commands executed right after the asset is extracted to the build environment.
+   * Shell commands executed right after the asset zip is extracted to the build environment.
    * @default No command is executed.
    */
   readonly commands?: string[];
@@ -304,27 +304,27 @@ curl -i -X PUT -H 'Content-Type:' -d "@payload.json" "$responseURL"
       );
     }
 
-    const commonExclude = props.excludeCommonFiles ? ['.DS_Store', '.git', 'node_modules'] : [];
-    const assets = props.assets.map((assetProps, index) => {
-      const asset = new Asset(this, `Source${index}`, {
+    const commonExclude = ['.DS_Store', '.git', 'node_modules'];
+    const assets = props.assets.map((assetProps) => {
+      const asset = new Asset(this, `Source-${assetProps.path.replace('/', '')}`, {
         ...assetProps,
-        exclude: [...commonExclude, ...(assetProps.exclude ?? [])],
+        ...(props.excludeCommonFiles ?? true ? { exclude: [...commonExclude, ...(assetProps.exclude ?? [])] } : {}),
       });
       asset.grantRead(project);
-      return { asset, assetProps };
+      return asset;
     });
 
-    const assetBucket = assets[0].asset.bucket;
+    const assetBucket = assets[0].bucket;
     if (outputEnvFile) {
       // use the asset bucket that are created by CDK bootstrap to store .env file
       assetBucket.grantWrite(project);
     }
 
-    const sources: NodejsBuildResourceProps['sources'] = assets.map(({ asset, assetProps }) => ({
-      sourceBucketName: asset.bucket.bucketName,
-      sourceObjectKey: asset.s3ObjectKey,
-      extractPath: assetProps.extractPath ?? basename(assetProps.path),
-      commands: assetProps.commands,
+    const sources: NodejsBuildResourceProps['sources'] = props.assets.map((s, i) => ({
+      sourceBucketName: assets[i].s3BucketName,
+      sourceObjectKey: assets[i].s3ObjectKey,
+      extractPath: s.extractPath ?? basename(s.path),
+      commands: s.commands,
     }));
 
     const workingDirectory = props.workingDirectory ?? sources[0].extractPath;

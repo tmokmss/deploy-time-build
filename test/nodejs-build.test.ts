@@ -20,7 +20,6 @@ jest.mock('aws-cdk-lib/aws-s3-assets', () => {
           bucketArn: 'arn:aws:s3:::mock-bucket',
           s3UrlForObject: (obj: string) => `s3://mock-bucket/${obj}`,
           grantWrite: jest.fn(),
-          grantRead: jest.fn(),
         },
         grantRead: jest.fn(),
         addResourceMetadata: jest.fn(),
@@ -322,7 +321,6 @@ describe('NodejsBuild', () => {
         ],
       });
     });
-
   });
 
   describe('cache configuration', () => {

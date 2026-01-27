@@ -679,7 +679,7 @@ const assetConfig: AssetConfig = { ... }
 | <code><a href="#deploy-time-build.AssetConfig.property.readers">readers</a></code> | <code>aws-cdk-lib.aws_iam.IGrantable[]</code> | A list of principals that should be able to read this asset from S3. |
 | <code><a href="#deploy-time-build.AssetConfig.property.sourceKMSKey">sourceKMSKey</a></code> | <code>aws-cdk-lib.aws_kms.IKey</code> | The ARN of the KMS key used to encrypt the handler code. |
 | <code><a href="#deploy-time-build.AssetConfig.property.path">path</a></code> | <code>string</code> | The disk location of the asset. |
-| <code><a href="#deploy-time-build.AssetConfig.property.commands">commands</a></code> | <code>string[]</code> | Shell commands executed right after the asset is extracted to the build environment. |
+| <code><a href="#deploy-time-build.AssetConfig.property.commands">commands</a></code> | <code>string[]</code> | Shell commands executed right after the asset zip is extracted to the build environment. |
 | <code><a href="#deploy-time-build.AssetConfig.property.extractPath">extractPath</a></code> | <code>string</code> | Relative path from a build directory to the directory where the asset is extracted. |
 
 ---
@@ -888,7 +888,7 @@ public readonly commands: string[];
 - *Type:* string[]
 - *Default:* No command is executed.
 
-Shell commands executed right after the asset is extracted to the build environment.
+Shell commands executed right after the asset zip is extracted to the build environment.
 
 ---
 
