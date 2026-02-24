@@ -1,3 +1,7 @@
+> [!WARNING]
+> This repository has been migrated to [cdklabs/deploy-time-build](https://github.com/cdklabs/deploy-time-build).
+> For details on how to migrate, please refer to [cdklabs/deploy-time-build#59](https://github.com/cdklabs/deploy-time-build/issues/59).
+
 # Deploy-time Build
 AWS CDK L3 construct that allows you to run a build job for specific purposes. Currently this library supports the following use cases:
 
