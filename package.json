@@ -1,6 +1,6 @@
 {
   "name": "deploy-time-build",
-  "description": "Build during CDK deployment.",
+  "description": "[MIGRATED] This package has been migrated to @cdklabs/deploy-time-build. See https://github.com/cdklabs/deploy-time-build/issues/59 for migration details.",
   "repository": {
     "type": "git",
     "url": "https://github.com/tmokmss/deploy-time-build.git"

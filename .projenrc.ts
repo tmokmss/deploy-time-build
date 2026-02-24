@@ -52,7 +52,7 @@ const project = new awscdk.AwsCdkConstructLibrary({
   peerDependencyOptions: {
     pinnedDevDependency: false,
   },
-  description: 'Build during CDK deployment.',
+  description: '[MIGRATED] This package has been migrated to @cdklabs/deploy-time-build. See https://github.com/cdklabs/deploy-time-build/issues/59 for migration details.',
 });
 project.eslint?.addRules({
   '@typescript-eslint/no-unused-vars': 'off',
